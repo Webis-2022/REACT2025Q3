@@ -1,6 +1,6 @@
 import { Component, createRef } from 'react';
-import { type CardListProps } from '../cardList/cardList.types';
-import { CardList } from '../cardList/cardList';
+import { type CardListProps } from '../card-list/card-list.types';
+import { CardList } from '../card-list/card-list';
 import './results.css';
 
 export class Results extends Component<CardListProps> {

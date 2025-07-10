@@ -1,4 +1,4 @@
-import { type Character } from '../cardList/cardList.types';
+import { type Character } from '../card-list/card-list.types';
 
 export type CardProps = {
   character: Character;

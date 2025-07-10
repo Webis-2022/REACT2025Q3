@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import type { CardListProps } from './cardList.types';
+import type { CardListProps } from './card-list.types';
 import { Card } from '../card/card';
 import { Loader } from '../loader/loader';
 
