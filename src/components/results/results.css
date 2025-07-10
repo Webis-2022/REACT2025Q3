@@ -1,0 +1,23 @@
+.results {
+  margin-top: 3rem;
+}
+
+.thead,
+.card {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-name,
+.hero-description,
+.name,
+.description {
+  border: 1px solid #000;
+  padding: 2rem;
+  width: 400px;
+}
+
+.hero-name.no-border,
+.hero-description.no-border {
+  border-bottom: none;
+}

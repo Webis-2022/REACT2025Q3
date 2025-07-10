@@ -19,12 +19,14 @@ class App extends Component {
   handleSearch = async (searchTerm: string) => {
     try {
       this.setState({ isLoading: true });
-      const response =
-        searchTerm === ''
-          ? await fetch(`https://swapi.py4e.com/api/people`)
-          : await fetch(
-            `https://swapi.py4e.com/api/people/?search=${searchTerm}`
-          );
+      let response;
+      if (searchTerm === '') {
+        response = await fetch(`https://swapi.py4e.com/api/people`);
+      } else {
+        response = await fetch(
+          `https://swapi.py4e.com/api/people/?search=${searchTerm}`
+        );
+      }
       if (response.status === 404 && this.dialogRef.current) {
         this.dialogRef.current.open();
         this.setState({ items: [], isLoading: false });
