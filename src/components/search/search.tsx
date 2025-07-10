@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import type { SearchProps, SearchState } from './search.types';
-import './Search.css';
+// import './search.css';
 
 export class Search extends Component<SearchProps, SearchState> {
   state = {

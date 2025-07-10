@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component<Props, State> {
           }}
         >
           <h2>An error occurred.</h2>
-          <p>Something went wrong. Try loading the page..</p>
+          <p>Something went wrong. Try reloading the page...</p>
         </div>
       );
     }

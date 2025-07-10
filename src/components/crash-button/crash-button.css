@@ -1,0 +1,7 @@
+.crash-btn {
+  align-self: flex-end;
+  margin-top: 60px;
+  border: 2px solid #fd6e6e;
+  border-radius: 50px;
+  padding: 10px 20px;
+}
