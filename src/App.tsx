@@ -15,25 +15,26 @@ class App extends Component {
   };
 
   dialogRef = createRef<DialogWindow>();
+  response: Response | undefined;
 
   handleSearch = async (searchTerm: string) => {
     try {
       this.setState({ isLoading: true });
-      let response;
       if (searchTerm === '') {
-        response = await fetch(`https://swapi.py4e.com/api/people`);
+        this.response = await fetch(`https://swapi.py4e.com/api/people`);
       } else {
-        response = await fetch(
+        this.response = await fetch(
           `https://swapi.py4e.com/api/people/?search=${searchTerm}`
         );
       }
-      if (response.status === 404 && this.dialogRef.current) {
+      if (this.response.status === 404 && this.dialogRef.current) {
+        console.log('Hi');
         this.dialogRef.current.open();
         this.setState({ items: [], isLoading: false });
         return;
       }
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const data = await response.json();
+      const data = await this.response.json();
       console.log(data.results.length);
 
       this.setState({
@@ -63,7 +64,7 @@ class App extends Component {
             isLoading={this.state.isLoading}
             hasResults={this.state.hasResults}
           />
-          <DialogWindow ref={this.dialogRef} />
+          <DialogWindow ref={this.dialogRef} status={this.response?.status} />
           <ErrorBoundary>
             <BuggyComponent />
           </ErrorBoundary>

@@ -1,16 +1,16 @@
 .loader-wrapper {
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .loader {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  border: 5px solid black;
-  border-top: 5px solid blue;
+  border: 8px solid black;
+  border-top: 8px solid blue;
   animation: rotation 2s linear infinite;
 }
 

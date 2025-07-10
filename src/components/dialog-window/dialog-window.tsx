@@ -1,6 +1,7 @@
 import { Component, createRef } from 'react';
+import { type DialogWindowProps } from './dialog-window.types';
 
-export class DialogWindow extends Component {
+export class DialogWindow extends Component<DialogWindowProps> {
   dialogRef = createRef<HTMLDialogElement>();
 
   open = () => {
@@ -11,11 +12,17 @@ export class DialogWindow extends Component {
   };
 
   render() {
+    const { status } = this.props;
     return (
-      <dialog ref={this.dialogRef}>
-        <p>Data not found (Error 404)</p>
-        {/* Add 500 error */}
-        <button onClick={this.close}>Close</button>
+      <dialog className="dialog-window" ref={this.dialogRef}>
+        {status === 404 ? (
+          <p>Data not found (Error 404)</p>
+        ) : (
+          <p>Internal server error (Error 500) </p>
+        )}
+        <button className="close-btn" onClick={this.close}>
+          Close
+        </button>
       </dialog>
     );
   }

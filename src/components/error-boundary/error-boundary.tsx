@@ -24,6 +24,7 @@ export class ErrorBoundary extends Component<Props, State> {
             padding: '2rem',
             backgroundColor: '#ffeaea',
             color: 'darkred',
+            textAlign: 'center',
           }}
         >
           <h2>An error occurred.</h2>
