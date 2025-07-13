@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { ghPages } from 'vite-plugin-gh-pages';
 
 export default defineConfig({
-  base: '/REACT2025Q3/class-components/',
+  base: '/REACT2025Q3/',
   plugins: [
     react(),
     ghPages({
