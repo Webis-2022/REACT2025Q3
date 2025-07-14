@@ -13,13 +13,19 @@ export class Card extends Component<CardProps> {
     const { character } = this.props;
     const gender =
       character.gender.charAt(0).toUpperCase() + character.gender.slice(1);
+    console.log('----', this.props.hasResults);
 
     return (
       <li className="card">
-        <div className="name" ref={this.nameRef}>
+        <div
+          className={`name ${this.props.hasResults ? 'no-border' : ''}`}
+          ref={this.nameRef}
+        >
           {character.name}
         </div>
-        <div className="description">
+        <div
+          className={`description ${this.props.hasResults ? 'no-border' : ''}`}
+        >
           {`
           ${gender},
           ${character.height} cm,
