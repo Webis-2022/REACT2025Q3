@@ -20,7 +20,6 @@ class App extends Component {
   componentDidMount(): void {
     const savedInputValue = localStorage.getItem('inputValue');
     if (savedInputValue) {
-      console.log(')))', savedInputValue);
       this.handleSearch(savedInputValue);
     } else {
       this.handleSearch('');

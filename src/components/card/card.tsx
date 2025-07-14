@@ -13,7 +13,6 @@ export class Card extends Component<CardProps> {
     const { character } = this.props;
     const gender =
       character.gender.charAt(0).toUpperCase() + character.gender.slice(1);
-    console.log('----', this.props.hasResults);
 
     return (
       <li className="card">
