@@ -21,7 +21,7 @@ export class Search extends Component<SearchProps, SearchState> {
   handleSearch = () => {
     this.props.onSearch(this.state.inputValue);
     localStorage.setItem('inputValue', this.state.inputValue);
-    this.props.setHasResults(false);
+    this.props.setHasResults(falseee);
   };
 
   render() {
