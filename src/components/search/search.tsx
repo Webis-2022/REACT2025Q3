@@ -21,7 +21,7 @@ export class Search extends Component<SearchProps, SearchState> {
   handleSearch = () => {
     this.props.onSearch(this.state.inputValue);
     localStorage.setItem('inputValue', this.state.inputValue);
-    this.props.setHasResults(falseee);
+    this.props.setHasResults(false);
   };
 
   render() {
@@ -33,7 +33,7 @@ export class Search extends Component<SearchProps, SearchState> {
           value={this.state.inputValue}
           onChange={this.handleChange}
         />
-        <button className="search-btn" onClick={this.handleSearch}>
+        <button className="search-btn" onClick={this.handleSearchс}>
           Search
         </button>
       </div>
