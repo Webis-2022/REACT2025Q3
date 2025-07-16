@@ -9,6 +9,7 @@ export class Search extends Component<SearchProps, SearchState> {
 
   componentDidMount(): void {
     const savedInputValue = localStorage.getItem('inputValue');
+    console.log('got', savedInputValue);
     if (savedInputValue) {
       this.setState({ inputValue: savedInputValue });
     }
@@ -20,7 +21,7 @@ export class Search extends Component<SearchProps, SearchState> {
 
   handleSearch = () => {
     this.props.onSearch(this.state.inputValue);
-    localStorage.setItem('inputValue', this.state.inputValue);
+    localStorage.setItem('inputValue', this.state.inputValue.trim());
     this.props.setHasResults(false);
   };
 
