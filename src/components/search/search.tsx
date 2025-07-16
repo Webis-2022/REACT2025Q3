@@ -37,6 +37,6 @@ export class Search extends Component<SearchProps, SearchState> {
           Search
         </button>
       </div>
-    ));
+    );
   }
 }
