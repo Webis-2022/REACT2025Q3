@@ -33,10 +33,10 @@ export class Search extends Component<SearchProps, SearchState> {
           value={this.state.inputValue}
           onChange={this.handleChange}
         />
-        <button className="search-btn" onClick={this.handleSearchс}>
+        <button className="search-btn" onClick={this.handleSearch}>
           Search
         </button>
       </div>
-    );
+    ));
   }
 }
