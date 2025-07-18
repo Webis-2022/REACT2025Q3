@@ -1,6 +1,7 @@
 import { Component, createRef } from 'react';
 import { type CardListProps } from '../card-list/card-list.types';
 import { CardList } from '../card-list/card-list';
+import { DialogWindow } from '../dialog-window/dialog-window';
 import './results.css';
 
 export class Results extends Component<CardListProps> {
@@ -31,6 +32,11 @@ export class Results extends Component<CardListProps> {
           items={this.props.items}
           isLoading={this.props.isLoading}
           hasResults={this.props.hasResults}
+          error={this.props.error}
+        />
+        <DialogWindow
+          ref={this.props.dialogRef}
+          status={this.props.response?.status}
         />
       </div>
     );

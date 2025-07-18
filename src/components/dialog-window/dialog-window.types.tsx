@@ -1,3 +1,3 @@
 export type DialogWindowProps = {
-  status?: number;
+  status?: number | undefined;
 };
