@@ -12,7 +12,7 @@ describe('Results', () => {
         hasResults={false}
         error="Server error"
         dialogRef={createRef()}
-        response={{ status: 500 }}
+        responseStatus={500}
       />
     );
     expect(screen.getByText(/500/i)).toBeInTheDocument();

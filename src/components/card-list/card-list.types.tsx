@@ -28,5 +28,5 @@ export type CardListProps = {
   hasResults?: boolean;
   error: string | null;
   dialogRef?: React.RefObject<DialogWindow | null>;
-  response?: { status: number };
+  responseStatus?: number | undefined;
 };

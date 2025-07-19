@@ -9,7 +9,6 @@ export class Search extends Component<SearchProps, SearchState> {
 
   componentDidMount(): void {
     const savedInputValue = localStorage.getItem('inputValue');
-    console.log('got', savedInputValue);
     if (savedInputValue) {
       this.setState({ inputValue: savedInputValue });
     }

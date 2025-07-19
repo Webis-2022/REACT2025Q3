@@ -7,16 +7,16 @@ import { ErrorBoundary } from './components/error-boundary/error-boundary';
 import { Results } from './components/results/results';
 import './App.css';
 
-class App extends Component {
+export class App extends Component {
   state = {
     items: [],
     isLoading: false,
     hasResults: false,
     error: null,
+    responseStatus: undefined as number | undefined,
   };
 
   dialogRef = createRef<DialogWindow>();
-  response: Response | undefined;
 
   componentDidMount(): void {
     const savedInputValue = localStorage.getItem('inputValue');
@@ -30,18 +30,18 @@ class App extends Component {
   handleSearch = async (searchTerm: string) => {
     try {
       this.setState({ isLoading: true, error: null });
-      if (searchTerm === '') {
-        this.response = await fetch(`https://swapi.py4e.com/api/people`);
-      } else {
-        this.response = await fetch(
-          `https://swapi.py4e.com/api/people/?search=${searchTerm}`
-        );
-      }
+
+      const url =
+        searchTerm === ''
+          ? `https://swapi.py4e.com/api/people`
+          : `https://swapi.py4e.com/api/people/?search=${searchTerm}`;
+
+      const response = await fetch(url);
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const data = await this.response.json();
+      const data = await response.json();
       if (
-        (this.response.status === 404 && this.dialogRef.current) ||
-        (this.response.status === 500 && this.dialogRef.current) ||
+        (response.status === 404 && this.dialogRef.current) ||
+        (response.status === 500 && this.dialogRef.current) ||
         (data.count === 0 && this.dialogRef.current)
       ) {
         this.dialogRef.current.open();
@@ -53,6 +53,7 @@ class App extends Component {
         items: data.results,
         isLoading: false,
         hasResults: data.results.length > 0,
+        responseStatus: response.status,
       });
     } catch (error) {
       this.setState({ error: (error as Error).message, isLoading: false });
@@ -78,7 +79,7 @@ class App extends Component {
             hasResults={this.state.hasResults}
             error={this.state.error}
             dialogRef={this.dialogRef}
-            response={this.response}
+            responseStatus={this.state.responseStatus}
           />
           <ErrorBoundary>
             <BuggyComponent />
@@ -88,5 +89,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

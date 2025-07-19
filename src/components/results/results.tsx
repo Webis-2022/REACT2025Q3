@@ -36,7 +36,7 @@ export class Results extends Component<CardListProps> {
         />
         <DialogWindow
           ref={this.props.dialogRef}
-          status={this.props.response?.status}
+          responseStatus={this.props.responseStatus}
         />
       </div>
     );

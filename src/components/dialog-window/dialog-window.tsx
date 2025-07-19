@@ -12,12 +12,12 @@ export class DialogWindow extends Component<DialogWindowProps> {
   };
 
   render() {
-    const { status } = this.props;
+    const { responseStatus } = this.props;
     return (
       <dialog className="dialog-window" ref={this.dialogRef}>
-        {status === 404 ? (
+        {responseStatus === 404 ? (
           <p>Data not found (Error 404)</p>
-        ) : status === 500 ? (
+        ) : responseStatus === 500 ? (
           <p>Internal server error (Error 500)</p>
         ) : (
           <p>No Results</p>

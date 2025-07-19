@@ -28,5 +28,5 @@ describe('Card', () => {
     render(<Card character={undefined} hasResults={undefined} />);
     expect(screen.getByText(/no data/i)).toBeInTheDocument();
     expect(screen.getByText(/unknown/i)).toBeInTheDocument();
-  })
+  });
 });

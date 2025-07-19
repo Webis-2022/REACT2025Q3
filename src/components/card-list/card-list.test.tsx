@@ -132,4 +132,12 @@ describe('CardList', () => {
       screen.getByText(/Error: Failed to execute 'json'/)
     ).toBeInTheDocument();
   });
+  describe('CardList', () => {
+    it('shows/hides based on loading prop', () => {
+      render(
+        <CardList items={[]} isLoading={true} hasResults={true} error={null} />
+      );
+      expect(screen.getByRole('status')).toBeInTheDocument();
+    });
+  });
 });
