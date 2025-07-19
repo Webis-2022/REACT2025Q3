@@ -1,6 +1,6 @@
 import { createRef } from 'react';
-import { screen, render, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { screen, render } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 import { Results } from './results';
 
 describe('Results', () => {
@@ -16,5 +16,5 @@ describe('Results', () => {
       />
     );
     expect(screen.getByText(/500/i)).toBeInTheDocument();
-  })
-})
+  });
+});

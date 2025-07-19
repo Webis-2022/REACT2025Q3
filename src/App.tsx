@@ -34,7 +34,7 @@ class App extends Component {
         this.response = await fetch(`https://swapi.py4e.com/api/people`);
       } else {
         this.response = await fetch(
-          `https://swapi.py4e.com/api/peopleee/?search=${searchTerm}`
+          `https://swapi.py4e.com/api/people/?search=${searchTerm}`
         );
       }
       await new Promise((resolve) => setTimeout(resolve, 3000));

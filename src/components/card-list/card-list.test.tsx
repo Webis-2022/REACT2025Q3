@@ -1,8 +1,7 @@
-import { screen, render, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { screen, render } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 import { CardList } from './card-list';
 import { type Character } from './card-list.types';
-
 
 describe('CardList', () => {
   it('renders correct number of items when data is provided', () => {
