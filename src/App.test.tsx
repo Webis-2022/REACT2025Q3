@@ -1,5 +1,20 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import {
+  findAllByText,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  act,
+} from '@testing-library/react';
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  afterEach,
+  beforeEach,
+  type Mock,
+} from 'vitest';
 import { App } from './App';
 
 type Character = { name: string };
@@ -39,37 +54,84 @@ describe('App', () => {
     render(<App />);
     expect(getItemSpy).toHaveBeenCalledTimes(2);
   });
-  // it('manages loading states during API calls', async () => {
-  //   globalThis.fetch = vi.fn().mockImplementationOnce(() => {
-  //     new Promise((resolve) => {
-  //       setTimeout(() => {
-  //         resolve({
-  //           ok: true,
-  //           json: async () => ({ results: [{}] }),
-  //         });
-  //       }, 20);
-  //     });
-  //   });
-  //   render(<App />);
-
-  //   fireEvent.change(screen.getByRole('textbox'), {
-  //     target: { value: 'Luke' },
-  //   });
-  //   fireEvent.click(screen.getByText('Search'));
-  //   expect(screen.getByRole('status')).toBeInTheDocument();
-
-  //   await waitFor(
-  //     () => {
-  //       expect(screen.queryByRole('status')).not.toBeInTheDocument();
-  //     },
-  //     { timeout: 2000 }
-  //   );
-  // });
-
-  it('calls API with base url', () => {
+  it('manages loading states during API calls', async () => {
+    globalThis.fetch = vi.fn().mockImplementationOnce(() => {
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            ok: true,
+            json: async () => ({ results: [{}] }),
+          });
+        }, 20);
+      });
+    });
     render(<App />);
-    expect(fetch).toHaveBeenCalledWith(`https://swapi.py4e.com/api/people`);
+
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: 'Luke' },
+    });
+    fireEvent.click(screen.getByText('Search'));
+    expect(screen.getByRole('status')).toBeInTheDocument();
+
+    await waitFor(
+      () => {
+        expect(screen.queryByRole('status')).not.toBeInTheDocument();
+      },
+      { timeout: 2000 }
+    );
   });
+
+  beforeEach(() => {
+    const mockResponse: Response = {
+      ok: true,
+      status: 200,
+      statusText: 'OK',
+      headers: new Headers(),
+      json: () => Promise.resolve({ results: [], count: 0 }),
+      redirected: false,
+      type: 'basic',
+      url: '',
+      clone: function () {
+        return this;
+      },
+      body: null,
+      bodyUsed: false,
+      arrayBuffer: function () {
+        return Promise.resolve(new ArrayBuffer(0));
+      },
+      blob: function () {
+        return Promise.resolve(new Blob());
+      },
+      formData: function () {
+        return Promise.resolve(new FormData());
+      },
+      text: function () {
+        return Promise.resolve('');
+      },
+      bytes: function (): Promise<Uint8Array> {
+        throw new Error('Function not implemented.');
+      },
+    };
+
+    globalThis.fetch = vi.fn(() => Promise.resolve(mockResponse));
+
+    Storage.prototype.getItem = vi.fn(() => null);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should call base API URL on initial load', async () => {
+    render(<App />);
+
+    await waitFor(() => {
+      expect(globalThis.fetch).toHaveBeenCalledWith(
+        'https://swapi.py4e.com/api/people'
+      );
+    });
+  });
+
   it('calls API with search term', () => {
     render(<App />);
     const searchTerm = 'Luke';
@@ -92,16 +154,4 @@ describe('App', () => {
       `https://swapi.py4e.com/api/people/?search=${searchTerm}`
     );
   });
-  // it('handles successful API response correctly', async () => {
-  //   globalThis.fetch = mockFunction([
-  //     { name: 'Luke Skywalker' },
-  //     { name: 'Darth Vader' },
-  //   ]);
-  //   render(<App />);
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
-  //     expect(screen.getByText('Darth Vader')).toBeInTheDocument();
-  //   });
-  // });
 });

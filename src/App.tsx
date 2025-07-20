@@ -37,7 +37,7 @@ export class App extends Component {
           : `https://swapi.py4e.com/api/people/?search=${searchTerm}`;
 
       const response = await fetch(url);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
       const data = await response.json();
       if (
         (response.status === 404 && this.dialogRef.current) ||
