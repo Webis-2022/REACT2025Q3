@@ -16,7 +16,6 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    console.log(this.state.hasError);
     if (this.state.hasError) {
       return (
         <div

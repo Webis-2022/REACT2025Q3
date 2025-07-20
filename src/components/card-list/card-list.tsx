@@ -12,7 +12,11 @@ export class CardList extends Component<CardListProps> {
     return (
       <ul className="card-list">
         {items.map((character, index) => (
-          <Card key={index} character={character}></Card>
+          <Card
+            key={index}
+            character={character}
+            hasResults={this.props.hasResults}
+          ></Card>
         ))}
       </ul>
     );

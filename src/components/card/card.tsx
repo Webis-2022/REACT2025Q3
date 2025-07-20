@@ -16,10 +16,15 @@ export class Card extends Component<CardProps> {
 
     return (
       <li className="card">
-        <div className="name" ref={this.nameRef}>
+        <div
+          className={`name ${this.props.hasResults ? 'no-border' : ''}`}
+          ref={this.nameRef}
+        >
           {character.name}
         </div>
-        <div className="description">
+        <div
+          className={`description ${this.props.hasResults ? 'no-border' : ''}`}
+        >
           {`
           ${gender},
           ${character.height} cm,

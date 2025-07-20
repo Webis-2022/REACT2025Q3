@@ -17,6 +17,15 @@ class App extends Component {
   dialogRef = createRef<DialogWindow>();
   response: Response | undefined;
 
+  componentDidMount(): void {
+    const savedInputValue = localStorage.getItem('inputValue');
+    if (savedInputValue) {
+      this.handleSearch(savedInputValue);
+    } else {
+      this.handleSearch('');
+    }
+  }
+
   handleSearch = async (searchTerm: string) => {
     try {
       this.setState({ isLoading: true });
@@ -27,15 +36,16 @@ class App extends Component {
           `https://swapi.py4e.com/api/people/?search=${searchTerm}`
         );
       }
-      if (this.response.status === 404 && this.dialogRef.current) {
-        console.log('Hi');
+      if (
+        (this.response.status === 404 && this.dialogRef.current) ||
+        (this.response.status === 500 && this.dialogRef.current)
+      ) {
         this.dialogRef.current.open();
         this.setState({ items: [], isLoading: false });
         return;
       }
       await new Promise((resolve) => setTimeout(resolve, 3000));
       const data = await this.response.json();
-      console.log(data.results.length);
 
       this.setState({
         items: data.results,

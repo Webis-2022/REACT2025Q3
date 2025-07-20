@@ -27,7 +27,11 @@ export class Results extends Component<CardListProps> {
             Hero Description
           </div>
         </div>
-        <CardList items={this.props.items} isLoading={this.props.isLoading} />
+        <CardList
+          items={this.props.items}
+          isLoading={this.props.isLoading}
+          hasResults={this.props.hasResults}
+        />
       </div>
     );
   }
