@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { ErrorBoundary } from './error-boundary';
 import { BuggyComponent } from '../crash-button/crash-button';
 import { Component } from 'react';
-import userEvent, { UserEvent } from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 
 class TestBuggyComponent extends Component {
   render() {
@@ -46,6 +46,7 @@ describe('ErrorBoundary', () => {
   it('logs error to console', () => {
     const consoleErrorSpy = vi
       .spyOn(console, 'error')
+      // eslint-disable-next-line prettier/prettier
       .mockImplementation(() => { });
     render(
       <ErrorBoundary>
