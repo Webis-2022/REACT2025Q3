@@ -57,7 +57,6 @@ export class App extends Component {
       });
     } catch (error) {
       this.setState({ error: (error as Error).message, isLoading: false });
-      console.log('___', error);
     }
   };
 
