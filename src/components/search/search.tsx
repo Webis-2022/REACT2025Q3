@@ -1,42 +1,37 @@
-import { Component } from 'react';
-import type { SearchProps, SearchState } from './search.types';
-// import './search.css';
+// import { Component } from 'react';
+import type { SearchProps } from './search.types';
+import { useState, useEffect, type JSX } from 'react';
 
-export class Search extends Component<SearchProps, SearchState> {
-  state = {
-    inputValue: '',
-  };
+export function Search({ onSearch, setHasResults }: SearchProps): JSX.Element {
+  const [inputValue, setInputValue] = useState<string>('');
 
-  componentDidMount(): void {
+  useEffect(() => {
     const savedInputValue = localStorage.getItem('inputValue');
     if (savedInputValue) {
-      this.setState({ inputValue: savedInputValue });
+      setInputValue(savedInputValue);
     }
-  }
+  }, []);
 
-  handleChange = (event: { target: { value: string } }) => {
-    this.setState({ inputValue: event.target.value });
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
   };
 
-  handleSearch = () => {
-    this.props.onSearch(this.state.inputValue);
-    localStorage.setItem('inputValue', this.state.inputValue.trim());
-    this.props.setHasResults(false);
+  const handleSearch = () => {
+    onSearch(inputValue);
+    localStorage.setItem('inputValue', inputValue.trim());
+    setHasResults(false);
   };
-
-  render() {
-    return (
-      <div className="search">
-        <input
-          id="search-input"
-          type="text"
-          value={this.state.inputValue}
-          onChange={this.handleChange}
-        />
-        <button className="search-btn" onClick={this.handleSearch}>
-          Search
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div className="search">
+      <input
+        id="search-input"
+        type="text"
+        value={inputValue}
+        onChange={handleChange}
+      />
+      <button className="search-btn" onClick={handleSearch}>
+        Search
+      </button>
+    </div>
+  );
 }

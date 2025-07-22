@@ -1,44 +1,45 @@
-import { Component, createRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { type CardListProps } from '../card-list/card-list.types';
 import { CardList } from '../card-list/card-list';
 import { DialogWindow } from '../dialog-window/dialog-window';
 import './results.css';
 
-export class Results extends Component<CardListProps> {
-  heroNameRef = createRef<HTMLDivElement>();
+export function Results({
+  items,
+  isLoading,
+  hasResults,
+  error,
+  dialogRef,
+  responseStatus,
+}: CardListProps) {
+  const heroNameRef = useRef<HTMLDivElement | null>(null);
 
-  componentDidMount(): void {
-    if (this.heroNameRef.current) {
-      this.heroNameRef.current.style.borderRight = 'none';
+  useEffect(() => {
+    if (heroNameRef.current) {
+      heroNameRef.current.style.borderRight = 'none';
     }
-  }
-  render() {
-    return (
-      <div className="results">
-        <div className="thead">
-          <div
-            className={`hero-name ${this.props.hasResults ? 'no-border' : ''}`}
-            ref={this.heroNameRef}
-          >
-            Hero Name
-          </div>
-          <div
-            className={`hero-description ${this.props.hasResults ? 'no-border' : ''}`}
-          >
-            Hero Description
-          </div>
+  }, []);
+
+  return (
+    <div className="results">
+      <div className="thead">
+        <div
+          className={`hero-name ${hasResults ? 'no-border' : ''}`}
+          ref={heroNameRef}
+        >
+          Hero Name
         </div>
-        <CardList
-          items={this.props.items}
-          isLoading={this.props.isLoading}
-          hasResults={this.props.hasResults}
-          error={this.props.error}
-        />
-        <DialogWindow
-          ref={this.props.dialogRef}
-          responseStatus={this.props.responseStatus}
-        />
+        <div className={`hero-description ${hasResults ? 'no-border' : ''}`}>
+          Hero Description
+        </div>
       </div>
-    );
-  }
+      <CardList
+        items={items}
+        isLoading={isLoading}
+        hasResults={hasResults}
+        error={error}
+      />
+      <DialogWindow ref={dialogRef} responseStatus={responseStatus} />
+    </div>
+  );
 }

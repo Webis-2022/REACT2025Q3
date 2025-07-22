@@ -32,7 +32,9 @@ export class CardList extends Component<CardListProps> {
             ></Card>
           ))}
         </ul>
-        {!isLoading && items.length === 0 && !hasResults && <DialogWindow />}
+        {!isLoading && items.length === 0 && !hasResults && (
+          <DialogWindow ref={this.dialogRef} />
+        )}
       </>
     );
   }
