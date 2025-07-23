@@ -1,4 +1,5 @@
-import type { DialogWindow } from '../dialog-window/dialog-window';
+// import type { DialogWindow } from '../dialog-window/dialog-window';
+import type { DialogWindowHandle } from '../dialog-window/dialog-window.types';
 
 export type Character = {
   name: string | null | undefined;
@@ -16,6 +17,6 @@ export type CardListProps = {
   isLoading: boolean;
   hasResults?: boolean;
   error: string | null;
-  dialogRef?: React.RefObject<DialogWindow | null>;
+  dialogRef?: React.RefObject<DialogWindowHandle | null>;
   responseStatus?: number | undefined;
 };

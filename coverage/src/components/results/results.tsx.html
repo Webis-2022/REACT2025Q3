@@ -30,16 +30,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -107,93 +107,96 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Component, createRef } from 'react';
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useRef, useEffect } from 'react';
 import { type CardListProps } from '../card-list/card-list.types';
 import { CardList } from '../card-list/card-list';
 import { DialogWindow } from '../dialog-window/dialog-window';
 import './results.css';
 &nbsp;
-export class Results extends Component&lt;CardListProps&gt; {
-  heroNameRef = createRef&lt;HTMLDivElement&gt;();
+export function Results({
+  items,
+  isLoading,
+  hasResults,
+  error,
+  dialogRef,
+  responseStatus,
+}: CardListProps) {
+  const heroNameRef = useRef&lt;HTMLDivElement | null&gt;(null);
 &nbsp;
-  componentDidMount(): void {
-    if (this.heroNameRef.current) {
-      this.heroNameRef.current.style.borderRight = 'none';
+  useEffect(() =&gt; {
+    if (heroNameRef.current) {
+      heroNameRef.current.style.borderRight = 'none';
     }
-  }
-  render() {
-    return (
-      &lt;div className="results"&gt;
-        &lt;div className="thead"&gt;
-          &lt;div
-            className={`hero-name ${this.props.<span class="branch-0 cbranch-no" title="branch not covered" >hasResults ? 'no-border' : '</span>'}`}
-            ref={this.heroNameRef}
-          &gt;
-            Hero Name
-          &lt;/div&gt;
-          &lt;div
-            className={`hero-description ${this.props.<span class="branch-0 cbranch-no" title="branch not covered" >hasResults ? 'no-border' : '</span>'}`}
-          &gt;
-            Hero Description
-          &lt;/div&gt;
+  }, []);
+&nbsp;
+  return (
+    &lt;div className="results"&gt;
+      &lt;div className="thead"&gt;
+        &lt;div
+          className={`hero-name ${<span class="branch-0 cbranch-no" title="branch not covered" >hasResults ? 'no-border' : '</span>'}`}
+          ref={heroNameRef}
+        &gt;
+          Hero Name
         &lt;/div&gt;
-        &lt;CardList
-          items={this.props.items}
-          isLoading={this.props.isLoading}
-          hasResults={this.props.hasResults}
-          error={this.props.error}
-        /&gt;
-        &lt;DialogWindow
-          ref={this.props.dialogRef}
-          responseStatus={this.props.responseStatus}
-        /&gt;
+        &lt;div className={`hero-description ${<span class="branch-0 cbranch-no" title="branch not covered" >hasResults ? 'no-border' : '</span>'}`}&gt;
+          Hero Description
+        &lt;/div&gt;
       &lt;/div&gt;
-    );
-  }
+      &lt;CardList
+        items={items}
+        isLoading={isLoading}
+        hasResults={hasResults}
+        error={error}
+      /&gt;
+      &lt;DialogWindow ref={dialogRef} responseStatus={responseStatus} /&gt;
+    &lt;/div&gt;
+  );
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -202,7 +205,7 @@ export class Results extends Component&lt;CardListProps&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-20T21:14:42.417Z
+                at 2025-07-22T10:00:13.678Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

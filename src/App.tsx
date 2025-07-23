@@ -1,35 +1,42 @@
 import { Header } from './components/header/header';
 import { Search } from './components/search/search';
-import { Component, createRef } from 'react';
-import { DialogWindow } from './components/dialog-window/dialog-window';
+import { useEffect, useRef, useState } from 'react';
+// import { DialogWindow } from './components/dialog-window/dialog-window';
 import { BuggyComponent } from './components/crash-button/crash-button';
 import { ErrorBoundary } from './components/error-boundary/error-boundary';
 import { Results } from './components/results/results';
 import './App.css';
+import type { DialogWindowHandle } from './components/dialog-window/dialog-window.types';
+import type { Character } from './components/card-list/card-list.types';
 
-export class App extends Component {
-  state = {
-    items: [],
-    isLoading: false,
-    hasResults: false,
-    error: null,
-    responseStatus: undefined as number | undefined,
+export function App() {
+  const [items, setItems] = useState<Character[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasResults, setHasResults] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [responseStatus, setResponseStatus] = useState<number | undefined>(
+    undefined
+  );
+
+  const dialogRef = useRef<DialogWindowHandle>(null);
+
+  const openDialog = () => {
+    dialogRef.current?.open();
   };
 
-  dialogRef = createRef<DialogWindow>();
-
-  componentDidMount(): void {
+  useEffect(() => {
     const savedInputValue = localStorage.getItem('inputValue');
     if (savedInputValue) {
-      this.handleSearch(savedInputValue);
+      handleSearch(savedInputValue);
     } else {
-      this.handleSearch('');
+      handleSearch('');
     }
-  }
+  }, []);
 
-  handleSearch = async (searchTerm: string) => {
+  const handleSearch = async (searchTerm: string) => {
     try {
-      this.setState({ isLoading: true, error: null });
+      setIsLoading(true);
+      setError(null);
 
       const url =
         searchTerm === ''
@@ -40,51 +47,47 @@ export class App extends Component {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       const data = await response.json();
       if (
-        (response.status === 404 && this.dialogRef.current) ||
-        (response.status === 500 && this.dialogRef.current) ||
-        (data.count === 0 && this.dialogRef.current)
+        (response.status === 404 && dialogRef.current) ||
+        (response.status === 500 && dialogRef.current) ||
+        (data.count === 0 && dialogRef.current)
       ) {
-        this.dialogRef.current.open();
-        this.setState({ items: [], isLoading: false, error: null });
+        openDialog();
+        setItems([]);
+        setIsLoading(false);
+        setError(null);
         return;
       }
-
-      this.setState({
-        items: data.results,
-        isLoading: false,
-        hasResults: data.results.length > 0,
-        responseStatus: response.status,
-      });
+      setItems(data.results);
+      setIsLoading(false);
+      setHasResults(data.results.length > 0);
+      setResponseStatus(response.status);
     } catch (error) {
-      this.setState({ error: (error as Error).message, isLoading: false });
+      setError((error as Error).message);
+      setIsLoading(false);
     }
   };
 
-  setHasResults = (value: boolean) => {
-    this.setState({ hasResults: value });
+  const updateHasResults = (value: boolean) => {
+    setHasResults(value);
   };
-  render() {
-    return (
-      <>
-        <Header />
-        <main>
-          <Search
-            onSearch={this.handleSearch}
-            setHasResults={this.setHasResults}
-          />
-          <Results
-            items={this.state.items}
-            isLoading={this.state.isLoading}
-            hasResults={this.state.hasResults}
-            error={this.state.error}
-            dialogRef={this.dialogRef}
-            responseStatus={this.state.responseStatus}
-          />
-          <ErrorBoundary>
-            <BuggyComponent />
-          </ErrorBoundary>
-        </main>
-      </>
-    );
-  }
+
+  return (
+    <>
+      <Header />
+      <main>
+        <Search onSearch={handleSearch} setHasResults={updateHasResults} />
+        <Results
+          items={items}
+          isLoading={isLoading}
+          hasResults={hasResults}
+          error={error}
+          dialogRef={dialogRef}
+          responseStatus={responseStatus}
+        />
+        <ErrorBoundary>
+          <BuggyComponent />
+        </ErrorBoundary>
+      </main>
+    </>
+  );
 }

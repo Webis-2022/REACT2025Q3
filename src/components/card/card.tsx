@@ -1,92 +1,103 @@
 /* eslint-disable prettier/prettier */
-import { Component, createRef } from 'react';
+import { useRef, useEffect } from 'react';
 import type { CardProps } from './card.types';
 
-export class Card extends Component<CardProps> {
-  nameRef = createRef<HTMLDivElement>();
+export function Card({ character, hasResults }: CardProps) {
+  const nameRef = useRef<HTMLDivElement>(null);
 
-  componentDidMount(): void {
-    if (this.nameRef.current) {
-      this.nameRef.current.style.borderRight = 'none';
+  useEffect(() => {
+    if (character && nameRef.current) {
+      nameRef.current.style.borderRight = 'none';
     }
-  }
-  render() {
-    const { character } = this.props;
-    if (character === undefined || character === null) {
+  }, [character]);
+
+  if (!character) return null;
+  const {
+    name,
+    gender,
+    height,
+    mass,
+    birth_year,
+    hair_color,
+    eye_color,
+    skin_color,
+  } = character;
+
+  if (!name && !gender && !height && !mass) {
+    return (
+      <li className="card">
+        <div
+          className={`name ${hasResults ? 'no-border' : ''}`}
+          ref={nameRef}
+        >
+          No Data
+        </div>
+        <div
+          className={`description ${hasResults ? 'no-border' : ''}`}
+        >
+          Unknown
+        </div>
+      </li>
+    );
+  } else {
+    if (gender) {
+      const genderEdited =
+        gender.charAt(0).toUpperCase() + gender.slice(1);
+
       return (
         <li className="card">
           <div
-            className={`name ${this.props.hasResults ? 'no-border' : ''}`}
-            ref={this.nameRef}
+            className={`name ${hasResults ? 'no-border' : ''}`}
+            ref={nameRef}
           >
-            No Data
+            {name}
           </div>
           <div
-            className={`description ${this.props.hasResults ? 'no-border' : ''}`}
+            className={`description ${hasResults ? 'no-border' : ''}`}
           >
-            Unknown
+            {`
+                ${genderEdited},
+                ${height === undefined
+                ? '-'
+                : height === null
+                  ? 'Unknown'
+                  : height
+              } cm,
+                ${mass === undefined
+                ? '-'
+                : mass === null
+                  ? 'Unknown'
+                  : mass
+              } kg,
+          born ${birth_year === undefined
+                ? '-'
+                : birth_year === null
+                  ? 'Unknown'
+                  : birth_year
+              },
+                ${hair_color === undefined
+                ? '-'
+                : hair_color === null
+                  ? 'Unknown'
+                  : hair_color
+              } hair,
+                ${eye_color === undefined
+                ? '-'
+                : eye_color === null
+                  ? 'Unknown'
+                  : eye_color
+              } eyes,
+                ${skin_color === undefined
+                ? '-'
+                : skin_color === null
+                  ? 'Unknown'
+                  : skin_color
+              } skin
+              `}
           </div>
         </li>
       );
-    } else {
-      if (character.gender) {
-        const gender =
-          character.gender.charAt(0).toUpperCase() + character.gender.slice(1);
-
-        return (
-          <li className="card">
-            <div
-              className={`name ${this.props.hasResults ? 'no-border' : ''}`}
-              ref={this.nameRef}
-            >
-              {character.name}
-            </div>
-            <div
-              className={`description ${this.props.hasResults ? 'no-border' : ''}`}
-            >
-              {`
-                ${gender},
-                ${character.height === undefined
-                  ? '-'
-                  : character.height === null
-                    ? 'Unknown'
-                    : character.height
-                } cm,
-                ${character.mass === undefined
-                  ? '-'
-                  : character.mass === null
-                    ? 'Unknown'
-                    : character.mass
-                } kg,
-          born ${character.birth_year === undefined
-                  ? '-'
-                  : character.birth_year === null
-                    ? 'Unknown'
-                    : character.birth_year
-                },
-                ${character.hair_color === undefined
-                  ? '-'
-                  : character.hair_color === null
-                    ? 'Unknown'
-                    : character.hair_color
-                } hair,
-                ${character.eye_color === undefined
-                  ? '-'
-                  : character.eye_color === null
-                    ? 'Unknown'
-                    : character.eye_color
-                } eyes,
-                ${character.skin_color === undefined
-                  ? '-'
-                  : character.skin_color === null
-                    ? 'Unknown'
-                    : character.skin_color
-                } skin
-              `}
-            </div>
-          </li>
-        );
-      }
     }
   }
 }
+

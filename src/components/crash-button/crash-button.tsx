@@ -1,21 +1,18 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
-export class BuggyComponent extends Component {
-  state = { throwError: false };
+export function BuggyComponent() {
+  const [throwError, setThrowError] = useState(false);
 
-  handleClick = () => {
-    this.setState({ throwError: true });
+  const handleClick = () => {
+    setThrowError(true);
   };
-
-  render() {
-    if (this.state.throwError) {
-      throw new Error('Error caused by pressing a button');
-    }
-
-    return (
-      <button className="crash-btn" onClick={this.handleClick}>
-        Error
-      </button>
-    );
+  if (throwError) {
+    throw new Error('Error caused by pressing a button');
   }
+
+  return (
+    <button className="crash-btn" onClick={handleClick}>
+      Error
+    </button>
+  );
 }
