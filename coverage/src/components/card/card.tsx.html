@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.25% </span>
+                <span class="strong">92.04% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>73/80</span>
+                <span class='fraction'>81/88</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.96% </span>
+                <span class="strong">70% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/29</span>
+                <span class='fraction'>21/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.25% </span>
+                <span class="strong">92.04% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>73/80</span>
+                <span class='fraction'>81/88</span>
             </div>
         
             
@@ -155,21 +155,39 @@
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
 <a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -186,6 +204,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -246,99 +274,113 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable prettier/prettier */
-import { Component, createRef } from 'react';
+import { useRef, useEffect } from 'react';
 import type { CardProps } from './card.types';
+import type { Character } from '../card-list/card-list.types';
 &nbsp;
-export class Card extends Component&lt;CardProps&gt; {
-  nameRef = createRef&lt;HTMLDivElement&gt;();
+export function Card({ character, hasResults }: CardProps) {
+  const nameRef = useRef&lt;HTMLDivElement&gt;(null);
 &nbsp;
-  componentDidMount(): void {
-    if (this.nameRef.current) {
-      this.nameRef.current.style.borderRight = 'none';
+  useEffect(() =&gt; {
+    if (character &amp;&amp; nameRef.current) {
+      nameRef.current.style.borderRight = 'none';
     }
-  }
-  render() {
-    const { character } = this.props;
-    if (character === undefined || character === null) {
+  }, [character]);
+&nbsp;
+  // if (!character) return null;
+&nbsp;
+&nbsp;
+  if (character === undefined || character === null) {
+    console.log('Hello');
+    return (
+      &lt;li className="card"&gt;
+        &lt;div
+          className={`name ${<span class="branch-0 cbranch-no" title="branch not covered" >hasResults ? 'no-border' : '</span>'}`}
+          ref={nameRef}
+        &gt;
+          No Data
+        &lt;/div&gt;
+        &lt;div
+          className={`description ${<span class="branch-0 cbranch-no" title="branch not covered" >hasResults ? 'no-border' : '</span>'}`}
+        &gt;
+          Unknown
+        &lt;/div&gt;
+      &lt;/li&gt;
+    );
+  } else {
+    const {
+      name,
+      gender,
+      height,
+      mass,
+      birth_year,
+      hair_color,
+      eye_color,
+      skin_color,
+    } = character as Character;
+    if (gender) {
+      const genderEdited =
+        gender.charAt(0).toUpperCase() + gender.slice(1);
+&nbsp;
       return (
         &lt;li className="card"&gt;
           &lt;div
-            className={`name ${this.props.<span class="branch-0 cbranch-no" title="branch not covered" >hasResults ? 'no-border' : '</span>'}`}
-            ref={this.nameRef}
+            className={`name ${hasResults ? 'no-border' : ''}`}
+            ref={nameRef}
           &gt;
-            No Data
+            {name}
           &lt;/div&gt;
           &lt;div
-            className={`description ${this.props.<span class="branch-0 cbranch-no" title="branch not covered" >hasResults ? 'no-border' : '</span>'}`}
+            className={`description ${hasResults ? 'no-border' : ''}`}
           &gt;
-            Unknown
+            {`
+                ${genderEdited},
+                ${height === undefined
+                ? '-'
+                : height === <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
+<span class="cstat-no" title="statement not covered" >                  ? 'Unknown'</span>
+                  : height
+              } cm,
+                ${mass === undefined
+                ? '-'
+                : mass === <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
+<span class="cstat-no" title="statement not covered" >                  ? 'Unknown'</span>
+                  : mass
+              } kg,
+          born ${birth_year === <span class="branch-0 cbranch-no" title="branch not covered" >undefined</span>
+<span class="cstat-no" title="statement not covered" >                ? '-'</span>
+                : birth_year === null
+                  ? 'Unknown'
+                  : birth_year
+              },
+                ${hair_color === <span class="branch-0 cbranch-no" title="branch not covered" >undefined</span>
+<span class="cstat-no" title="statement not covered" >                ? '-'</span>
+                : hair_color === null
+                  ? 'Unknown'
+                  : hair_color
+              } hair,
+                ${eye_color === <span class="branch-0 cbranch-no" title="branch not covered" >undefined</span>
+<span class="cstat-no" title="statement not covered" >                ? '-'</span>
+                : eye_color === <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
+<span class="cstat-no" title="statement not covered" >                  ? 'Unknown'</span>
+                  : eye_color
+              } eyes,
+                ${skin_color === undefined
+                ? '-'
+                : skin_color === <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
+<span class="cstat-no" title="statement not covered" >                  ? 'Unknown'</span>
+                  : skin_color
+              } skin
+              `}
           &lt;/div&gt;
         &lt;/li&gt;
       );
-    } else {
-      if (character.gender) {
-        const gender =
-          character.gender.charAt(0).toUpperCase() + character.gender.slice(1);
-&nbsp;
-        return (
-          &lt;li className="card"&gt;
-            &lt;div
-              className={`name ${this.props.hasResults ? 'no-border' : ''}`}
-              ref={this.nameRef}
-            &gt;
-              {character.name}
-            &lt;/div&gt;
-            &lt;div
-              className={`description ${this.props.hasResults ? 'no-border' : ''}`}
-            &gt;
-              {`
-                ${gender},
-                ${character.height === undefined
-                  ? '-'
-                  : character.height === <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
-<span class="cstat-no" title="statement not covered" >                    ? 'Unknown'</span>
-                    : character.height
-                } cm,
-                ${character.mass === undefined
-                  ? '-'
-                  : character.mass === <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
-<span class="cstat-no" title="statement not covered" >                    ? 'Unknown'</span>
-                    : character.mass
-                } kg,
-          born ${character.birth_year === <span class="branch-0 cbranch-no" title="branch not covered" >undefined</span>
-<span class="cstat-no" title="statement not covered" >                  ? '-'</span>
-                  : character.birth_year === null
-                    ? 'Unknown'
-                    : character.birth_year
-                },
-                ${character.hair_color === <span class="branch-0 cbranch-no" title="branch not covered" >undefined</span>
-<span class="cstat-no" title="statement not covered" >                  ? '-'</span>
-                  : character.hair_color === null
-                    ? 'Unknown'
-                    : character.hair_color
-                } hair,
-                ${character.eye_color === <span class="branch-0 cbranch-no" title="branch not covered" >undefined</span>
-<span class="cstat-no" title="statement not covered" >                  ? '-'</span>
-                  : character.eye_color === <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
-<span class="cstat-no" title="statement not covered" >                    ? 'Unknown'</span>
-                    : character.eye_color
-                } eyes,
-                ${character.skin_color === undefined
-                  ? '-'
-                  : character.skin_color === <span class="branch-0 cbranch-no" title="branch not covered" >null</span>
-<span class="cstat-no" title="statement not covered" >                    ? 'Unknown'</span>
-                    : character.skin_color
-                } skin
-              `}
-            &lt;/div&gt;
-          &lt;/li&gt;
-        );
-      }
     }
   }
 }
+&nbsp;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -346,7 +388,7 @@ export class Card extends Component&lt;CardProps&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-22T10:00:13.678Z
+                at 2025-07-23T20:35:22.865Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useRef, useEffect } from 'react';
 import type { CardProps } from './card.types';
+import type { Character } from '../card-list/card-list.types';
 
 export function Card({ character, hasResults }: CardProps) {
   const nameRef = useRef<HTMLDivElement>(null);
@@ -11,19 +12,11 @@ export function Card({ character, hasResults }: CardProps) {
     }
   }, [character]);
 
-  if (!character) return null;
-  const {
-    name,
-    gender,
-    height,
-    mass,
-    birth_year,
-    hair_color,
-    eye_color,
-    skin_color,
-  } = character;
+  // if (!character) return null;
 
-  if (!name && !gender && !height && !mass) {
+
+  if (character === undefined || character === null) {
+    console.log('Hello');
     return (
       <li className="card">
         <div
@@ -40,6 +33,16 @@ export function Card({ character, hasResults }: CardProps) {
       </li>
     );
   } else {
+    const {
+      name,
+      gender,
+      height,
+      mass,
+      birth_year,
+      hair_color,
+      eye_color,
+      skin_color,
+    } = character as Character;
     if (gender) {
       const genderEdited =
         gender.charAt(0).toUpperCase() + gender.slice(1);

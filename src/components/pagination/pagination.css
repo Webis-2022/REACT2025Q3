@@ -1,0 +1,21 @@
+.pagination-container {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.prev-btn,
+.next-btn {
+  padding: 1rem;
+  font-size: 34px;
+  color: red;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.next-disabled,
+.prev-disabled {
+  background-color: green;
+}

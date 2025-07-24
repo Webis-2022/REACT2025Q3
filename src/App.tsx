@@ -8,15 +8,34 @@ import { Results } from './components/results/results';
 import './App.css';
 import type { DialogWindowHandle } from './components/dialog-window/dialog-window.types';
 import type { Character } from './components/card-list/card-list.types';
+import { Pagination } from './components/pagination/pagination';
+import { makeApiQuery } from './api/api';
+import type { PaginationProps } from './components/pagination/pagination.types';
 
 export function App() {
+  const [fullData, setFullData] = useState<PaginationProps | null>(null);
   const [items, setItems] = useState<Character[]>([]);
+  const [next, setNext] = useState<string | null>(
+    fullData ? fullData.next : null
+  );
+  const [previous, setPrevious] = useState<string | null>(
+    fullData ? fullData.previous : null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [hasResults, setHasResults] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [responseStatus, setResponseStatus] = useState<number | undefined>(
     undefined
   );
+
+  useEffect(() => {
+    if (fullData) {
+      setNext(fullData.next);
+      setPrevious(fullData.previous);
+    }
+  }, [fullData]);
+
+
 
   const dialogRef = useRef<DialogWindowHandle>(null);
 
@@ -43,9 +62,8 @@ export function App() {
           ? `https://swapi.py4e.com/api/people`
           : `https://swapi.py4e.com/api/people/?search=${searchTerm}`;
 
-      const response = await fetch(url);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const data = await response.json();
+      const [data, response] = await makeApiQuery(url);
+      setFullData(data);
       if (
         (response.status === 404 && dialogRef.current) ||
         (response.status === 500 && dialogRef.current) ||
@@ -84,6 +102,17 @@ export function App() {
           dialogRef={dialogRef}
           responseStatus={responseStatus}
         />
+        {fullData && fullData.count > 10 ? (
+          <Pagination
+            count={fullData.count}
+            next={next}
+            previous={previous}
+            results={fullData.results}
+            setItems={setItems}
+            setNext={setNext}
+            setPrevious={setPrevious}
+          />
+        ) : null}
         <ErrorBoundary>
           <BuggyComponent />
         </ErrorBoundary>
