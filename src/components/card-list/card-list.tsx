@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import type { CardListProps } from './card-list.types';
+import { useRef, useState } from 'react';
+import type { CardListProps, Character } from './card-list.types';
 import { Card } from '../card/card';
 import { Loader } from '../loader/loader';
 import { DialogWindow } from '../dialog-window/dialog-window';
@@ -10,10 +10,11 @@ export function CardList({
   isLoading,
   hasResults,
   error,
-  // dialogRef,
-  // responseStatus,
 }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
 
   if (isLoading) {
     return <Loader />;
@@ -35,6 +36,9 @@ export function CardList({
             key={index}
             character={character}
             hasResults={hasResults}
+            imgUrl={`${import.meta.env.BASE_URL}images/${character.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
+            isSelected={selectedCharacter?.name === character.name}
+            onSelect={() => setSelectedCharacter(character)}
           ></Card>
         ))}
       </ul>

@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Card } from './card';
 import { mockCharacter } from './card.types';
+import type { Character } from '../card-list/card-list.types';
 
 describe('Card', () => {
   it('displays item name and description correctly', () => {
@@ -17,8 +18,15 @@ describe('Card', () => {
           eye_color: 'blue',
           birth_year: '19BBY',
           gender: 'male',
+          url: '',
         }}
         hasResults={false}
+        imgUrl={undefined}
+        isSelected={false}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onSelect={function (data: Character | null): void {
+          throw new Error('Function not implemented.');
+        }}
       />
     );
     expect(screen.getByText('Luke')).toBeInTheDocument();
@@ -26,7 +34,18 @@ describe('Card', () => {
     expect(screen.getByText(/male/i)).toBeInTheDocument();
   });
   it('handles missing props gracefully', () => {
-    render(<Card character={undefined} hasResults={undefined} />);
+    render(
+      <Card
+        character={undefined}
+        hasResults={undefined}
+        imgUrl={undefined}
+        isSelected={false}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onSelect={function (data: Character | null): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
+    );
     expect(screen.getByText(/no data/i)).toBeInTheDocument();
     expect(screen.getByText(/unknown/i)).toBeInTheDocument();
   });
@@ -34,7 +53,17 @@ describe('Card', () => {
 
 describe('Card', () => {
   it('displays all character info correctly', () => {
-    render(<Card character={mockCharacter} />);
+    render(
+      <Card
+        character={mockCharacter}
+        imgUrl={undefined}
+        isSelected={false}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onSelect={function (data: Character | null): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
+    );
 
     expect(screen.getByText(/172 cm/)).toBeInTheDocument();
     expect(screen.getByText(/77 kg/)).toBeInTheDocument();
@@ -52,6 +81,12 @@ describe('Card', () => {
           height: undefined,
           mass: undefined,
         }}
+        imgUrl={undefined}
+        isSelected={false}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onSelect={function (data: Character | null): void {
+          throw new Error('Function not implemented.');
+        }}
       />
     );
 
@@ -66,6 +101,12 @@ describe('Card', () => {
           ...mockCharacter,
           birth_year: null,
           hair_color: null,
+        }}
+        imgUrl={undefined}
+        isSelected={false}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        onSelect={function (data: Character | null): void {
+          throw new Error('Function not implemented.');
         }}
       />
     );

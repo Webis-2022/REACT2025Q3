@@ -1,0 +1,22 @@
+.name {
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  display: flex;
+  align-self: flex-end;
+  justify-content: end;
+  flex-direction: column;
+  -webkit-text-stroke: 1px black;
+}
+
+.gender,
+.height,
+.mass,
+.birth-year,
+.hair-color,
+.eye-color,
+.skin-color {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 0.7rem;
+}

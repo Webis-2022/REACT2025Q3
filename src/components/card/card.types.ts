@@ -3,6 +3,9 @@ import { type Character } from '../card-list/card-list.types';
 export type CardProps = {
   character: Character | undefined | null;
   hasResults?: boolean;
+  imgUrl: string | undefined;
+  isSelected: boolean;
+  onSelect: (data: Character | null) => void;
 };
 
 export const mockCharacter: Character = {
@@ -14,4 +17,5 @@ export const mockCharacter: Character = {
   hair_color: 'blond',
   eye_color: 'blue',
   skin_color: 'fair',
+  url: '',
 };

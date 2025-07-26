@@ -35,8 +35,6 @@ export function App() {
     }
   }, [fullData]);
 
-
-
   const dialogRef = useRef<DialogWindowHandle>(null);
 
   const openDialog = () => {
@@ -64,6 +62,10 @@ export function App() {
 
       const [data, response] = await makeApiQuery(url);
       setFullData(data);
+      console.log(data.results);
+      // setImgUrl(
+      //   `${import.meta.env.BASE_URL}/images/${data.results[0].url?.slice(-2, -1)}.jpg`
+      // );
       if (
         (response.status === 404 && dialogRef.current) ||
         (response.status === 500 && dialogRef.current) ||

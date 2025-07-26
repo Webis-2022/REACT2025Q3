@@ -10,6 +10,7 @@ export type Character = {
   hair_color: string | null | undefined;
   eye_color: string | null | undefined;
   skin_color: string | null | undefined;
+  url: string | null | undefined;
 };
 
 export type CardListProps = {
