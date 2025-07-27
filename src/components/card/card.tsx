@@ -1,13 +1,11 @@
-/* eslint-disable prettier/prettier */
 import { useRef, useEffect, useState } from 'react';
 import type { CardProps } from './card.types';
 import type { Character } from '../card-list/card-list.types';
 import { makeApiQuery } from '../../api/api';
 import { DetailsWindow } from '../details-window/details-window';
-import './card.css';
 import { useSearchParams } from 'react-router-dom';
 
-export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: CardProps) {
+export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
   const nameRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<Character | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,15 +15,14 @@ export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: Ca
     if (!idMatch) return;
     const characterId = idMatch[1];
     return characterId;
-  }
-
+  };
 
   const handleClick = () => {
     onSelect(character);
     const characterId = getCharacterId();
     const page = searchParams.get('page') ?? '1';
     if (!page || !characterId) return;
-    setSearchParams({ 'page': page, 'details': characterId })
+    setSearchParams({ page: page, details: characterId });
   };
 
   useEffect(() => {
@@ -41,19 +38,16 @@ export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: Ca
   if (!character) {
     return (
       <li className="card">
-        <div className={`name ${hasResults ? 'no-border' : ''}`} ref={nameRef}>
-          No Data
-        </div>
-        <div className={`description ${hasResults ? 'no-border' : ''}`}>
-          Unknown
-        </div>
+        <div className="name">No Data</div>
+        <div className="description">Unknown</div>
       </li>
     );
   }
 
   return (
     <li className="card">
-      <div onClick={handleClick}
+      <div
+        onClick={handleClick}
         style={{
           backgroundImage: `url(${imgUrl})`,
           backgroundSize: 'cover',
@@ -65,12 +59,15 @@ export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: Ca
       >
         {character.name}
       </div>
-      {isSelected && <DetailsWindow data={data} onClose={() => {
-        onSelect(null);
-        setSearchParams({});
-      }}
-      />}
+      {isSelected && (
+        <DetailsWindow
+          data={data}
+          onClose={() => {
+            onSelect(null);
+            setSearchParams({});
+          }}
+        />
+      )}
     </li>
   );
 }
-

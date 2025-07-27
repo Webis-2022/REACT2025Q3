@@ -7,15 +7,24 @@
 
 .prev-btn,
 .next-btn {
-  padding: 1rem;
-  font-size: 34px;
-  color: red;
-  font-weight: bold;
-  border-radius: 20px;
+  font-size: 30px;
+  height: 40px;
+  width: 40px;
+  color: #000;
+  border-radius: 50px;
   cursor: pointer;
 }
 
 .next-disabled,
 .prev-disabled {
-  background-color: green;
+  background-color: rgb(233, 235, 233);
+}
+
+.page-number-container {
+  width: 8%;
+  border: 2px solid #000;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

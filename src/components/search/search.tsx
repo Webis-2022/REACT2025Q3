@@ -1,4 +1,3 @@
-// import { Component } from 'react';
 import type { SearchProps } from './search.types';
 import { useState, useEffect, type JSX } from 'react';
 

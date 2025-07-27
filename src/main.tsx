@@ -8,7 +8,7 @@ const rootEl = document.getElementById('root');
 if (rootEl) {
   createRoot(rootEl).render(
     <StrictMode>
-      <BrowserRouter>
+      <BrowserRouter basename="/REACT2025Q3/">
         <App />
       </BrowserRouter>
     </StrictMode>

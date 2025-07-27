@@ -8,8 +8,6 @@
   justify-content: center;
 }
 
-.hero-name,
-.hero-description,
 .name,
 .description {
   border: 3px solid #000;
@@ -18,18 +16,6 @@
   text-align: center;
 }
 
-.hero-name,
-.hero-description {
-  font-size: 1.6rem;
-  font-weight: 700;
+.description {
+  padding: 0;
 }
-
-/* .hero-name.no-border,
-.hero-description.no-border {
-  border-bottom: none;
-} */
-
-/* .name.no-border,
-.description.no-border {
-  border-top: none;
-} */

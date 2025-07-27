@@ -1,5 +1,4 @@
 import type { DetailsWindowProps } from './details-window.types';
-import './details-window.css';
 
 export function DetailsWindow({ data, onClose }: DetailsWindowProps) {
   return (

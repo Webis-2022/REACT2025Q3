@@ -2,6 +2,7 @@ import { screen, render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { CardList } from './card-list';
 import { type Character } from './card-list.types';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('CardList', () => {
   it('renders correct number of items when data is provided', () => {
@@ -30,12 +31,14 @@ describe('CardList', () => {
       },
     ];
     render(
-      <CardList
-        items={mockItems}
-        isLoading={false}
-        hasResults={true}
-        error={null}
-      />
+      <MemoryRouter>
+        <CardList
+          items={mockItems}
+          isLoading={false}
+          hasResults={true}
+          error={null}
+        />
+      </MemoryRouter>
     );
     const cards = screen.getAllByRole('listitem');
     expect(cards).toHaveLength(mockItems.length);
@@ -111,12 +114,14 @@ describe('CardList', () => {
     ];
 
     render(
-      <CardList
-        items={mockItems}
-        isLoading={false}
-        hasResults={true}
-        error={null}
-      />
+      <MemoryRouter>
+        <CardList
+          items={mockItems}
+          isLoading={false}
+          hasResults={true}
+          error={null}
+        />
+      </MemoryRouter>
     );
     expect(screen.getByText(/unknown hero/i)).toBeInTheDocument();
     const unknownElements = screen.getAllByText(/unknown|n\/a|—/i);

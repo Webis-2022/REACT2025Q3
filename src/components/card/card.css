@@ -20,3 +20,19 @@
   justify-content: space-around;
   margin-bottom: 0.7rem;
 }
+
+.gender {
+  margin-top: 2rem;
+}
+
+.gender span,
+.height span,
+.mass span,
+.birth-year span,
+.hair-color span,
+.eye-color span,
+.skin-color span {
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}

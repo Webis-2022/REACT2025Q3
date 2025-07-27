@@ -1,4 +1,3 @@
-import './pagination.css';
 import type { PaginationProps } from './pagination.types';
 import { makeApiQuery } from '../../api/api';
 import { useSearchParams } from 'react-router-dom';
@@ -60,7 +59,9 @@ export function Pagination({
         >
           &larr;
         </button>
-        <div className="page-number">{pageNum}</div>
+        <div className="page-number-container">
+          <div className="page-number">Page {pageNum}</div>
+        </div>
         <button
           className={`next-btn ${nextDisabled ? 'next-disabled' : ''}`}
           onClick={handleNextClick}

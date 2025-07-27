@@ -1,7 +1,6 @@
 import { type CardListProps } from '../card-list/card-list.types';
 import { CardList } from '../card-list/card-list';
 import { DialogWindow } from '../dialog-window/dialog-window';
-import './results.css';
 
 export function Results({
   items,
