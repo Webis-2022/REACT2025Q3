@@ -12,9 +12,9 @@ export function CardList({
   error,
 }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null
-  );
+  const [selectedCharacter, setSelectedCharacter] = useState<
+    Character | null | undefined
+  >(null);
 
   if (isLoading) {
     return <Loader />;
@@ -38,7 +38,7 @@ export function CardList({
             hasResults={hasResults}
             imgUrl={`${import.meta.env.BASE_URL}images/${character.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
             isSelected={selectedCharacter?.name === character.name}
-            onSelect={() => setSelectedCharacter(character)}
+            onSelect={(char) => setSelectedCharacter(char)}
           ></Card>
         ))}
       </ul>

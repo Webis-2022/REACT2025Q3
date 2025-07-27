@@ -11,7 +11,7 @@ export function Pagination({
   setNext,
   setPrevious,
 }: PaginationProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
@@ -27,34 +27,25 @@ export function Pagination({
   };
   const handlePrevClick = async () => {
     const [data] = await makeApiQuery(previous);
-    setItems(data.results);
-    setNext(data.next ?? null);
-    setPrevious(data.previous ?? null);
-  };
-
-  // const handleNextClick = async () => {
-  //   const [data] = await makeApiQuery(next);
-  //   setItems(data.results);
-  //   setNext(data.next ?? null);
-  //   setPrevious(data.previous ?? null);
-  //   setPageNum(pageNum + 1);
-  //   setSearchParams(String(pageNum));
-  //   console.log('===', searchParams);
-  //   handlePageChange(searchParams);
-  // };
-
-  const handleNextClick = async () => {
-    const [data] = await makeApiQuery(next);
-
-    const newPage = pageNum + 1;
-
+    const newPage = pageNum - 1;
     setItems(data.results);
     setNext(data.next ?? null);
     setPrevious(data.previous ?? null);
     setPageNum(newPage);
     setSearchParams({ page: String(newPage) });
 
-    console.log('===', searchParams);
+    handlePageChange(newPage);
+  };
+
+  const handleNextClick = async () => {
+    const [data] = await makeApiQuery(next);
+    const newPage = pageNum + 1;
+    setItems(data.results);
+    setNext(data.next ?? null);
+    setPrevious(data.previous ?? null);
+    setPageNum(newPage);
+    setSearchParams({ page: String(newPage) });
+
     handlePageChange(newPage);
   };
 

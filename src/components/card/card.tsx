@@ -5,20 +5,32 @@ import type { Character } from '../card-list/card-list.types';
 import { makeApiQuery } from '../../api/api';
 import { DetailsWindow } from '../details-window/details-window';
 import './card.css';
+import { useSearchParams } from 'react-router-dom';
 
 export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: CardProps) {
   const nameRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<Character | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const getCharacterId = () => {
+    const idMatch = character?.url?.match(/\/(\d+)\/$/);
+    if (!idMatch) return;
+    const characterId = idMatch[1];
+    return characterId;
+  }
+
 
   const handleClick = () => {
-    onSelect(data);
+    onSelect(character);
+    const characterId = getCharacterId();
+    const page = searchParams.get('page') ?? '1';
+    if (!page || !characterId) return;
+    setSearchParams({ 'page': page, 'details': characterId })
   };
 
   useEffect(() => {
     const fetchCharacterById = async () => {
-      const idMatch = character?.url?.match(/\/(\d+)\/$/);
-      if (!idMatch) return;
-      const characterId = idMatch[1];
+      const characterId = getCharacterId();
       const url = `https://swapi.py4e.com/api/people/${characterId}/`;
       const characterData = await makeApiQuery(url);
       setData(characterData[0]);
@@ -53,7 +65,11 @@ export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: Ca
       >
         {character.name}
       </div>
-      {isSelected && <DetailsWindow data={data} />}
+      {isSelected && <DetailsWindow data={data} onClose={() => {
+        onSelect(null);
+        setSearchParams({});
+      }}
+      />}
     </li>
   );
 }

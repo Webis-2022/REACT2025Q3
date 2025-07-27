@@ -1,13 +1,14 @@
-import type { Character } from '../card-list/card-list.types';
+import type { DetailsWindowProps } from './details-window.types';
+import './details-window.css';
 
-type DetailsWindowProps = {
-  data: Character | null;
-};
-
-export function DetailsWindow({ data }: DetailsWindowProps) {
-  console.log('****', data);
+export function DetailsWindow({ data, onClose }: DetailsWindowProps) {
   return (
     <div className="description">
+      <div className="close-button-container">
+        <button className="close-button" onClick={onClose}>
+          X
+        </button>
+      </div>
       <div className="gender">
         <span>Gender:</span>
         <span>
