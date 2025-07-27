@@ -25,7 +25,7 @@ export function Pagination({
     });
   };
   const handlePrevClick = async () => {
-    const [data] = await makeApiQuery(previous);
+    const [data] = await makeApiQuery<PaginationProps>(previous);
     const newPage = pageNum - 1;
     setItems(data.results);
     setNext(data.next ?? null);
@@ -37,7 +37,7 @@ export function Pagination({
   };
 
   const handleNextClick = async () => {
-    const [data] = await makeApiQuery(next);
+    const [data] = await makeApiQuery<PaginationProps>(next);
     const newPage = pageNum + 1;
     setItems(data.results);
     setNext(data.next ?? null);
@@ -56,6 +56,7 @@ export function Pagination({
         <button
           className={`prev-btn ${prevDisabled ? 'prev-disabled' : ''}`}
           onClick={handlePrevClick}
+          disabled={prevDisabled}
         >
           &larr;
         </button>
@@ -65,6 +66,7 @@ export function Pagination({
         <button
           className={`next-btn ${nextDisabled ? 'next-disabled' : ''}`}
           onClick={handleNextClick}
+          disabled={nextDisabled}
         >
           &rarr;
         </button>

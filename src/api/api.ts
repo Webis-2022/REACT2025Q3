@@ -1,4 +1,6 @@
-export async function makeApiQuery(url: string | null) {
+export async function makeApiQuery<T extends object = object>(
+  url: string | null
+): Promise<[T, Response]> {
   if (!url) {
     throw new Error('URL is required');
   }

@@ -12,7 +12,6 @@ export function Search({ onSearch, setHasResults }: SearchProps): JSX.Element {
 
   const handleSearch = () => {
     onSearch(inputValue);
-    if (!inputValue) return;
     localStorage.setItem('inputValue', inputValue.trim());
     setHasResults(false);
   };

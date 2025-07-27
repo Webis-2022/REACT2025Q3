@@ -57,7 +57,7 @@ export function Home() {
           ? `https://swapi.py4e.com/api/people`
           : `https://swapi.py4e.com/api/people/?search=${searchTerm}`;
 
-      const [data, response] = await makeApiQuery(url);
+      const [data, response] = await makeApiQuery<PaginationProps>(url);
       setFullData(data);
       console.log(data.results);
       if (

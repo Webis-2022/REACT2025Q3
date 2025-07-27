@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-export function BuggyComponent() {
+export function BuggyComponent(): React.ReactElement {
   const [throwError, setThrowError] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     setThrowError(true);
   };
   if (throwError) {
