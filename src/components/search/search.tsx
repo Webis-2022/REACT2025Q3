@@ -1,15 +1,10 @@
 import type { SearchProps } from './search.types';
-import { useState, useEffect, type JSX } from 'react';
+import { useState, type JSX } from 'react';
+import { useRestoreSearchQuery } from '../../hooks/useRestoreSearchQuery';
 
 export function Search({ onSearch, setHasResults }: SearchProps): JSX.Element {
-  const [inputValue, setInputValue] = useState<string>('');
-
-  useEffect(() => {
-    const savedInputValue = localStorage.getItem('inputValue');
-    if (savedInputValue) {
-      setInputValue(savedInputValue);
-    }
-  }, []);
+  const restoredValue = useRestoreSearchQuery();
+  const [inputValue, setInputValue] = useState<string>(restoredValue);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -17,6 +12,7 @@ export function Search({ onSearch, setHasResults }: SearchProps): JSX.Element {
 
   const handleSearch = () => {
     onSearch(inputValue);
+    if (!inputValue) return;
     localStorage.setItem('inputValue', inputValue.trim());
     setHasResults(false);
   };
