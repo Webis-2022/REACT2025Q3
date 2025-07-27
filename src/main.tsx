@@ -8,7 +8,7 @@ const rootEl = document.getElementById('root');
 if (rootEl) {
   createRoot(rootEl).render(
     <StrictMode>
-      <HashRouter basename="/REACT2025Q3/">
+      <HashRouter>
         <App />
       </HashRouter>
     </StrictMode>
