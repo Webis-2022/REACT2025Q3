@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65% </span>
+                <span class="strong">63.93% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>39/60</span>
+                <span class='fraction'>39/61</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">65% </span>
+                <span class="strong">63.93% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>39/60</span>
+                <span class='fraction'>39/61</span>
             </div>
         
             
@@ -136,14 +136,9 @@
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -160,7 +155,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -183,15 +177,12 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -211,20 +202,21 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable prettier/prettier */
-import { useRef, useEffect, useState } from 'react';
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useRef, useEffect, useState } from 'react';
 import type { CardProps } from './card.types';
 import type { Character } from '../card-list/card-list.types';
 import { makeApiQuery } from '../../api/api';
 import { DetailsWindow } from '../details-window/details-window';
-import './card.css';
 import { useSearchParams } from 'react-router-dom';
 &nbsp;
-export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: CardProps) {
+export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
   const nameRef = useRef&lt;HTMLDivElement&gt;(null);
   const [data, setData] = useState&lt;Character | null&gt;(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -234,15 +226,14 @@ export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: Ca
     if (!idMatch) <span class="branch-0 cbranch-no" title="branch not covered" >return;</span>
 <span class="cstat-no" title="statement not covered" >    const characterId = idMatch[1];</span>
 <span class="cstat-no" title="statement not covered" >    return characterId;</span>
-  }
-&nbsp;
+  };
 &nbsp;
   const handleClick = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    onSelect(character);</span>
 <span class="cstat-no" title="statement not covered" >    const characterId = getCharacterId();</span>
 <span class="cstat-no" title="statement not covered" >    const page = searchParams.get('page') ?? '1';</span>
 <span class="cstat-no" title="statement not covered" >    if (!page || !characterId) return;</span>
-<span class="cstat-no" title="statement not covered" >    setSearchParams({ 'page': page, 'details': characterId })</span>
+<span class="cstat-no" title="statement not covered" >    setSearchParams({ page: page, details: characterId });</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   useEffect(() =&gt; {
@@ -258,19 +249,16 @@ export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: Ca
   if (!character) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;li className="card"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className={`name ${hasResults ? 'no-border' : ''}`} ref={nameRef}&gt;</span>
-          No Data
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className={`description ${hasResults ? 'no-border' : ''}`}&gt;</span>
-          Unknown
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="name"&gt;No Data&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;div className="description"&gt;Unknown&lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/li&gt;</span>
     );
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
   return (
     &lt;li className="card"&gt;
-      &lt;div onClick={handleClick}
+      &lt;div
+        onClick={handleClick}
         style={{
           backgroundImage: `url(${imgUrl})`,
           backgroundSize: 'cover',
@@ -282,15 +270,18 @@ export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: Ca
       &gt;
         {character.name}
       &lt;/div&gt;
-      {<span class="branch-0 cbranch-no" title="branch not covered" >isSelected &amp;&amp; &lt;DetailsWindow data={data} onClose={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
-<span class="cstat-no" title="statement not covered" >        onSelect(null);</span>
-<span class="cstat-no" title="statement not covered" >        setSearchParams({});</span>
-<span class="cstat-no" title="statement not covered" >      }}</span>
-<span class="cstat-no" title="statement not covered" >      /&gt;}</span>
+      {<span class="branch-0 cbranch-no" title="branch not covered" >isSelected &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >        &lt;DetailsWindow</span>
+<span class="cstat-no" title="statement not covered" >          data={data}</span>
+<span class="cstat-no" title="statement not covered" >          onClose={<span class="fstat-no" title="function not covered" >() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >            onSelect(null);</span>
+<span class="cstat-no" title="statement not covered" >            setSearchParams({});</span>
+<span class="cstat-no" title="statement not covered" >          }}</span>
+<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+      )}
     &lt;/li&gt;
   );
 }
-&nbsp;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -298,7 +289,7 @@ export function Card({ character, hasResults, imgUrl, isSelected, onSelect }: Ca
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-27T08:57:25.795Z
+                at 2025-07-27T11:38:18.536Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
