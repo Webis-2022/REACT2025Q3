@@ -18,11 +18,13 @@ export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
   };
 
   const handleClick = (): void => {
-    onSelect(character);
-    const characterId = getCharacterId();
-    const page = searchParams.get('page') ?? '1';
-    if (!page || !characterId) return;
-    setSearchParams({ page: page, details: characterId });
+    if (onSelect) {
+      onSelect(character);
+      const characterId = getCharacterId();
+      const page = searchParams.get('page') ?? '1';
+      if (!page || !characterId) return;
+      setSearchParams({ page: page, details: characterId });
+    }
   };
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
         <DetailsWindow
           data={data}
           onClose={() => {
-            onSelect(null);
+            onSelect?.(null);
             setSearchParams({});
           }}
         />

@@ -59,7 +59,6 @@ export function Home() {
 
       const [data, response] = await makeApiQuery<PaginationProps>(url);
       setFullData(data);
-      console.log(data.results);
       if (
         (response.status === 404 && dialogRef.current) ||
         (response.status === 500 && dialogRef.current) ||

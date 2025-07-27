@@ -1,4 +1,3 @@
-// import type { DialogWindow } from '../dialog-window/dialog-window';
 import type { DialogWindowHandle } from '../dialog-window/dialog-window.types';
 
 export type Character = {
