@@ -4,8 +4,15 @@ import type { Character } from '../card-list/card-list.types';
 import { makeApiQuery } from '../../api/api';
 import { DetailsWindow } from '../details-window/details-window';
 import { useSearchParams } from 'react-router-dom';
+import { Checkbox } from '../checkbox/checkbox';
 
-export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
+export function Card({
+  character,
+  imgUrl,
+  isSelected,
+  onSelect,
+  index,
+}: CardProps) {
   const nameRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<Character | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,6 +55,7 @@ export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
 
   return (
     <li className="card">
+      <Checkbox index={index} />
       <div
         onClick={handleClick}
         style={{

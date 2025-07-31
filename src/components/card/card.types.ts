@@ -6,6 +6,7 @@ export type CardProps = {
   imgUrl?: string | undefined;
   isSelected?: boolean;
   onSelect?: (data: Character | null) => void;
+  index: number;
 };
 
 export const mockCharacter: Character = {

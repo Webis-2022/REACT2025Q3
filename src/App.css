@@ -8,3 +8,5 @@
 @import './components/pagination/pagination.css';
 @import './components/results/results.css';
 @import './pages/page404/page404.css';
+@import './components/checkbox/checkbox.css';
+@import './components/selected-items-panel/selected-items-panel.css';

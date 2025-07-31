@@ -8,6 +8,10 @@ import type { Character } from '../../components/card-list/card-list.types';
 import { Pagination } from '../../components/pagination/pagination';
 import { makeApiQuery } from '../../api/api';
 import type { PaginationProps } from '../../components/pagination/pagination.types';
+import { useSelector } from 'react-redux';
+import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
+import type { RootState } from '../../store';
+import { createContext } from 'react';
 
 export function Home() {
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
@@ -24,6 +28,10 @@ export function Home() {
   const [responseStatus, setResponseStatus] = useState<number | undefined>(
     undefined
   );
+  const itemArrLength: number = useSelector(
+    (state: RootState) => state.characters.selectedIds.length
+  );
+
 
   useEffect(() => {
     if (fullData) {
@@ -110,6 +118,9 @@ export function Home() {
         <ErrorBoundary>
           <BuggyComponent />
         </ErrorBoundary>
+        {itemArrLength > 0 && (
+          <SelectedItemsPanel itemArrLength={itemArrLength} />
+        )}
       </main>
     </>
   );
