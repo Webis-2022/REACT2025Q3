@@ -53,7 +53,7 @@ describe('CardList', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <MyContext.Provider value={mockItems}>
+          <MyContext.Provider value={[]}>
             <CardList isLoading={false} error={null} />
           </MyContext.Provider>
         </MemoryRouter>
@@ -67,7 +67,7 @@ describe('CardList', () => {
       <Provider store={store}>
         <MemoryRouter>
           <MyContext.Provider value={mockItems}>
-            <CardList isLoading={false} error={null} />
+            <CardList isLoading={true} error={null} />
           </MyContext.Provider>
         </MemoryRouter>
       </Provider>
@@ -108,7 +108,10 @@ describe('CardList', () => {
       <Provider store={store}>
         <MemoryRouter>
           <MyContext.Provider value={mockItems}>
-            <CardList isLoading={false} error={null} />
+            <CardList
+              isLoading={false}
+              error={"Error: Failed to execute 'json'"}
+            />
           </MyContext.Provider>
         </MemoryRouter>
       </Provider>

@@ -1,7 +1,5 @@
 import { Search } from '../../components/search/search';
 import { createContext, useEffect, useRef, useState } from 'react';
-import { BuggyComponent } from '../../components/crash-button/crash-button';
-import { ErrorBoundary } from '../../components/error-boundary/error-boundary';
 import { Results } from '../../components/results/results';
 import type { DialogWindowHandle } from '../../components/dialog-window/dialog-window.types';
 import type { Character } from '../../components/card-list/card-list.types';
@@ -110,9 +108,6 @@ export function Home() {
             setPrevious={setPrevious}
           />
         ) : null}
-        <ErrorBoundary>
-          <BuggyComponent />
-        </ErrorBoundary>
         <MyContext.Provider value={items}>
           {itemArrLength > 0 && (
             <SelectedItemsPanel itemArrLength={itemArrLength} />
