@@ -38,6 +38,7 @@ export function CardList({ isLoading, error }: CardListProps) {
             isSelected={selectedCharacter?.name === character.name}
             onSelect={(char) => setSelectedCharacter(char)}
             index={index}
+            data-testid="card"
           ></Card>
         ))}
       </ul>

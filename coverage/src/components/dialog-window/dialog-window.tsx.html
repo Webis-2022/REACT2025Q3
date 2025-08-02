@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.15% </span>
+                <span class="strong">23.07% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/26</span>
+                <span class='fraction'>6/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.15% </span>
+                <span class="strong">23.07% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/26</span>
+                <span class='fraction'>6/26</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -107,32 +107,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { forwardRef, useImperativeHandle, useRef } from 'react';
@@ -143,32 +143,32 @@ import {
 &nbsp;
 export const DialogWindow = forwardRef&lt;DialogWindowHandle, DialogWindowProps&gt;(
   ({ responseStatus }, ref) =&gt; {
-    const dialogRef = useRef&lt;HTMLDialogElement&gt;(null);
+<span class="cstat-no" title="statement not covered" >    const dialogRef = useRef&lt;HTMLDialogElement&gt;(null);</span>
 &nbsp;
-    useImperativeHandle(ref, () =&gt; ({
-      open: <span class="fstat-no" title="function not covered" >() =&gt; dialogRef.current?.showModal(),</span>
-      close: <span class="fstat-no" title="function not covered" >() =&gt; dialogRef.current?.close(),</span>
-    }));
+<span class="cstat-no" title="statement not covered" >    useImperativeHandle(ref, () =&gt; ({</span>
+<span class="cstat-no" title="statement not covered" >      open: () =&gt; dialogRef.current?.showModal(),</span>
+<span class="cstat-no" title="statement not covered" >      close: () =&gt; dialogRef.current?.close(),</span>
+<span class="cstat-no" title="statement not covered" >    }));</span>
 &nbsp;
-    return (
-      &lt;dialog className="dialog-window" ref={dialogRef}&gt;
-        {responseStatus === <span class="branch-0 cbranch-no" title="branch not covered" >404 ? (</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
+<span class="cstat-no" title="statement not covered" >      &lt;dialog className="dialog-window" ref={dialogRef}&gt;</span>
+<span class="cstat-no" title="statement not covered" >        {responseStatus === 404 ? (</span>
 <span class="cstat-no" title="statement not covered" >          &lt;p&gt;Data not found (Error 404)&lt;/p&gt;</span>
-        ) : responseStatus === 500 ? (
-          &lt;p&gt;Internal server error (Error 500)&lt;/p&gt;
+<span class="cstat-no" title="statement not covered" >        ) : responseStatus === 500 ? (</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p&gt;Internal server error (Error 500)&lt;/p&gt;</span>
         ) : (
-          &lt;p&gt;No Results&lt;/p&gt;
+<span class="cstat-no" title="statement not covered" >          &lt;p&gt;No Results&lt;/p&gt;</span>
         )}
-        &lt;button
-          className="close-btn"
-          type="button"
-          onClick={<span class="fstat-no" title="function not covered" >() =&gt; dialogRef.current?.close()}</span>
-        &gt;
+<span class="cstat-no" title="statement not covered" >        &lt;button</span>
+<span class="cstat-no" title="statement not covered" >          className="close-btn"</span>
+<span class="cstat-no" title="statement not covered" >          type="button"</span>
+<span class="cstat-no" title="statement not covered" >          onClick={() =&gt; dialogRef.current?.close()}</span>
+<span class="cstat-no" title="statement not covered" >        &gt;</span>
           Close
-        &lt;/button&gt;
-      &lt;/dialog&gt;
+<span class="cstat-no" title="statement not covered" >        &lt;/button&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/dialog&gt;</span>
     );
-  }
+<span class="cstat-no" title="statement not covered" >  }</span>
 );
 DialogWindow.displayName = 'DialogWindow';
 &nbsp;</pre></td></tr></table></pre>
@@ -178,7 +178,7 @@ DialogWindow.displayName = 'DialogWindow';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-31T18:01:00.437Z
+                at 2025-08-02T13:57:52.220Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

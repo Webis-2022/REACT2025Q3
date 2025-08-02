@@ -2,15 +2,28 @@ import { Search } from './search';
 import { screen, render, waitFor } from '@testing-library/react';
 import { it, describe, expect, vi, beforeEach } from 'vitest';
 import { userEvent } from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import characterReducer from '../../store/characterSlice';
+import { configureStore } from '@reduxjs/toolkit';
 
 describe('Search', () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
+  const mockStore = configureStore({
+    reducer: {
+      characters: characterReducer,
+    },
+  });
+
   const setup = () => {
     const onSearch = vi.fn();
-    render(<Search onSearch={onSearch} />);
+    render(
+      <Provider store={mockStore}>
+        <Search onSearch={onSearch} />
+      </Provider>
+    );
     const input = screen.getByRole('textbox');
     const button = screen.getByText(/search/i);
     const user = userEvent.setup();

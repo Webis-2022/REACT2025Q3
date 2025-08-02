@@ -37,27 +37,40 @@ describe('CardList', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <CardList isLoading={false} error={null} />
+          <MyContext.Provider value={mockItems}>
+            <CardList isLoading={false} error={null} />
+          </MyContext.Provider>
         </MemoryRouter>
       </Provider>
     );
-    const cards = screen.getAllByRole('listitem');
+
+    const cards = screen.getAllByTestId('card');
+    console.log(cards);
+    console.log(mockItems.length);
     expect(cards).toHaveLength(mockItems.length);
   });
   it('displays "no results" message when data array is empty', () => {
     render(
-      <MyContext.Provider value={mockItems}>
-        <CardList isLoading={false} error={null} />
-      </MyContext.Provider>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MyContext.Provider value={mockItems}>
+            <CardList isLoading={false} error={null} />
+          </MyContext.Provider>
+        </MemoryRouter>
+      </Provider>
     );
     const noResultsMessage = screen.getByText(/no results/i);
     expect(noResultsMessage).toBeInTheDocument();
   });
   it('shows loading state while fetching data', () => {
     render(
-      <MyContext.Provider value={mockItems}>
-        <CardList isLoading={false} error={null} />
-      </MyContext.Provider>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MyContext.Provider value={mockItems}>
+            <CardList isLoading={false} error={null} />
+          </MyContext.Provider>
+        </MemoryRouter>
+      </Provider>
     );
     const loader = screen.getByRole('status', { name: /loading/i });
     expect(loader).toBeInTheDocument();
@@ -92,9 +105,13 @@ describe('CardList', () => {
   });
   it('displays error message when API call fails', () => {
     render(
-      <MyContext.Provider value={mockItems}>
-        <CardList isLoading={false} error={null} />
-      </MyContext.Provider>
+      <Provider store={store}>
+        <MemoryRouter>
+          <MyContext.Provider value={mockItems}>
+            <CardList isLoading={false} error={null} />
+          </MyContext.Provider>
+        </MemoryRouter>
+      </Provider>
     );
     expect(
       screen.getByText(/Error: Failed to execute 'json'/)

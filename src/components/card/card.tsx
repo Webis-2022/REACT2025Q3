@@ -46,7 +46,7 @@ export function Card({
 
   if (!character) {
     return (
-      <li className="card">
+      <li className="card" data-testid="card">
         <div className="name">No Data</div>
         <div className="description">Unknown</div>
       </li>
@@ -54,7 +54,7 @@ export function Card({
   }
 
   return (
-    <li className="card">
+    <li className="card" data-testid="card">
       <Checkbox index={index} />
       <div
         onClick={handleClick}
