@@ -2,7 +2,14 @@ header {
   background-color: #000;
   height: 5.2rem;
   align-items: center;
+  display: flex;
+  justify-content: space-between;
 }
+
+#theme-color {
+  margin-left: 1.8rem;
+}
+
 
 h1.app-title {
   color: #fff;
@@ -13,7 +20,7 @@ h1.app-title {
 .navigation-container {
   display: flex;
   justify-content: end;
-  margin-right: 0.8rem;
+  margin-right: 1.8rem;
 }
 
 .navigation {

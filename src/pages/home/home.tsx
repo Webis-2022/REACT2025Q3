@@ -1,5 +1,5 @@
 import { Search } from '../../components/search/search';
-import { useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import { BuggyComponent } from '../../components/crash-button/crash-button';
 import { ErrorBoundary } from '../../components/error-boundary/error-boundary';
 import { Results } from '../../components/results/results';
@@ -11,7 +11,8 @@ import type { PaginationProps } from '../../components/pagination/pagination.typ
 import { useSelector } from 'react-redux';
 import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
 import type { RootState } from '../../store';
-import { createContext } from 'react';
+
+export const MyContext = createContext<Character[] | null>(null);
 
 export function Home() {
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
@@ -23,7 +24,6 @@ export function Home() {
     fullData ? fullData.previous : null
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [hasResults, setHasResults] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [responseStatus, setResponseStatus] = useState<number | undefined>(
     undefined
@@ -31,7 +31,6 @@ export function Home() {
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
   );
-
 
   useEffect(() => {
     if (fullData) {
@@ -80,7 +79,6 @@ export function Home() {
       }
       setItems(data.results);
       setIsLoading(false);
-      setHasResults(data.results.length > 0);
       setResponseStatus(response.status);
     } catch (error) {
       setError((error as Error).message);
@@ -88,22 +86,19 @@ export function Home() {
     }
   };
 
-  const updateHasResults = (value: boolean) => {
-    setHasResults(value);
-  };
-
   return (
     <>
       <main>
-        <Search onSearch={handleSearch} setHasResults={updateHasResults} />
-        <Results
-          items={items}
-          isLoading={isLoading}
-          hasResults={hasResults}
-          error={error}
-          dialogRef={dialogRef}
-          responseStatus={responseStatus}
-        />
+        <Search onSearch={handleSearch} />
+        <MyContext.Provider value={items}>
+          <Results
+            // items={items}
+            isLoading={isLoading}
+            error={error}
+            dialogRef={dialogRef}
+            responseStatus={responseStatus}
+          />
+        </MyContext.Provider>
         {fullData && fullData.count > 10 ? (
           <Pagination
             count={fullData.count}
@@ -118,9 +113,11 @@ export function Home() {
         <ErrorBoundary>
           <BuggyComponent />
         </ErrorBoundary>
-        {itemArrLength > 0 && (
-          <SelectedItemsPanel itemArrLength={itemArrLength} />
-        )}
+        <MyContext.Provider value={items}>
+          {itemArrLength > 0 && (
+            <SelectedItemsPanel itemArrLength={itemArrLength} />
+          )}
+        </MyContext.Provider>
       </main>
     </>
   );

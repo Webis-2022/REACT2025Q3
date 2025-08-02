@@ -10,13 +10,12 @@ describe('Search', () => {
 
   const setup = () => {
     const onSearch = vi.fn();
-    const setHasResults = vi.fn();
-    render(<Search onSearch={onSearch} setHasResults={setHasResults} />);
+    render(<Search onSearch={onSearch} />);
     const input = screen.getByRole('textbox');
     const button = screen.getByText(/search/i);
     const user = userEvent.setup();
 
-    return { input, button, user, onSearch, setHasResults };
+    return { input, button, user, onSearch };
   };
   it('search input exists', () => {
     setup();

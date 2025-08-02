@@ -2,7 +2,6 @@ import { type Character } from '../card-list/card-list.types';
 
 export type CardProps = {
   character: Character | null;
-  hasResults?: boolean;
   imgUrl?: string | undefined;
   isSelected?: boolean;
   onSelect?: (data: Character | null) => void;

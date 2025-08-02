@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { Home } from '../home/home';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 type Character = { name: string };
 
@@ -18,12 +20,20 @@ describe('App', () => {
   });
   it('makes initial API call on component mount', () => {
     globalThis.fetch = mockFunction();
-    render(<Home />);
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
     expect(fetch).toHaveBeenCalledWith('https://swapi.py4e.com/api/people');
   });
   it('handles search term from localStorage on initial load', () => {
     const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
-    render(<Home />);
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
     expect(getItemSpy).toHaveBeenCalledTimes(2);
   });
   it('manages loading states during API calls', async () => {
@@ -37,7 +47,11 @@ describe('App', () => {
         }, 20);
       });
     });
-    render(<Home />);
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
 
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: 'Luke' },
@@ -95,7 +109,11 @@ describe('App', () => {
   });
 
   it('should call base API URL on initial load', async () => {
-    render(<Home />);
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
 
     await waitFor(() => {
       expect(globalThis.fetch).toHaveBeenCalledWith(
@@ -105,7 +123,11 @@ describe('App', () => {
   });
 
   it('calls API with search term', () => {
-    render(<Home />);
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
     const searchTerm = 'Luke';
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: searchTerm },
@@ -116,7 +138,11 @@ describe('App', () => {
     );
   });
   it('calls API with no search term', () => {
-    render(<Home />);
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
     const searchTerm = ' ';
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: searchTerm },

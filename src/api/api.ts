@@ -6,7 +6,7 @@ export async function makeApiQuery<T extends object = object>(
   }
 
   const response = await fetch(url);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 4000));
   const data = await response.json();
 
   return [data, response];
