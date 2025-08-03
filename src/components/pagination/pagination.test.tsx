@@ -22,6 +22,6 @@ describe('Pagination', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/page/i)).toBeInTheDocument();
+    expect(screen.getByText(/page 1/i)).toBeInTheDocument();
   });
 });
