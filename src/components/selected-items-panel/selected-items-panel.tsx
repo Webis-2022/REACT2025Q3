@@ -4,13 +4,12 @@ import { clearSelection } from '../../store/characterSlice';
 import { useContext } from 'react';
 import { MyContext } from '../../pages/home/home';
 import type { RootState } from '../../store';
+import type { Character } from '../card-list/card-list.types';
 
-export function SelectedItemsPanel({ itemArrLength }: SelectedItemsPanelProps) {
-  const dispatch = useDispatch();
-  const selectedIds = useSelector(
-    (state: RootState) => state.characters.selectedIds
-  );
-  const items = useContext(MyContext);
+export const downloadFile = (
+  selectedIds: number[],
+  items: Character[] | null
+) => {
   const headers = [
     'Id',
     'Name',
@@ -41,19 +40,25 @@ export function SelectedItemsPanel({ itemArrLength }: SelectedItemsPanelProps) {
     .map((row) => row.map((cell) => `"${cell}"`).join(','))
     .join('\n');
 
-  const downloadFile = () => {
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${filteredRows?.length || 0}_items.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
-  };
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${filteredRows?.length || 0}_items.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
+export function SelectedItemsPanel({ itemArrLength }: SelectedItemsPanelProps) {
+  const dispatch = useDispatch();
+  const selectedIds = useSelector(
+    (state: RootState) => state.characters.selectedIds
+  );
+  const items = useContext(MyContext);
 
   return (
-    <div className="panel-container">
+    <div className="panel-container" data-testid="panel-container">
       <div className="panel-container-content">
         <p className="panel-container-text">
           {itemArrLength}{' '}
@@ -66,7 +71,10 @@ export function SelectedItemsPanel({ itemArrLength }: SelectedItemsPanelProps) {
           >
             Unselect
           </button>
-          <button className="download-btn" onClick={() => downloadFile()}>
+          <button
+            className="download-btn"
+            onClick={() => downloadFile(selectedIds, items)}
+          >
             Download
           </button>
         </div>
