@@ -4,10 +4,11 @@ import { useTheme } from '../theme-context/theme-context';
 export function Header() {
   const { theme, setTheme } = useTheme();
   return (
-    <header>
+    <header data-testid="header">
       <select
         name="theme-color"
         id="theme-color"
+        data-testid="select-input"
         value={theme}
         onChange={(e) => setTheme(e.target.value as 'light' | 'dark')}
       >

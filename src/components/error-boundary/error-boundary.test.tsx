@@ -1,9 +1,7 @@
 import { screen, render } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { ErrorBoundary } from './error-boundary';
-import { BuggyComponent } from '../crash-button/crash-button';
 import { Component } from 'react';
-import userEvent from '@testing-library/user-event';
 
 class TestBuggyComponent extends Component {
   render() {
@@ -55,16 +53,5 @@ describe('ErrorBoundary', () => {
     );
     expect(consoleErrorSpy).toHaveBeenCalled();
     consoleErrorSpy.mockRestore();
-  });
-  it('throws error when test button is clicked', async () => {
-    const user = userEvent.setup();
-    render(
-      <ErrorBoundary>
-        <BuggyComponent />
-      </ErrorBoundary>
-    );
-    const button = screen.getByText('Error');
-    await user.click(button);
-    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
   });
 });

@@ -9,6 +9,7 @@ export function Layout() {
       <div
         className={theme === 'dark' ? 'dark-theme' : 'light-theme'}
         style={{ minHeight: '100vh' }}
+        data-testid="layout"
       >
         <Header />
         <main>
