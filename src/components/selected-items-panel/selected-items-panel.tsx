@@ -21,19 +21,22 @@ export const downloadFile = (
     'Skin Color',
   ];
 
-  const rows = items?.map((character, index) => [
-    index,
-    character.name,
-    character.height,
-    character.mass,
-    character.birth_year,
-    character.hair_color,
-    character.eye_color,
-    character.skin_color,
-  ]);
+  const rows: (string | number | null | undefined)[][] =
+    items?.map((character, index) => [
+      index,
+      character.name,
+      character.height,
+      character.mass,
+      character.birth_year,
+      character.hair_color,
+      character.eye_color,
+      character.skin_color,
+    ]) ?? [];
 
-  const filteredRows = rows?.filter(
-    (row, index) => row[0] === selectedIds[index]
+  console.log('+++', rows);
+
+  const filteredRows = rows?.filter((row) =>
+    selectedIds.includes(row[0] as number)
   );
 
   const csvContent = [headers, ...(filteredRows ?? [])]

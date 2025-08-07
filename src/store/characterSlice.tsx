@@ -3,6 +3,7 @@ import type { CharactersState } from './characterSlice.types';
 
 const initialState: CharactersState = {
   selectedIds: [],
+  currentPage: 1,
 };
 
 const characterSlice = createSlice({
@@ -20,8 +21,12 @@ const characterSlice = createSlice({
     clearSelection(state) {
       state.selectedIds = [];
     },
+    setCurrentPage(state, action) {
+      state.currentPage = action.payload;
+    },
   },
 });
 
-export const { toggleSelection, clearSelection } = characterSlice.actions;
+export const { toggleSelection, clearSelection, setCurrentPage } =
+  characterSlice.actions;
 export default characterSlice.reducer;

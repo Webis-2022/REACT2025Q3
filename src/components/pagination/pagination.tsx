@@ -32,7 +32,6 @@ export function Pagination({
     setPrevious(data.previous ?? null);
     setPageNum(newPage);
     setSearchParams({ page: String(newPage) });
-
     handlePageChange(newPage);
   };
 
@@ -44,7 +43,6 @@ export function Pagination({
     setPrevious(data.previous ?? null);
     setPageNum(newPage);
     setSearchParams({ page: String(newPage) });
-
     handlePageChange(newPage);
   };
 
