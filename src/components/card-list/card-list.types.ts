@@ -14,7 +14,7 @@ export type Character = {
 
 export type CardListProps = {
   isLoading: boolean;
-  error: string | null;
+  error: string | null | unknown;
   dialogRef?: React.RefObject<DialogWindowHandle | null>;
   responseStatus?: number | undefined;
 };

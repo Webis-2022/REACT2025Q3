@@ -14,6 +14,7 @@ export function CardList({ isLoading, error }: CardListProps) {
   >(null);
 
   const items = useContext(MyContext);
+  console.log('%%%', items);
 
   if (isLoading) {
     return <Loader />;
@@ -25,7 +26,12 @@ export function CardList({ isLoading, error }: CardListProps) {
           className="error-message"
           style={{ textAlign: 'center', marginTop: '20px' }}
         >
-          Error: {error}
+          <p
+            className="error-message"
+            style={{ textAlign: 'center', marginTop: '20px' }}
+          >
+            Error: {error?.toString()}
+          </p>
         </p>
       ) : null}
 

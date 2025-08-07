@@ -4,11 +4,11 @@ import { Results } from '../../components/results/results';
 import type { DialogWindowHandle } from '../../components/dialog-window/dialog-window.types';
 import type { Character } from '../../components/card-list/card-list.types';
 import { Pagination } from '../../components/pagination/pagination';
-import { makeApiQuery } from '../../api/api';
 import type { PaginationProps } from '../../components/pagination/pagination.types';
 import { useSelector } from 'react-redux';
 import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
 import type { RootState } from '../../store';
+import { useLazyGetCharactersQuery } from '../../services/api';
 
 export const MyContext = createContext<Character[] | null>(null);
 
@@ -21,15 +21,13 @@ export function Home() {
   const [previous, setPrevious] = useState<string | null>(
     fullData ? fullData.previous : null
   );
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [responseStatus, setResponseStatus] = useState<number | undefined>(
     undefined
   );
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
   );
-
+  const [trigger, { isLoading, error }] = useLazyGetCharactersQuery();
   useEffect(() => {
     if (fullData) {
       setNext(fullData.next);
@@ -54,33 +52,36 @@ export function Home() {
 
   const handleSearch = async (searchTerm: string) => {
     try {
-      setIsLoading(true);
-      setError(null);
-
       const url =
         searchTerm === ''
           ? `https://swapi.py4e.com/api/people`
           : `https://swapi.py4e.com/api/people/?search=${searchTerm}`;
 
-      const [data, response] = await makeApiQuery<PaginationProps>(url);
-      setFullData(data);
-      if (
-        (response.status === 404 && dialogRef.current) ||
-        (response.status === 500 && dialogRef.current) ||
-        (data.count === 0 && dialogRef.current)
-      ) {
+      const result = await trigger(url).unwrap();
+      console.log(result);
+
+      setFullData(result);
+      setItems(result?.results);
+
+      if (result.count === 0 && dialogRef.current) {
         openDialog();
-        setItems([]);
-        setIsLoading(false);
-        setError(null);
-        return;
+        setResponseStatus(404);
+      } else {
+        setResponseStatus(200);
       }
-      setItems(data.results);
-      setIsLoading(false);
-      setResponseStatus(response.status);
-    } catch (error) {
-      setError((error as Error).message);
-      setIsLoading(false);
+    } catch (error: unknown) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'status' in error &&
+        typeof (error as { status: number }).status === 'number'
+      ) {
+        const status = (error as { status: number }).status;
+        if ((status === 404 || status === 500) && dialogRef.current) {
+          openDialog();
+          setResponseStatus(status);
+        }
+      }
     }
   };
 
@@ -90,7 +91,6 @@ export function Home() {
         <Search onSearch={handleSearch} />
         <MyContext.Provider value={items}>
           <Results
-            // items={items}
             isLoading={isLoading}
             error={error}
             dialogRef={dialogRef}
