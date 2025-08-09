@@ -33,8 +33,6 @@ export const downloadFile = (
       character.skin_color,
     ]) ?? [];
 
-  console.log('+++', rows);
-
   const filteredRows = rows?.filter((row) =>
     selectedIds.includes(row[0] as number)
   );

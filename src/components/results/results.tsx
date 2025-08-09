@@ -3,6 +3,7 @@ import { CardList } from '../card-list/card-list';
 import { DialogWindow } from '../dialog-window/dialog-window';
 
 export function Results({
+  page,
   isLoading,
   error,
   dialogRef,
@@ -10,7 +11,7 @@ export function Results({
 }: CardListProps) {
   return (
     <div className="results">
-      <CardList isLoading={isLoading} error={error} />
+      <CardList isLoading={isLoading} error={error} page={page} />
       <DialogWindow ref={dialogRef} responseStatus={responseStatus} />
     </div>
   );

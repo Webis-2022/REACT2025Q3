@@ -8,6 +8,9 @@ describe('Pagination', () => {
     render(
       <MemoryRouter>
         <Pagination
+          currentPage={1}
+          // eslint-disable-next-line prettier/prettier
+          onPageChange={() => { }}
           count={10}
           next="https://api.example.com/page=2"
           previous={null}

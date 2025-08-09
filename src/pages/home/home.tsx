@@ -13,6 +13,7 @@ import { useLazyGetCharactersQuery } from '../../services/api';
 export const MyContext = createContext<Character[] | null>(null);
 
 export function Home() {
+  const [page, setPage] = useState(1);
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
   const [items, setItems] = useState<Character[]>([]);
   const [next, setNext] = useState<string | null>(
@@ -52,13 +53,7 @@ export function Home() {
 
   const handleSearch = async (searchTerm: string) => {
     try {
-      const url =
-        searchTerm === ''
-          ? `https://swapi.py4e.com/api/people`
-          : `https://swapi.py4e.com/api/people/?search=${searchTerm}`;
-
-      const result = await trigger(url).unwrap();
-      console.log(result);
+      const result = await trigger({ search: searchTerm }).unwrap();
 
       setFullData(result);
       setItems(result?.results);
@@ -91,6 +86,7 @@ export function Home() {
         <Search onSearch={handleSearch} />
         <MyContext.Provider value={items}>
           <Results
+            page={page}
             isLoading={isLoading}
             error={error}
             dialogRef={dialogRef}
@@ -99,6 +95,8 @@ export function Home() {
         </MyContext.Provider>
         {fullData && fullData.count > 10 ? (
           <Pagination
+            currentPage={page}
+            onPageChange={setPage}
             count={fullData.count}
             next={next}
             previous={previous}

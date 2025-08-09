@@ -38,15 +38,13 @@ describe('CardList', () => {
       <Provider store={store}>
         <MemoryRouter>
           <MyContext.Provider value={mockItems}>
-            <CardList isLoading={false} error={null} />
+            <CardList page={1} isLoading={false} error={null} />
           </MyContext.Provider>
         </MemoryRouter>
       </Provider>
     );
 
     const cards = screen.getAllByTestId('card');
-    console.log(cards);
-    console.log(mockItems.length);
     expect(cards).toHaveLength(mockItems.length);
   });
   it('displays "no results" message when data array is empty', () => {
@@ -54,7 +52,7 @@ describe('CardList', () => {
       <Provider store={store}>
         <MemoryRouter>
           <MyContext.Provider value={[]}>
-            <CardList isLoading={false} error={null} />
+            <CardList page={1} isLoading={false} error={null} />
           </MyContext.Provider>
         </MemoryRouter>
       </Provider>
@@ -67,7 +65,7 @@ describe('CardList', () => {
       <Provider store={store}>
         <MemoryRouter>
           <MyContext.Provider value={mockItems}>
-            <CardList isLoading={true} error={null} />
+            <CardList page={1} isLoading={true} error={null} />
           </MyContext.Provider>
         </MemoryRouter>
       </Provider>
@@ -94,7 +92,7 @@ describe('CardList', () => {
       <Provider store={store}>
         <MemoryRouter>
           <MyContext.Provider value={mockItems}>
-            <CardList isLoading={false} error={null} />
+            <CardList page={1} isLoading={false} error={null} />
           </MyContext.Provider>
         </MemoryRouter>
       </Provider>
@@ -109,6 +107,7 @@ describe('CardList', () => {
         <MemoryRouter>
           <MyContext.Provider value={mockItems}>
             <CardList
+              page={1}
               isLoading={false}
               error={"Error: Failed to execute 'json'"}
             />
@@ -122,7 +121,7 @@ describe('CardList', () => {
   });
   describe('CardList', () => {
     it('shows/hides based on loading prop', () => {
-      render(<CardList isLoading={true} error={null} />);
+      render(<CardList page={1} isLoading={true} error={null} />);
       expect(screen.getByRole('status')).toBeInTheDocument();
     });
   });

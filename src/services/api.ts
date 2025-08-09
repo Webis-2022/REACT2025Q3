@@ -1,36 +1,23 @@
-import { type BaseQueryFn } from '@reduxjs/toolkit/query';
-import type { FetchArgs } from '@reduxjs/toolkit/query';
-// import type { Character } from '../components/card-list/card-list.types';
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import type { PaginationProps } from '../components/pagination/pagination.types';
-
-const customBaseQuery: BaseQueryFn<
-  string | FetchArgs,
-  PaginationProps,
-  unknown,
-  object,
-  { response?: Response }
-> = async (args) => {
-  const rawResponse = await fetch(typeof args === 'string' ? args : args.url);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const data = await rawResponse.json();
-
-  return {
-    data,
-    meta: {
-      response: rawResponse,
-    },
-  };
-};
 
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: customBaseQuery,
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.py4e.com/api/' }),
   endpoints: (builder) => ({
-    getCharacters: builder.query<PaginationProps, string>({
-      query: (url) => url,
+    getCharacters: builder.query({
+      query: ({ search = '', page = 1 }) =>
+        `people/?search=${search}&page=${page}`,
+    }),
+    getCharacterById: builder.query({
+      query: (id) => `people/${id}/`,
     }),
   }),
 });
 
-export const { useGetCharactersQuery, useLazyGetCharactersQuery } = api;
+export const {
+  useGetCharactersQuery,
+  useLazyGetCharactersQuery,
+  useGetCharacterByIdQuery,
+  useLazyGetCharacterByIdQuery,
+} = api;

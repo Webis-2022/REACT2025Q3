@@ -3,6 +3,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { Home } from '../home/home';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
+import { MemoryRouter } from 'react-router-dom';
 
 type Character = { name: string };
 
@@ -22,7 +23,9 @@ describe('App', () => {
     globalThis.fetch = mockFunction();
     render(
       <Provider store={store}>
-        <Home />
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
       </Provider>
     );
     expect(fetch).toHaveBeenCalledWith('https://swapi.py4e.com/api/people');
@@ -31,7 +34,9 @@ describe('App', () => {
     const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
     render(
       <Provider store={store}>
-        <Home />
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
       </Provider>
     );
     expect(getItemSpy).toHaveBeenCalledTimes(2);
@@ -49,7 +54,9 @@ describe('App', () => {
     });
     render(
       <Provider store={store}>
-        <Home />
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -111,7 +118,9 @@ describe('App', () => {
   it('should call base API URL on initial load', async () => {
     render(
       <Provider store={store}>
-        <Home />
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
       </Provider>
     );
 
@@ -125,7 +134,9 @@ describe('App', () => {
   it('calls API with search term', () => {
     render(
       <Provider store={store}>
-        <Home />
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
       </Provider>
     );
     const searchTerm = 'Luke';
@@ -140,7 +151,9 @@ describe('App', () => {
   it('calls API with no search term', () => {
     render(
       <Provider store={store}>
-        <Home />
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
       </Provider>
     );
     const searchTerm = ' ';
