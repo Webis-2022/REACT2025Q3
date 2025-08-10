@@ -55,7 +55,7 @@ describe('CardList', () => {
       <Provider store={store}>
         <MemoryRouter>
           <MyContext.Provider value={mockItems}>
-            <CardList page={1} isLoading={false} error={null} />
+            <CardList page={1} />
           </MyContext.Provider>
         </MemoryRouter>
       </Provider>
@@ -68,13 +68,13 @@ describe('CardList', () => {
   it('shows loading state while fetching data', () => {
     (api.useGetCharactersQuery as Mock).mockReturnValue({
       data: { results: mockItems },
-      isLoading: false,
+      isLoading: true,
       error: null,
     });
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <CardList page={1} isLoading={true} error={null} />
+          <CardList page={1} />
         </MemoryRouter>
       </Provider>
     );
@@ -104,7 +104,7 @@ describe('CardList', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <CardList page={1} isLoading={false} error={null} />
+          <CardList page={1} />
         </MemoryRouter>
       </Provider>
     );
@@ -116,28 +116,36 @@ describe('CardList', () => {
     (api.useGetCharactersQuery as Mock).mockReturnValue({
       data: { results: mockItems },
       isLoading: false,
-      error: null,
+      error: { status: 404, data: {} },
     });
     render(
       <Provider store={store}>
         <MemoryRouter>
           <MyContext.Provider value={mockItems}>
-            <CardList
-              page={1}
-              isLoading={false}
-              error={"Error: Failed to execute 'json'"}
-            />
+            <CardList page={1} />
           </MyContext.Provider>
         </MemoryRouter>
       </Provider>
     );
-    expect(
-      screen.getByText(/Error: Failed to execute 'json'/)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/404/)).toBeInTheDocument();
   });
   describe('CardList', () => {
     it('shows/hides based on loading prop', () => {
-      render(<CardList page={1} isLoading={true} error={null} />);
+      (api.useGetCharactersQuery as unknown as Mock).mockReturnValue({
+        data: undefined,
+        isLoading: true,
+        isFetching: false,
+        error: null,
+      });
+      render(
+        <Provider store={store}>
+          <MemoryRouter>
+            <MyContext.Provider value={mockItems}>
+              <CardList page={1} />
+            </MyContext.Provider>
+          </MemoryRouter>
+        </Provider>
+      );
       expect(screen.getByRole('status')).toBeInTheDocument();
     });
   });

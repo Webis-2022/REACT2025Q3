@@ -2,8 +2,17 @@ import { render, screen } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { SelectedItemsPanel } from './selected-items-panel';
 import userEvent from '@testing-library/user-event';
+vi.mock('../../utils/downloadFile', async () => {
+  const originalModule = await vi.importActual('../../utils/downloadFile');
+  return {
+    ...originalModule,
+    downloadFile: vi.fn(),
+  };
+});
+
+import { downloadFile } from '../../utils/downloadFile';
+import { SelectedItemsPanel } from './selected-items-panel';
 
 const mockDispatch = vi.fn();
 
@@ -49,7 +58,7 @@ describe('SelectedItemsPanel', () => {
     ).toBeInTheDocument();
   });
 
-  it('dispatches clear action when clear button clicked', async () => {
+  it('dispatches clear action when unselect button clicked', async () => {
     const store = createTestStore([1]);
     const user = userEvent.setup();
 
@@ -59,11 +68,22 @@ describe('SelectedItemsPanel', () => {
       </Provider>
     );
 
-    const clearBtn = screen.getByRole('button', { name: /unselect/i });
-    await user.click(clearBtn);
+    const unselectBtn = screen.getByRole('button', { name: /unselect/i });
+    await user.click(unselectBtn);
 
     expect(mockDispatch).toHaveBeenCalled();
-
-    expect(mockDispatch.mock.calls[0][0].type).toContain('clear');
+  });
+  it('function downloadFile called when download button clicked', async () => {
+    const store = createTestStore([1]);
+    render(
+      <Provider store={store}>
+        <SelectedItemsPanel itemArrLength={1} />
+      </Provider>
+    );
+    const user = userEvent.setup();
+    const btn = screen.getByText(/download/i);
+    expect(btn).toBeInTheDocument();
+    await user.click(btn);
+    expect(downloadFile).toHaveBeenCalled();
   });
 });

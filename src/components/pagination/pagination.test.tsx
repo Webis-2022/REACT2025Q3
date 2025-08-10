@@ -15,6 +15,7 @@ describe('Pagination', () => {
             // eslint-disable-next-line prettier/prettier
             onPageChange={() => { }}
             count={11}
+            results={[]}
           />
         </MemoryRouter>
       </Provider>

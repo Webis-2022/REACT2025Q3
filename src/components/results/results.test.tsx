@@ -9,13 +9,7 @@ describe('Results', () => {
   it('shows appropriate error for different HTTP status codes (4xx, 5xx)', () => {
     render(
       <Provider store={store}>
-        <Results
-          page={1}
-          isLoading={false}
-          error="Server error"
-          dialogRef={createRef()}
-          responseStatus={500}
-        />
+        <Results page={1} dialogRef={createRef()} responseStatus={500} />
       </Provider>
     );
     expect(screen.getByText(/500/i)).toBeInTheDocument();

@@ -30,14 +30,14 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
     }
   };
 
+  const nextDisabled = data?.next === null;
+  const prevDisabled = data?.previous === null;
+
   if (!data) {
     if (error && 'status' in error) {
       return <div>Error: {error.status}</div>;
     }
   }
-  const nextDisabled = data.next === null;
-  const prevDisabled = data.previous === null;
-
   return (
     <>
       <div className="pagination-container">

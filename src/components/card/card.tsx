@@ -4,7 +4,7 @@ import { DetailsWindow } from '../details-window/details-window';
 import { useSearchParams } from 'react-router-dom';
 import { Checkbox } from '../checkbox/checkbox';
 import { useLazyGetCharacterByIdQuery } from '../../services/api';
-import type { PaginationProps } from '../pagination/pagination.types';
+import type { Character } from '../card-list/card-list.types';
 
 export function Card({
   character,
@@ -14,7 +14,7 @@ export function Card({
   index,
 }: CardProps) {
   const nameRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState<PaginationProps | null>(null);
+  const [data, setData] = useState<Character | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   // eslint-disable-next-line no-empty-pattern, prettier/prettier
   const [trigger, { }] = useLazyGetCharacterByIdQuery();

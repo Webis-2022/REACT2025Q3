@@ -1,6 +1,6 @@
-import type { PaginationProps } from '../pagination/pagination.types';
+import type { Character } from '../card-list/card-list.types';
 
 export type DetailsWindowProps = {
-  data: PaginationProps | null;
+  data: Character | null;
   onClose: () => void;
 };

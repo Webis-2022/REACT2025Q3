@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
 import type { RootState } from '../../store';
 import { useLazyGetCharactersQuery } from '../../services/api';
-import { Loader } from '../../components/loader/loader';
 
 export const MyContext = createContext<Character[] | null>(null);
 
@@ -23,8 +22,7 @@ export function Home() {
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
   );
-  const [trigger, { isLoading, isFetching, error }] =
-    useLazyGetCharactersQuery();
+  const [trigger, { isLoading }] = useLazyGetCharactersQuery();
 
   const dialogRef = useRef<DialogWindowHandle>(null);
 
@@ -82,12 +80,9 @@ export function Home() {
           disabled={isLoading}
         >
           Refresh
-          {isFetching ? <Loader /> : null}
         </button>
         <Results
           page={page}
-          isLoading={isLoading}
-          error={error}
           dialogRef={dialogRef}
           responseStatus={responseStatus}
         />
@@ -96,6 +91,7 @@ export function Home() {
             currentPage={page}
             onPageChange={setPage}
             count={fullData.count}
+            results={items}
           />
         ) : null}
         <MyContext.Provider value={items}>
