@@ -6,14 +6,14 @@ import { DialogWindow } from '../dialog-window/dialog-window';
 import type { DialogWindowHandle } from '../dialog-window/dialog-window.types';
 import { useGetCharactersQuery } from '../../services/api';
 
-export function CardList({ isLoading, error, page }: CardListProps) {
+export function CardList({ page }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<
     Character | null | undefined
   >(null);
 
   const search = localStorage.getItem('inputValue');
-  const { data } = useGetCharactersQuery({ search, page });
+  const { data, isLoading, error } = useGetCharactersQuery({ search, page });
 
   if (isLoading) {
     return <Loader />;
@@ -25,7 +25,12 @@ export function CardList({ isLoading, error, page }: CardListProps) {
     <>
       {error && (
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <p>Error: {error.toString()}</p>
+          <p>
+            Error:{' '}
+            {'status' in error
+              ? `Status ${error.status}`
+              : JSON.stringify(error)}
+          </p>
         </div>
       )}
 

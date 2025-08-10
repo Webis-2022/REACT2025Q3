@@ -17,6 +17,7 @@ export function Search({ onSearch }: SearchProps): JSX.Element {
     onSearch(inputValue);
     localStorage.setItem('inputValue', inputValue.trim());
   };
+
   return (
     <div className="search">
       <input

@@ -15,15 +15,6 @@ describe('Pagination', () => {
             // eslint-disable-next-line prettier/prettier
             onPageChange={() => { }}
             count={11}
-            next="https://api.example.com/page=2"
-            previous={null}
-            results={Array(20).fill({})}
-            // eslint-disable-next-line prettier/prettier
-            setItems={() => { }}
-            // eslint-disable-next-line prettier/prettier
-            setNext={() => { }}
-            // eslint-disable-next-line prettier/prettier
-            setPrevious={() => { }}
           />
         </MemoryRouter>
       </Provider>

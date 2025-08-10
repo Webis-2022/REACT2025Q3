@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
 import type { RootState } from '../../store';
 import { useLazyGetCharactersQuery } from '../../services/api';
+import { Loader } from '../../components/loader/loader';
 
 export const MyContext = createContext<Character[] | null>(null);
 
@@ -16,25 +17,14 @@ export function Home() {
   const [page, setPage] = useState(1);
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
   const [items, setItems] = useState<Character[]>([]);
-  const [next, setNext] = useState<string | null>(
-    fullData ? fullData.next : null
-  );
-  const [previous, setPrevious] = useState<string | null>(
-    fullData ? fullData.previous : null
-  );
   const [responseStatus, setResponseStatus] = useState<number | undefined>(
     undefined
   );
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
   );
-  const [trigger, { isLoading, error }] = useLazyGetCharactersQuery();
-  useEffect(() => {
-    if (fullData) {
-      setNext(fullData.next);
-      setPrevious(fullData.previous);
-    }
-  }, [fullData]);
+  const [trigger, { isLoading, isFetching, error }] =
+    useLazyGetCharactersQuery();
 
   const dialogRef = useRef<DialogWindowHandle>(null);
 
@@ -52,9 +42,7 @@ export function Home() {
   }, []);
 
   const handleSearch = async (searchTerm: string) => {
-    console.log('Hello');
     try {
-      console.log('++++', searchTerm);
       const result = await trigger({ search: searchTerm }).unwrap();
 
       setFullData(result);
@@ -86,26 +74,28 @@ export function Home() {
     <>
       <main>
         <Search onSearch={handleSearch} />
-        <MyContext.Provider value={items}>
-          <Results
-            page={page}
-            isLoading={isLoading}
-            error={error}
-            dialogRef={dialogRef}
-            responseStatus={responseStatus}
-          />
-        </MyContext.Provider>
+        <button
+          className="refresh-cache-btn"
+          onClick={() =>
+            trigger({ search: '', page: page, cacheBuster: Date.now() })
+          }
+          disabled={isLoading}
+        >
+          Refresh
+          {isFetching ? <Loader /> : null}
+        </button>
+        <Results
+          page={page}
+          isLoading={isLoading}
+          error={error}
+          dialogRef={dialogRef}
+          responseStatus={responseStatus}
+        />
         {fullData && fullData.count > 10 ? (
           <Pagination
             currentPage={page}
             onPageChange={setPage}
             count={fullData.count}
-            next={next}
-            previous={previous}
-            results={fullData.results}
-            setItems={setItems}
-            setNext={setNext}
-            setPrevious={setPrevious}
           />
         ) : null}
         <MyContext.Provider value={items}>

@@ -7,7 +7,7 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
 
-  const { data } = useGetCharactersQuery({
+  const { data, error } = useGetCharactersQuery({
     page: currentPage,
     search: searchQuery,
   });
@@ -30,7 +30,11 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
     }
   };
 
-  if (!data) return null;
+  if (!data) {
+    if (error && 'status' in error) {
+      return <div>Error: {error.status}</div>;
+    }
+  }
   const nextDisabled = data.next === null;
   const prevDisabled = data.previous === null;
 
