@@ -9,6 +9,10 @@
     }
   ],
   "compilerOptions": {
-    "types": ["vitest", "@testing-library/jest-dom"]
+    "types": [
+      "vitest",
+      "@testing-library/jest-dom",
+      "vitest/globals"
+    ],
   }
 }

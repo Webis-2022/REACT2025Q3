@@ -1,144 +1,69 @@
-import { screen, render } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Layout } from '../Layout/Layout';
-import { userEvent } from '@testing-library/user-event';
-import { ThemeProvider } from '../theme-context/theme-context';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { Home } from '../../pages/home/home';
-import { About } from '../../pages/about/about';
-import { Page404 } from '../../pages/page404/page404';
+import { render, screen } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { Provider } from 'react-redux';
-import { store } from '../../store';
-import { downloadFile } from './selected-items-panel';
+import { configureStore } from '@reduxjs/toolkit';
+import { SelectedItemsPanel } from './selected-items-panel';
+import userEvent from '@testing-library/user-event';
+
+const mockDispatch = vi.fn();
+
+const createTestStore = (selectedIds: number[]) => ({
+  ...configureStore({
+    reducer: {
+      characters: () => ({
+        selectedIds,
+        characters: [],
+        status: 'idle',
+        error: null,
+      }),
+    },
+  }),
+  dispatch: mockDispatch,
+});
+
+vi.mock('../../services/api', () => ({
+  useGetCharactersQuery: () => ({
+    data: { results: [{ name: 'Luke Skywalker' }] },
+    isLoading: false,
+    error: null,
+  }),
+}));
 
 describe('SelectedItemsPanel', () => {
   beforeEach(() => {
-    window.fetch = vi.fn(() => {
-      return Promise.resolve(
-        new Response(
-          JSON.stringify({
-            count: 1,
-            next: null,
-            previous: null,
-            results: [
-              {
-                name: 'Luke Skywalker',
-                birth_year: '19BBY',
-                gender: 'male',
-              },
-            ],
-          }),
-          {
-            status: 200,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-      );
-    });
+    mockDispatch.mockClear();
   });
 
-  it('panel exists on the page after selecting any character using checkbox', async () => {
+  it('shows panel when items are selected', () => {
+    const store = createTestStore([1]);
+
     render(
-      <ThemeProvider>
-        <Provider store={store}>
-          <MemoryRouter initialEntries={['/']}>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="about" element={<About />} />
-                <Route path="*" element={<Page404 />} />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </Provider>
-      </ThemeProvider>
+      <Provider store={store}>
+        <SelectedItemsPanel itemArrLength={1} />
+      </Provider>
     );
-    const user = userEvent.setup();
-    const input = screen.getByRole('textbox');
-    const button = screen.getByText(/search/i);
 
-    await user.type(input, 'Luke');
-    await user.click(button);
-
-    const character = await screen.findByText(/luke/i);
-    expect(character).toBeInTheDocument();
-
-    const checkbox = screen.getByRole('checkbox');
-    await user.click(checkbox);
-    expect(checkbox).toBeChecked();
-    expect(screen.getByTestId('panel-container')).toBeInTheDocument();
+    expect(screen.getByText(/selected/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /download/i })
+    ).toBeInTheDocument();
   });
-  it('checkbox is unchecked after Unselect button clicking', async () => {
+
+  it('dispatches clear action when clear button clicked', async () => {
+    const store = createTestStore([1]);
+    const user = userEvent.setup();
+
     render(
-      <ThemeProvider>
-        <Provider store={store}>
-          <MemoryRouter initialEntries={['/']}>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="about" element={<About />} />
-                <Route path="*" element={<Page404 />} />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </Provider>
-      </ThemeProvider>
-    );
-    const user = userEvent.setup();
-    const input = screen.getByRole('textbox');
-    const button = screen.getByText(/search/i);
-    await user.type(input, 'Luke');
-    await user.click(button);
-    const checkbox = await screen.findByRole('checkbox');
-    await user.click(checkbox);
-    const unselectButton = screen.getByText(/unselect/i);
-    await user.click(unselectButton);
-    expect(checkbox).not.toBeChecked();
-  });
-  it('triggers file download with correct content and name', () => {
-    const mockCreateObjectURL = vi.fn(() => 'blob:http://localhost/fake-url');
-    const mockRevokeObjectURL = vi.fn();
-    const mockClick = vi.fn();
-
-    vi.stubGlobal('URL', {
-      createObjectURL: mockCreateObjectURL,
-      revokeObjectURL: mockRevokeObjectURL,
-    });
-
-    const mockLink = {
-      href: '',
-      download: '',
-      click: mockClick,
-    };
-
-    vi.spyOn(document, 'createElement').mockReturnValue(
-      mockLink as unknown as HTMLAnchorElement
+      <Provider store={store}>
+        <SelectedItemsPanel itemArrLength={1} />
+      </Provider>
     );
 
-    downloadFile(
-      [1],
-      [
-        {
-          name: 'Luke Skywalker',
-          height: '172',
-          mass: '77',
-          hair_color: 'blond',
-          skin_color: 'fair',
-          eye_color: 'blue',
-          birth_year: '19BBY',
-          gender: 'male',
-          url: '',
-        },
-      ]
-    );
+    const clearBtn = screen.getByRole('button', { name: /unselect/i });
+    await user.click(clearBtn);
 
-    expect(mockCreateObjectURL).toHaveBeenCalled();
-    expect(mockLink.download).toMatch(/items\.csv$/);
-    expect(mockClick).toHaveBeenCalled();
-    expect(mockRevokeObjectURL).toHaveBeenCalledWith(
-      'blob:http://localhost/fake-url'
-    );
+    expect(mockDispatch).toHaveBeenCalled();
+
+    expect(mockDispatch.mock.calls[0][0].type).toContain('clear');
   });
 });

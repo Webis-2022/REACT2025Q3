@@ -52,7 +52,9 @@ export function Home() {
   }, []);
 
   const handleSearch = async (searchTerm: string) => {
+    console.log('Hello');
     try {
+      console.log('++++', searchTerm);
       const result = await trigger({ search: searchTerm }).unwrap();
 
       setFullData(result);

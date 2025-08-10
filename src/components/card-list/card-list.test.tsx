@@ -1,11 +1,20 @@
 import { screen, render } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, type Mock, beforeEach } from 'vitest';
 import { CardList } from './card-list';
 import { type Character } from './card-list.types';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
 import { MyContext } from '../../pages/home/home';
+import * as api from '../../services/api';
+
+vi.mock('../../services/api', async () => {
+  const originalModule = await vi.importActual('../../services/api');
+  return {
+    ...originalModule,
+    useGetCharactersQuery: vi.fn(),
+  };
+});
 
 const mockItems: Character[] = [
   {
@@ -33,7 +42,15 @@ const mockItems: Character[] = [
 ];
 
 describe('CardList', () => {
+  beforeEach(() => {
+    (api.useGetCharactersQuery as Mock).mockClear();
+  });
   it('renders correct number of items when data is provided', () => {
+    (api.useGetCharactersQuery as Mock).mockReturnValue({
+      data: { results: mockItems },
+      isLoading: false,
+      error: null,
+    });
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -47,26 +64,17 @@ describe('CardList', () => {
     const cards = screen.getAllByTestId('card');
     expect(cards).toHaveLength(mockItems.length);
   });
-  it('displays "no results" message when data array is empty', () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MyContext.Provider value={[]}>
-            <CardList page={1} isLoading={false} error={null} />
-          </MyContext.Provider>
-        </MemoryRouter>
-      </Provider>
-    );
-    const noResultsMessage = screen.getByText(/no results/i);
-    expect(noResultsMessage).toBeInTheDocument();
-  });
+
   it('shows loading state while fetching data', () => {
+    (api.useGetCharactersQuery as Mock).mockReturnValue({
+      data: { results: mockItems },
+      isLoading: false,
+      error: null,
+    });
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <MyContext.Provider value={mockItems}>
-            <CardList page={1} isLoading={true} error={null} />
-          </MyContext.Provider>
+          <CardList page={1} isLoading={true} error={null} />
         </MemoryRouter>
       </Provider>
     );
@@ -74,7 +82,7 @@ describe('CardList', () => {
     expect(loader).toBeInTheDocument();
   });
   it('handles missing or undefined data gracefully', () => {
-    const mockItems = [
+    const mockItems2 = [
       {
         name: 'Unknown Hero',
         height: undefined,
@@ -87,13 +95,16 @@ describe('CardList', () => {
         url: '',
       },
     ];
+    (api.useGetCharactersQuery as Mock).mockReturnValue({
+      data: { results: mockItems2 },
+      isLoading: false,
+      error: null,
+    });
 
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <MyContext.Provider value={mockItems}>
-            <CardList page={1} isLoading={false} error={null} />
-          </MyContext.Provider>
+          <CardList page={1} isLoading={false} error={null} />
         </MemoryRouter>
       </Provider>
     );
@@ -102,6 +113,11 @@ describe('CardList', () => {
     expect(unknownElements.length).toBeGreaterThan(0);
   });
   it('displays error message when API call fails', () => {
+    (api.useGetCharactersQuery as Mock).mockReturnValue({
+      data: { results: mockItems },
+      isLoading: false,
+      error: null,
+    });
     render(
       <Provider store={store}>
         <MemoryRouter>

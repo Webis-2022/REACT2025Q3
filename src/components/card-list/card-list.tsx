@@ -12,13 +12,14 @@ export function CardList({ isLoading, error, page }: CardListProps) {
     Character | null | undefined
   >(null);
 
-  const { data } = useGetCharactersQuery({ search: '', page });
+  const search = localStorage.getItem('inputValue');
+  const { data } = useGetCharactersQuery({ search, page });
 
   if (isLoading) {
     return <Loader />;
   }
 
-  const items = data?.results ?? [];
+  const result = data?.results ?? [];
 
   return (
     <>
@@ -29,7 +30,7 @@ export function CardList({ isLoading, error, page }: CardListProps) {
       )}
 
       <ul className="card-list">
-        {items.map((character: Character | null, index: number) => (
+        {result?.map((character: Character | null, index: number) => (
           <Card
             key={index}
             character={character}
@@ -42,7 +43,7 @@ export function CardList({ isLoading, error, page }: CardListProps) {
         ))}
       </ul>
 
-      {!isLoading && items.length === 0 && <DialogWindow ref={dialogRef} />}
+      {!isLoading && result?.length === 0 && <DialogWindow ref={dialogRef} />}
     </>
   );
 }
