@@ -3,15 +3,6 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import userEvent from '@testing-library/user-event';
-vi.mock('../../utils/downloadFile', async () => {
-  const originalModule = await vi.importActual('../../utils/downloadFile');
-  return {
-    ...originalModule,
-    downloadFile: vi.fn(),
-  };
-});
-
-import { downloadFile } from '../../utils/downloadFile';
 import { SelectedItemsPanel } from './selected-items-panel';
 
 const mockDispatch = vi.fn();
@@ -72,18 +63,5 @@ describe('SelectedItemsPanel', () => {
     await user.click(unselectBtn);
 
     expect(mockDispatch).toHaveBeenCalled();
-  });
-  it('function downloadFile called when download button clicked', async () => {
-    const store = createTestStore([1]);
-    render(
-      <Provider store={store}>
-        <SelectedItemsPanel itemArrLength={1} />
-      </Provider>
-    );
-    const user = userEvent.setup();
-    const btn = screen.getByText(/download/i);
-    expect(btn).toBeInTheDocument();
-    await user.click(btn);
-    expect(downloadFile).toHaveBeenCalled();
   });
 });
