@@ -15,7 +15,9 @@ describe('Checkbox', () => {
   it('checkbox exists on the page', () => {
     render(
       <Provider store={store}>
-        <Checkbox index={2} />
+        <MemoryRouter initialEntries={['/']}>
+          <Checkbox index={2} />
+        </MemoryRouter>
       </Provider>
     );
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
