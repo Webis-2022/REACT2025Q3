@@ -1,5 +1,6 @@
 .results {
   margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .thead,
@@ -8,8 +9,6 @@
   justify-content: center;
 }
 
-.hero-name,
-.hero-description,
 .name,
 .description {
   border: 3px solid #000;
@@ -18,13 +17,6 @@
   text-align: center;
 }
 
-.hero-name,
-.hero-description {
-  font-size: 1.6rem;
-  font-weight: 700;
-}
-
-.hero-name.no-border,
-.hero-description.no-border {
-  border-bottom: none;
+.description {
+  padding: 0;
 }

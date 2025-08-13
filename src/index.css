@@ -4,8 +4,23 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 main {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.light-theme {
+  background: white;
+  color: black;
+}
+
+.dark-theme {
+  background: black;
+  color: white;
 }

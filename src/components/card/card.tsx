@@ -1,36 +1,83 @@
-import { Component, createRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import type { CardProps } from './card.types';
+import { DetailsWindow } from '../details-window/details-window';
+import { useSearchParams } from 'react-router-dom';
+import { Checkbox } from '../checkbox/checkbox';
+import { useLazyGetCharacterByIdQuery } from '../../services/api';
+import type { Character } from '../card-list/card-list.types';
 
-export class Card extends Component<CardProps> {
-  nameRef = createRef<HTMLDivElement>();
+export function Card({
+  character,
+  imgUrl,
+  isSelected,
+  onSelect,
+  index,
+}: CardProps) {
+  const nameRef = useRef<HTMLDivElement>(null);
+  const [data, setData] = useState<Character | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  // eslint-disable-next-line no-empty-pattern, prettier/prettier
+  const [trigger, { }] = useLazyGetCharacterByIdQuery();
+  const getCharacterId = (): string | undefined => {
+    const idMatch = character?.url?.match(/\/(\d+)\/$/);
+    if (!idMatch) return;
+    const characterId = idMatch[1];
+    return characterId;
+  };
 
-  componentDidMount(): void {
-    if (this.nameRef.current) {
-      this.nameRef.current.style.borderRight = 'none';
+  const handleClick = (): void => {
+    if (onSelect) {
+      onSelect(character);
+      const characterId = getCharacterId();
+      const page = searchParams.get('page') ?? '1';
+      if (!page || !characterId) return;
+      setSearchParams({ page: page, details: characterId });
     }
-  }
-  render() {
-    const { character } = this.props;
-    const gender =
-      character.gender.charAt(0).toUpperCase() + character.gender.slice(1);
+  };
 
+  useEffect(() => {
+    const fetchCharacterById = async () => {
+      const characterId = getCharacterId();
+      const characterData = await trigger(characterId).unwrap();
+      setData(characterData);
+    };
+    fetchCharacterById();
+  }, [character]);
+
+  if (!character) {
     return (
-      <li className="card">
-        <div className="name" ref={this.nameRef}>
-          {character.name}
-        </div>
-        <div className="description">
-          {`
-          ${gender},
-          ${character.height} cm,
-          ${character.mass} kg,
-          born ${character.birth_year},
-          ${character.hair_color} hair,
-          ${character.eye_color} eyes,
-          ${character.skin_color} skin
-          `}
-        </div>
+      <li className="card" data-testid="card">
+        <div className="name">No Data</div>
+        <div className="description">Unknown</div>
       </li>
     );
   }
+
+  return (
+    <li className="card" data-testid="card">
+      <Checkbox index={index} />
+      <div
+        onClick={handleClick}
+        style={{
+          backgroundImage: `url(${imgUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '600px',
+        }}
+        className="name"
+        ref={nameRef}
+      >
+        {character.name}
+      </div>
+      {isSelected && (
+        <DetailsWindow
+          data={data}
+          onClose={() => {
+            onSelect?.(null);
+            setSearchParams({});
+          }}
+        />
+      )}
+    </li>
+  );
 }
