@@ -1,4 +1,6 @@
-export function About() {
+'use client';
+
+export default function About() {
   return (
     <div className="content">
       <p>

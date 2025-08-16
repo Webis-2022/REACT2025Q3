@@ -1,3 +1,5 @@
+'use client';
+
 import type { SearchProps } from './search.types';
 import { useState, type JSX } from 'react';
 import { useRestoreSearchQuery } from '../../hooks/useRestoreSearchQuery';

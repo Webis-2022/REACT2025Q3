@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 import { store } from '../../store';
 import { Layout } from '../Layout/Layout';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import { About } from '../../pages/about/about';
-import { Home } from '../../pages/home/home';
-import { Page404 } from '../../pages/page404/page404';
+import { About } from '../../app/about/page';
+import { Home } from '../../app/page';
+import { Page404 } from '../../app/page404/page';
 import { ThemeProvider } from '../theme-context/theme-context';
 import userEvent from '@testing-library/user-event';
 

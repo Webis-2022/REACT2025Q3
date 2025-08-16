@@ -1,10 +1,13 @@
+'use client';
+
 import { useRef, useEffect, useState } from 'react';
 import type { CardProps } from './card.types';
 import { DetailsWindow } from '../details-window/details-window';
-import { useSearchParams } from 'react-router-dom';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { Checkbox } from '../checkbox/checkbox';
 import { useLazyGetCharacterByIdQuery } from '../../services/api';
 import type { Character } from '../card-list/card-list.types';
+import { useRouter } from 'next/navigation';
 
 export function Card({
   character,
@@ -15,7 +18,10 @@ export function Card({
 }: CardProps) {
   const nameRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<Character | null>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+  const pathName = usePathname();
+  const { replace } = useRouter();
   // eslint-disable-next-line no-empty-pattern, prettier/prettier
   const [trigger, { }] = useLazyGetCharacterByIdQuery();
   const getCharacterId = (): string | undefined => {
@@ -31,7 +37,9 @@ export function Card({
       const characterId = getCharacterId();
       const page = searchParams.get('page') ?? '1';
       if (!page || !characterId) return;
-      setSearchParams({ page: page, details: characterId });
+      params.set('page', page.toString());
+      params.set('details', characterId.toString());
+      replace(`${pathName}?${params.toString()}`, { scroll: false });
     }
   };
 
@@ -74,7 +82,9 @@ export function Card({
           data={data}
           onClose={() => {
             onSelect?.(null);
-            setSearchParams({});
+            params.delete('page');
+            params.delete('details');
+            replace(`${pathName}?${params.toString()}`, { scroll: false });
           }}
         />
       )}

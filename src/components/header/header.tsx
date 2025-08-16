@@ -1,4 +1,6 @@
-import { NavLink } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { useTheme } from '../theme-context/theme-context';
 
 export function Header() {
@@ -18,8 +20,8 @@ export function Header() {
       <h1 className="app-title">Find Your Star Wars Hero</h1>
       <div className="navigation-container">
         <div className="navigation">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/about">About</NavLink>
+          <Link href="/">Home</Link>
+          <Link href="/about">About</Link>
         </div>
       </div>
     </header>

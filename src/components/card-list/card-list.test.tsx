@@ -5,7 +5,7 @@ import { type Character } from './card-list.types';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
-import { MyContext } from '../../pages/home/home';
+import { MyContext } from '../../app/page';
 import * as api from '../../services/api';
 
 vi.mock('../../services/api', async () => {

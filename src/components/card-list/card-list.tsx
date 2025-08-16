@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useState } from 'react';
 import type { CardListProps, Character } from './card-list.types';
 import { Card } from '../card/card';
@@ -39,7 +41,7 @@ export function CardList({ page }: CardListProps) {
           <Card
             key={index}
             character={character}
-            imgUrl={`${import.meta.env.BASE_URL}images/${character?.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
+            imgUrl={`images/${character?.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
             isSelected={selectedCharacter?.name === character?.name}
             onSelect={(char) => setSelectedCharacter(char)}
             index={index}

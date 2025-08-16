@@ -1,0 +1,12 @@
+@import '../components/header/header.css';
+@import '../components/search/search.css';
+@import '../components/dialog-window/dialog-window.css';
+@import '../app/about/about.css';
+@import '../components/card/card.css';
+@import '../components/details-window/details-window.css';
+@import '../components/pagination/pagination.css';
+@import '../components/results/results.css';
+@import '../app/page404/page404.css';
+@import '../components/checkbox/checkbox.css';
+@import '../components/selected-items-panel/selected-items-panel.css';
+@import './home.css';

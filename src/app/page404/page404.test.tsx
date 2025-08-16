@@ -2,9 +2,9 @@ import { screen, render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { ThemeProvider } from '../../components/theme-context/theme-context';
 import { Layout } from '../../components/Layout/Layout';
-import { Home } from '../home/home';
-import { About } from '../about/about';
-import { Page404 } from '../page404/page404';
+import { Home } from '../page';
+import { About } from '../about/page';
+import { Page404 } from './page';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 describe('Page404', () => {

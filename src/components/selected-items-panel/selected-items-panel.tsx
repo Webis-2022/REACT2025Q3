@@ -1,8 +1,10 @@
+'use client';
+
 import type { SelectedItemsPanelProps } from './selected-items-panel.types';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSelection } from '../../store/characterSlice';
 import { useContext } from 'react';
-import { MyContext } from '../../pages/home/home';
+import { MyContext } from '../../app/page';
 import type { RootState } from '../../store';
 import { downloadFile } from '../../utils/downloadFile';
 

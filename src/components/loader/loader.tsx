@@ -1,3 +1,5 @@
+'use client';
+
 import './loader.css';
 
 export function Loader() {

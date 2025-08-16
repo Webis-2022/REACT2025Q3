@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { vi, expect, describe, beforeEach, afterEach, it } from 'vitest';
 import { store } from '../../store/index';
 import * as api from '../../services/api';
-import { Home } from '../home/home';
+import { Home } from '../page';
 
 vi.mock('../../services/api', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../services/api')>();

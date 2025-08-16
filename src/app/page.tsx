@@ -1,18 +1,20 @@
-import { Search } from '../../components/search/search';
+'use client';
+
+import { Search } from '../components/search/search';
 import { createContext, useEffect, useRef, useState } from 'react';
-import { Results } from '../../components/results/results';
-import type { DialogWindowHandle } from '../../components/dialog-window/dialog-window.types';
-import type { Character } from '../../components/card-list/card-list.types';
-import { Pagination } from '../../components/pagination/pagination';
-import type { PaginationProps } from '../../components/pagination/pagination.types';
+import { Results } from '../components/results/results';
+import type { DialogWindowHandle } from '../components/dialog-window/dialog-window.types';
+import type { Character } from '../components/card-list/card-list.types';
+import { Pagination } from '../components/pagination/pagination';
+import type { PaginationProps } from '../components/pagination/pagination.types';
 import { useSelector } from 'react-redux';
-import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
-import type { RootState } from '../../store';
-import { useLazyGetCharactersQuery } from '../../services/api';
+import { SelectedItemsPanel } from '../components/selected-items-panel/selected-items-panel';
+import type { RootState } from '../store';
+import { useLazyGetCharactersQuery } from '../services/api';
 
 export const MyContext = createContext<Character[] | null>(null);
 
-export function Home() {
+export default function Home() {
   const [page, setPage] = useState(1);
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
   const [items, setItems] = useState<Character[]>([]);
