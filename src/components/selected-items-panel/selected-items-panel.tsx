@@ -31,7 +31,7 @@ export function SelectedItemsPanel({ itemArrLength }: SelectedItemsPanelProps) {
           </button>
           <button
             className="download-btn"
-            onClick={() => downloadFile(selectedIds, items)}
+            onClick={() => downloadFile({ selectedIds, items })}
           >
             Download
           </button>

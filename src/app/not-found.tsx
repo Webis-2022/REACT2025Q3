@@ -1,8 +1,10 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 export default function Page404() {
+  const t = useTranslations('Page404');
   return (
     <div
       style={{
@@ -14,7 +16,7 @@ export default function Page404() {
         gap: '1.2rem',
       }}
     >
-      <h2>Page not found. Error 404</h2>
+      <h2>{t('error-text')}</h2>
       <Link href="/">
         <button
           style={{
@@ -24,7 +26,7 @@ export default function Page404() {
             cursor: 'pointer',
           }}
         >
-          Go To Home Page
+          {t('button')}
         </button>
       </Link>
     </div>

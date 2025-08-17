@@ -26,5 +26,9 @@
     "text2": "",
     "text3": "Евгением Верёвкиным",
     "link": "https://rs.school/courses/reactjs"
+  },
+  "Page404": {
+    "error-text": "Страница не найдена. Ощибка 404",
+    "button": "Назад на главную страницу"
   }
 }

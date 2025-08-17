@@ -26,5 +26,9 @@
     "text2": "course",
     "text3": "Jevgeni Verjovkin",
     "link": "https://rs.school/courses/reactjs"
+  },
+  "Page404": {
+    "error-text": "Page not found. Error 404",
+    "button": "Go To Home Page"
   }
 }
