@@ -36,7 +36,6 @@ export default function Home() {
 
   useEffect(() => {
     const savedInputValue = localStorage.getItem('inputValue') || '';
-    setSearch(savedInputValue);
     if (savedInputValue) {
       handleSearch(savedInputValue);
     } else {
@@ -47,6 +46,8 @@ export default function Home() {
   const handleSearch = async (searchTerm: string) => {
     try {
       const result = await trigger({ search: searchTerm }).unwrap();
+      const savedSearch = localStorage.getItem('inputValue') || '';
+      setSearch(savedSearch);
 
       setFullData(result);
       setItems(result?.results);
