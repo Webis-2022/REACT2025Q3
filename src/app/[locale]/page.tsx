@@ -1,7 +1,7 @@
 'use client';
 
 import { Search } from '../../components/search/search';
-import { createContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Results } from '../../components/results/results';
 import type { DialogWindowHandle } from '../../components/dialog-window/dialog-window.types';
 import type { Character } from '../../components/card-list/card-list.types';
@@ -12,8 +12,7 @@ import { SelectedItemsPanel } from '../../components/selected-items-panel/select
 import type { RootState } from '../../store';
 import { useLazyGetCharactersQuery } from '../../services/api';
 import { useTranslations } from 'next-intl';
-
-export const MyContext = createContext<Character[] | null>(null);
+import { MyContext } from '../../utils/CharacterContext';
 
 export default function Home() {
   const [page, setPage] = useState(1);

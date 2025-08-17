@@ -9,7 +9,7 @@ export function LanguageSwitcher(): JSX.Element {
   const router = useRouter();
 
   const handleLanguageChange = (newLocale: string): void => {
-    const newLocaleArray = [...locale]; // создаем копию
+    const newLocaleArray = [...locale];
     newLocaleArray[1] = newLocale;
     const newPath = newLocaleArray.join('/');
     router.push(newPath);

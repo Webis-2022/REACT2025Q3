@@ -4,7 +4,7 @@ import type { SelectedItemsPanelProps } from './selected-items-panel.types';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSelection } from '../../store/characterSlice';
 import { useContext } from 'react';
-import { MyContext } from '../../app/[locale]/page';
+import { MyContext } from '../../utils/CharacterContext';
 import type { RootState } from '../../store';
 import { downloadFile } from '../../utils/downloadFile';
 

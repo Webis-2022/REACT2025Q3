@@ -20,17 +20,13 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider>
-          <Providers>
-            <ErrorBoundary>
-              <Header />
-              <main>{children}</main>
-            </ErrorBoundary>
-          </Providers>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider>
+      <Providers>
+        <ErrorBoundary>
+          <Header />
+          <main>{children}</main>
+        </ErrorBoundary>
+      </Providers>
+    </NextIntlClientProvider>
   );
 }
