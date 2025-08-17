@@ -21,6 +21,7 @@ export default function Home() {
   const [responseStatus, setResponseStatus] = useState<number | undefined>(
     undefined
   );
+  const [search, setSearch] = useState('');
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
   );
@@ -33,10 +34,9 @@ export default function Home() {
     dialogRef.current?.open();
   };
 
-  // localStorage.removeItem('inputValue');
-
   useEffect(() => {
-    const savedInputValue = localStorage.getItem('inputValue');
+    const savedInputValue = localStorage.getItem('inputValue') || '';
+    setSearch(savedInputValue);
     if (savedInputValue) {
       handleSearch(savedInputValue);
     } else {
@@ -87,6 +87,7 @@ export default function Home() {
           {t('button')}
         </button>
         <Results
+          search={search}
           page={page}
           dialogRef={dialogRef}
           responseStatus={responseStatus}

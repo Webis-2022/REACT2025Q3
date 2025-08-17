@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import type { CardListProps, Character } from './card-list.types';
 import { Card } from '../card/card';
 import { Loader } from '../loader/loader';
@@ -8,18 +8,12 @@ import { DialogWindow } from '../dialog-window/dialog-window';
 import type { DialogWindowHandle } from '../dialog-window/dialog-window.types';
 import { useGetCharactersQuery } from '../../services/api';
 
-export function CardList({ page }: CardListProps) {
+export function CardList({ search, page }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<
     Character | null | undefined
   >(null);
 
-  const [search, setSearch] = useState<string>('');
-
-  useEffect(() => {
-    const savedInputValue = localStorage.getItem('inputValue') || '';
-    setSearch(savedInputValue);
-  }, []);
   const { data, isLoading, error } = useGetCharactersQuery({ search, page });
 
   if (isLoading) {
