@@ -33,6 +33,8 @@ export default function Home() {
     dialogRef.current?.open();
   };
 
+  // localStorage.removeItem('inputValue');
+
   useEffect(() => {
     const savedInputValue = localStorage.getItem('inputValue');
     if (savedInputValue) {

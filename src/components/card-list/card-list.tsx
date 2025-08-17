@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CardListProps, Character } from './card-list.types';
 import { Card } from '../card/card';
 import { Loader } from '../loader/loader';
@@ -14,7 +14,12 @@ export function CardList({ page }: CardListProps) {
     Character | null | undefined
   >(null);
 
-  const search = localStorage.getItem('inputValue');
+  const [search, setSearch] = useState<string>('');
+
+  useEffect(() => {
+    const savedInputValue = localStorage.getItem('inputValue') || '';
+    setSearch(savedInputValue);
+  }, []);
   const { data, isLoading, error } = useGetCharactersQuery({ search, page });
 
   if (isLoading) {
