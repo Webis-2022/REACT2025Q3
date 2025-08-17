@@ -1,0 +1,11 @@
+.lang-switcher-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-left: 1rem;
+}
+
+.en-flag,
+.ru-flag {
+  cursor: pointer;
+}

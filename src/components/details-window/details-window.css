@@ -1,0 +1,14 @@
+.close-button-container {
+  display: flex;
+  justify-content: end;
+  margin-top: 0.4rem;
+  margin-right: 0.4rem;
+}
+
+.close-button {
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+}

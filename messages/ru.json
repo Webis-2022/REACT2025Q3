@@ -1,0 +1,34 @@
+{
+  "Header": {
+    "title": "Найди своего героя из Звездных войн",
+    "theme-switcher": {
+      "options": {
+        "light": "Светлая",
+        "dark": "Тёмная"
+      }
+    },
+    "navigation": {
+      "home": "Домашняя",
+      "about": "О нас"
+    }
+  },
+  "Search": {
+    "button": "Поиск"
+  },
+  "Main": {
+    "button": "Обновить"
+  },
+  "Pagination": {
+    "page": "Страница"
+  },
+  "About": {
+    "text1": "Это приложение создано студентом курса",
+    "text2": "",
+    "text3": "Евгением Верёвкиным",
+    "link": "https://rs.school/courses/reactjs"
+  },
+  "Page404": {
+    "error-text": "Страница не найдена. Ощибка 404",
+    "button": "Назад на главную страницу"
+  }
+}

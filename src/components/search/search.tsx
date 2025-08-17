@@ -1,42 +1,44 @@
-import { Component } from 'react';
-import type { SearchProps, SearchState } from './search.types';
-// import './search.css';
+'use client';
 
-export class Search extends Component<SearchProps, SearchState> {
-  state = {
-    inputValue: '',
+import type { SearchProps } from './search.types';
+import { useState, type JSX } from 'react';
+import { useRestoreSearchQuery } from '../../hooks/useRestoreSearchQuery';
+import { useDispatch } from 'react-redux';
+import { clearSelection } from '../../store/characterSlice';
+import { useTranslations } from 'next-intl';
+
+export function Search({ onSearch }: SearchProps): JSX.Element {
+  const restoredValue = useRestoreSearchQuery();
+  const [inputValue, setInputValue] = useState<string>(restoredValue);
+  const dispatch = useDispatch();
+  const t = useTranslations('Search');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
   };
 
-  componentDidMount(): void {
-    const savedInputValue = localStorage.getItem('inputValue');
-    if (savedInputValue) {
-      this.setState({ inputValue: savedInputValue });
-    }
-  }
-
-  handleChange = (event: { target: { value: string } }) => {
-    this.setState({ inputValue: event.target.value });
+  const handleSearch = () => {
+    onSearch(inputValue);
+    localStorage.setItem('inputValue', inputValue.trim());
   };
 
-  handleSearch = () => {
-    this.props.onSearch(this.state.inputValue);
-    localStorage.setItem('inputValue', this.state.inputValue);
-    this.props.setHasResults(false);
-  };
-
-  render() {
-    return (
-      <div className="search">
-        <input
-          id="search-input"
-          type="text"
-          value={this.state.inputValue}
-          onChange={this.handleChange}
-        />
-        <button className="search-btn" onClick={this.handleSearch}>
-          Search
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div className="search">
+      <input
+        id="search-input"
+        type="text"
+        value={inputValue}
+        onChange={handleChange}
+      />
+      <button
+        className="search-btn"
+        onClick={() => {
+          handleSearch();
+          dispatch(clearSelection());
+        }}
+      >
+        {t('button')}
+      </button>
+    </div>
+  );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { Component } from 'react';
 import { type Props, type State } from './error-boundary.types';
 
@@ -16,7 +18,6 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    console.log(this.state.hasError);
     if (this.state.hasError) {
       return (
         <div

@@ -9,17 +9,17 @@
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  border: 8px solid black;
+  border: 8px solid rgb(193, 190, 190);
   border-top: 8px solid blue;
   animation: rotation 2s linear infinite;
 }
 
 @keyframes rotation {
   from {
-    transform: rotate(0deg)
+    transform: rotate(0deg);
   }
 
   to {
-    transform: rotate(360deg)
+    transform: rotate(360deg);
   }
 }
