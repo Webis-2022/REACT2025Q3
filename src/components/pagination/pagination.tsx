@@ -4,6 +4,7 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useGetCharactersQuery } from '../../services/api';
 import { PaginationProps } from './pagination.types';
+import { useTranslations } from 'next-intl';
 
 export function Pagination({ currentPage, onPageChange }: PaginationProps) {
   const pathname = usePathname();
@@ -11,6 +12,7 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
   const router = useRouter();
 
   const searchQuery = searchParams.get('search') || '';
+  const t = useTranslations('Pagination');
 
   const { data, error } = useGetCharactersQuery({
     page: currentPage,
@@ -61,7 +63,9 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
         &larr;
       </button>
       <div className="page-number-container">
-        <div className="page-number">Page {currentPage}</div>
+        <div className="page-number">
+          {t('page')} {currentPage}
+        </div>
       </div>
       <button
         className={`next-btn ${nextDisabled ? 'next-disabled' : ''}`}

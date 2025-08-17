@@ -21,7 +21,7 @@
 }
 
 .page-number-container {
-  width: 8%;
+  width: 100px;
   border: 2px solid #000;
   border-radius: 50px;
   display: flex;

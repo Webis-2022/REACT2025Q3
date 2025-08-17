@@ -1,0 +1,30 @@
+{
+  "Header": {
+    "title": "Find Your Star Wars Hero",
+    "theme-switcher": {
+      "options": {
+        "light": "Light",
+        "dark": "Dark"
+      }
+    },
+    "navigation": {
+      "home": "Home",
+      "about": "About"
+    }
+  },
+  "Search": {
+    "button": "Search"
+  },
+  "Main": {
+    "button": "Refresh"
+  },
+  "Pagination": {
+    "page": "Page"
+  },
+  "About": {
+    "text1": "This app is created by student of",
+    "text2": "course",
+    "text3": "Jevgeni Verjovkin",
+    "link": "https://rs.school/courses/reactjs"
+  }
+}

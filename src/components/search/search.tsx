@@ -5,11 +5,13 @@ import { useState, type JSX } from 'react';
 import { useRestoreSearchQuery } from '../../hooks/useRestoreSearchQuery';
 import { useDispatch } from 'react-redux';
 import { clearSelection } from '../../store/characterSlice';
+import { useTranslations } from 'next-intl';
 
 export function Search({ onSearch }: SearchProps): JSX.Element {
   const restoredValue = useRestoreSearchQuery();
   const [inputValue, setInputValue] = useState<string>(restoredValue);
   const dispatch = useDispatch();
+  const t = useTranslations('Search');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -35,7 +37,7 @@ export function Search({ onSearch }: SearchProps): JSX.Element {
           dispatch(clearSelection());
         }}
       >
-        Search
+        {t('button')}
       </button>
     </div>
   );
