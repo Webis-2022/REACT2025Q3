@@ -18,6 +18,10 @@ describe('Pagination', () => {
           setNext={() => { }}
           // eslint-disable-next-line prettier/prettier
           setPrevious={() => { }}
+          // eslint-disable-next-line prettier/prettier
+          setIsLoading={() => { }}
+          // eslint-disable-next-line prettier/prettier
+          setError={() => { }}
         />
       </MemoryRouter>
     );

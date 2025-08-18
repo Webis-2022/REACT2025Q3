@@ -1,4 +1,4 @@
-import type { PaginationProps } from './pagination.types';
+import type { Direction, PaginationProps } from './pagination.types';
 import { makeApiQuery } from '../../api/api';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -9,6 +9,8 @@ export function Pagination({
   setItems,
   setNext,
   setPrevious,
+  setIsLoading,
+  setError,
 }: PaginationProps) {
   const [, setSearchParams] = useSearchParams();
   const [pageNum, setPageNum] = useState(1);
@@ -24,29 +26,32 @@ export function Pagination({
       return params;
     });
   };
-  const handlePrevClick = async () => {
-    const [data] = await makeApiQuery<PaginationProps>(previous);
-    const newPage = pageNum - 1;
-    setItems(data.results);
-    setNext(data.next ?? null);
-    setPrevious(data.previous ?? null);
-    setPageNum(newPage);
-    setSearchParams({ page: String(newPage) });
 
-    handlePageChange(newPage);
+  const updatePage = async (url: string | null, delta: Direction) => {
+    if (!url) return;
+
+    try {
+      setIsLoading(true);
+
+      const [data] = await makeApiQuery<PaginationProps>(url);
+      const newPage = pageNum + delta;
+
+      setItems(data.results);
+      setNext(data.next ?? null);
+      setPrevious(data.previous ?? null);
+      setPageNum(newPage);
+      setSearchParams({ page: String(newPage) });
+
+      handlePageChange?.(newPage);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to load page');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleNextClick = async () => {
-    const [data] = await makeApiQuery<PaginationProps>(next);
-    const newPage = pageNum + 1;
-    setItems(data.results);
-    setNext(data.next ?? null);
-    setPrevious(data.previous ?? null);
-    setPageNum(newPage);
-    setSearchParams({ page: String(newPage) });
-
-    handlePageChange(newPage);
-  };
+  const handlePrevClick = () => updatePage(previous, -1);
+  const handleNextClick = () => updatePage(next, 1);
 
   const nextDisabled = next === null;
   const prevDisabled = previous === null;

@@ -9,6 +9,7 @@ export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
   const nameRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<Character | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const firstPage = '1';
 
   const getCharacterId = (): string | undefined => {
     const idMatch = character?.url?.match(/\/(\d+)\/$/);
@@ -21,9 +22,9 @@ export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
     if (onSelect) {
       onSelect(character);
       const characterId = getCharacterId();
-      const page = searchParams.get('page') ?? '1';
+      const page = searchParams.get('page') ?? firstPage;
       if (!page || !characterId) return;
-      setSearchParams({ page: page, details: characterId });
+      setSearchParams({ page, details: characterId });
     }
   };
 

@@ -24,6 +24,7 @@ export function Home() {
   const [responseStatus, setResponseStatus] = useState<number | undefined>(
     undefined
   );
+  const countPerPage = 10;
 
   useEffect(() => {
     if (fullData) {
@@ -72,7 +73,6 @@ export function Home() {
       }
       setItems(data.results);
       setIsLoading(false);
-      setHasResults(data.results.length > 0);
       setResponseStatus(response.status);
     } catch (error) {
       setError((error as Error).message);
@@ -96,7 +96,7 @@ export function Home() {
           dialogRef={dialogRef}
           responseStatus={responseStatus}
         />
-        {fullData && fullData.count > 10 ? (
+        {fullData && fullData.count > countPerPage ? (
           <Pagination
             count={fullData.count}
             next={next}
@@ -105,6 +105,8 @@ export function Home() {
             setItems={setItems}
             setNext={setNext}
             setPrevious={setPrevious}
+            setIsLoading={setIsLoading}
+            setError={setError}
           />
         ) : null}
         <ErrorBoundary>

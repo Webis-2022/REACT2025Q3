@@ -8,4 +8,8 @@ export type PaginationProps = {
   setItems: (items: Character[]) => void;
   setNext: (url: string | null) => void;
   setPrevious: (url: string | null) => void;
+  setIsLoading: (value: boolean) => void;
+  setError: (value: string) => void;
 };
+
+export type Direction = -1 | 1;

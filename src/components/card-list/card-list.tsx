@@ -12,9 +12,9 @@ export function CardList({
   error,
 }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
-  const [selectedCharacter, setSelectedCharacter] = useState<
-    Character | null | undefined
-  >(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
 
   if (isLoading) {
     return <Loader />;
