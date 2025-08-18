@@ -38,7 +38,7 @@ export function CardList({
             hasResults={hasResults}
             imgUrl={`${import.meta.env.BASE_URL}images/${character.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
             isSelected={selectedCharacter?.name === character.name}
-            onSelect={(char) => setSelectedCharacter(char)}
+            onSelect={(char) => setSelectedCharacter(char ?? null)}
           ></Card>
         ))}
       </ul>
