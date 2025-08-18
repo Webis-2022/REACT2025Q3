@@ -1,20 +1,5 @@
-import {
-  findAllByText,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  act,
-} from '@testing-library/react';
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  afterEach,
-  beforeEach,
-  type Mock,
-} from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { App } from './App';
 
 type Character = { name: string };
@@ -26,19 +11,6 @@ const mockFunction = (res: Character[] = [{ name: '' }]) => {
     json: async () => ({ results: res, count: res.length }),
   });
 };
-
-// const mockFunctionWithDelay = (delay = 50) =>
-//   vi.fn().mockImplementation(() => {
-//     new Promise((resolve) => {
-//       setTimeout(() => {
-//         resolve({
-//           ok: true,
-//           status: 200,
-//           json: Promise.resolve({ results: [{}] }),
-//         });
-//       }, delay);
-//     });
-//   });
 
 describe('App', () => {
   afterEach(() => {

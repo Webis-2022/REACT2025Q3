@@ -12,7 +12,7 @@ export class Card extends Component<CardProps> {
   }
   render() {
     const { character } = this.props;
-    if (character === undefined || character === null) {
+    if (character == null) {
       return (
         <li className="card">
           <div

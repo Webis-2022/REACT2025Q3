@@ -1,7 +1,7 @@
 import { type Character } from '../card-list/card-list.types';
 
 export type CardProps = {
-  character: Character | undefined;
+  character?: Character;
   hasResults?: boolean;
 };
 

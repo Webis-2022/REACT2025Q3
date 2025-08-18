@@ -20,26 +20,24 @@ export class App extends Component {
 
   componentDidMount(): void {
     const savedInputValue = localStorage.getItem('inputValue');
-      this.handleSearch(savedInputValue ?? '');
+    this.handleSearch(savedInputValue ?? '');
   }
 
   handleSearch = async (searchTerm: string) => {
     try {
       this.setState({ isLoading: true, error: null });
 
-      const url =
-        searchTerm === ''
-          ? `https://swapi.py4e.com/api/people`
-          : `https://swapi.py4e.com/api/people/?search=${searchTerm}`;
+      const baseUrl = 'https://swapi.py4e.com/api/people';
+      const url = searchTerm.trim()
+        ? `${baseUrl}/?search=${encodeURIComponent(searchTerm)}`
+        : baseUrl;
 
       const response = await fetch(url);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       const data = await response.json();
-      if (
-        (response.status === 404 && this.dialogRef.current) ||
-        (response.status === 500 && this.dialogRef.current) ||
-        (data.count === 0 && this.dialogRef.current)
-      ) {
+      const isErrorStatus = response.status === 404 || response.status === 500;
+      const isEmptyResult = data.count === 0;
+      if ((isErrorStatus || isEmptyResult) && this.dialogRef.current) {
         this.dialogRef.current.open();
         this.setState({ items: [], isLoading: false, error: null });
         return;

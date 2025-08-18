@@ -14,14 +14,7 @@ export class CardList extends Component<CardListProps> {
     }
     return (
       <>
-        {error ? (
-          <p
-            className="error-message"
-            style={{ textAlign: 'center', marginTop: '20px' }}
-          >
-            Error: {error}
-          </p>
-        ) : null}
+        {error ? <p className="error-message">Error: {error}</p> : null}
 
         <ul className="card-list">
           {items.map((character, index) => (
