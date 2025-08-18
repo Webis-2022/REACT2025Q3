@@ -20,11 +20,7 @@ export class App extends Component {
 
   componentDidMount(): void {
     const savedInputValue = localStorage.getItem('inputValue');
-    if (savedInputValue) {
-      this.handleSearch(savedInputValue);
-    } else {
-      this.handleSearch('');
-    }
+      this.handleSearch(savedInputValue ?? '');
   }
 
   handleSearch = async (searchTerm: string) => {
