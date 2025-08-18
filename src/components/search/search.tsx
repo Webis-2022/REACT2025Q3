@@ -20,7 +20,7 @@ export class Search extends Component<SearchProps, SearchState> {
 
   handleSearch = () => {
     this.props.onSearch(this.state.inputValue);
-    localStorage.setItem('inputValue', this.state.inputValue);
+    localStorage.setItem('inputValue', this.state.inputValue.trim());
     this.props.setHasResults(false);
   };
 

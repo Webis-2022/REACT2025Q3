@@ -1,5 +1,4 @@
 import { Component } from 'react';
-// import './crash-button.css';
 
 export class BuggyComponent extends Component {
   state = { throwError: false };

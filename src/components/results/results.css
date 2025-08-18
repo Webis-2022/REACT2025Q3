@@ -24,7 +24,12 @@
   font-weight: 700;
 }
 
-.hero-name.no-border,
+/* .hero-name.no-border,
 .hero-description.no-border {
   border-bottom: none;
+} */
+
+.name.no-border,
+.description.no-border {
+  border-top: none;
 }

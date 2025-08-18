@@ -5,7 +5,7 @@ export class Loader extends Component {
   render() {
     return (
       <div className="loader-wrapper">
-        <div className="loader"></div>
+        <div className="loader" role="status" aria-label="Loading..."></div>
       </div>
     );
   }

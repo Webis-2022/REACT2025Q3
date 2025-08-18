@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Component, createRef } from 'react';
 import type { CardProps } from './card.types';
 
@@ -11,26 +12,81 @@ export class Card extends Component<CardProps> {
   }
   render() {
     const { character } = this.props;
-    const gender =
-      character.gender.charAt(0).toUpperCase() + character.gender.slice(1);
+    if (character == null) {
+      return (
+        <li className="card">
+          <div
+            className={`name ${this.props.hasResults ? 'no-border' : ''}`}
+            ref={this.nameRef}
+          >
+            No Data
+          </div>
+          <div
+            className={`description ${this.props.hasResults ? 'no-border' : ''}`}
+          >
+            Unknown
+          </div>
+        </li>
+      );
+    } else {
+      if (character.gender) {
+        const gender =
+          character.gender.charAt(0).toUpperCase() + character.gender.slice(1);
 
-    return (
-      <li className="card">
-        <div className="name" ref={this.nameRef}>
-          {character.name}
-        </div>
-        <div className="description">
-          {`
-          ${gender},
-          ${character.height} cm,
-          ${character.mass} kg,
-          born ${character.birth_year},
-          ${character.hair_color} hair,
-          ${character.eye_color} eyes,
-          ${character.skin_color} skin
-          `}
-        </div>
-      </li>
-    );
+        return (
+          <li className="card">
+            <div
+              className={`name ${this.props.hasResults ? 'no-border' : ''}`}
+              ref={this.nameRef}
+            >
+              {character.name}
+            </div>
+            <div
+              className={`description ${this.props.hasResults ? 'no-border' : ''}`}
+            >
+              {`
+                ${gender},
+                ${character.height === undefined
+                  ? '-'
+                  : character.height === null
+                    ? 'Unknown'
+                    : character.height
+                } cm,
+                ${character.mass === undefined
+                  ? '-'
+                  : character.mass === null
+                    ? 'Unknown'
+                    : character.mass
+                } kg,
+          born ${character.birth_year === undefined
+                  ? '-'
+                  : character.birth_year === null
+                    ? 'Unknown'
+                    : character.birth_year
+                },
+                ${character.hair_color === undefined
+                  ? '-'
+                  : character.hair_color === null
+                    ? 'Unknown'
+                    : character.hair_color
+                } hair,
+                ${character.eye_color === undefined
+                  ? '-'
+                  : character.eye_color === null
+                    ? 'Unknown'
+                    : character.eye_color
+                } eyes,
+                ${character.skin_color === undefined
+                  ? '-'
+                  : character.skin_color === null
+                    ? 'Unknown'
+                    : character.skin_color
+                } skin
+              `}
+            </div>
+          </li>
+        );
+      }
+    }
   }
 }

@@ -7,43 +7,50 @@ import { ErrorBoundary } from './components/error-boundary/error-boundary';
 import { Results } from './components/results/results';
 import './App.css';
 
-class App extends Component {
+export class App extends Component {
   state = {
     items: [],
     isLoading: false,
     hasResults: false,
+    error: null,
+    responseStatus: undefined as number | undefined,
   };
 
   dialogRef = createRef<DialogWindow>();
-  response: Response | undefined;
+
+  componentDidMount(): void {
+    const savedInputValue = localStorage.getItem('inputValue');
+    this.handleSearch(savedInputValue ?? '');
+  }
 
   handleSearch = async (searchTerm: string) => {
     try {
-      this.setState({ isLoading: true });
-      if (searchTerm === '') {
-        this.response = await fetch(`https://swapi.py4e.com/api/people`);
-      } else {
-        this.response = await fetch(
-          `https://swapi.py4e.com/api/people/?search=${searchTerm}`
-        );
-      }
-      if (this.response.status === 404 && this.dialogRef.current) {
-        console.log('Hi');
+      this.setState({ isLoading: true, error: null });
+
+      const baseUrl = 'https://swapi.py4e.com/api/people';
+      const url = searchTerm.trim()
+        ? `${baseUrl}/?search=${encodeURIComponent(searchTerm)}`
+        : baseUrl;
+
+      const response = await fetch(url);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const data = await response.json();
+      const isErrorStatus = response.status === 404 || response.status === 500;
+      const isEmptyResult = data.count === 0;
+      if ((isErrorStatus || isEmptyResult) && this.dialogRef.current) {
         this.dialogRef.current.open();
-        this.setState({ items: [], isLoading: false });
+        this.setState({ items: [], isLoading: false, error: null });
         return;
       }
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      const data = await this.response.json();
-      console.log(data.results.length);
 
       this.setState({
         items: data.results,
         isLoading: false,
         hasResults: data.results.length > 0,
+        responseStatus: response.status,
       });
     } catch (error) {
-      console.log('API ERROR', error);
+      this.setState({ error: (error as Error).message, isLoading: false });
     }
   };
 
@@ -63,8 +70,10 @@ class App extends Component {
             items={this.state.items}
             isLoading={this.state.isLoading}
             hasResults={this.state.hasResults}
+            error={this.state.error}
+            dialogRef={this.dialogRef}
+            responseStatus={this.state.responseStatus}
           />
-          <DialogWindow ref={this.dialogRef} status={this.response?.status} />
           <ErrorBoundary>
             <BuggyComponent />
           </ErrorBoundary>
@@ -73,5 +82,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;
