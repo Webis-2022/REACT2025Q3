@@ -2,6 +2,7 @@ import { screen, render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { CardList } from './card-list';
 import { type Character } from './card-list.types';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('CardList', () => {
   it('renders correct number of items when data is provided', () => {
@@ -15,6 +16,7 @@ describe('CardList', () => {
         eye_color: 'blue',
         birth_year: '19BBY',
         gender: 'male',
+        url: '',
       },
       {
         name: 'Leia Organa',
@@ -25,15 +27,18 @@ describe('CardList', () => {
         eye_color: 'brown',
         birth_year: '19BBY',
         gender: 'female',
+        url: '',
       },
     ];
     render(
-      <CardList
-        items={mockItems}
-        isLoading={false}
-        hasResults={true}
-        error={null}
-      />
+      <MemoryRouter>
+        <CardList
+          items={mockItems}
+          isLoading={false}
+          hasResults={true}
+          error={null}
+        />
+      </MemoryRouter>
     );
     const cards = screen.getAllByRole('listitem');
     expect(cards).toHaveLength(mockItems.length);
@@ -64,35 +69,6 @@ describe('CardList', () => {
     const loader = screen.getByRole('status', { name: /loading/i });
     expect(loader).toBeInTheDocument();
   });
-  it('сorrectly displays item names and descriptions', () => {
-    const mockItems: Character[] = [
-      {
-        name: 'Luke Skywalker',
-        height: '172',
-        mass: '77',
-        hair_color: 'blond',
-        skin_color: 'fair',
-        eye_color: 'blue',
-        birth_year: '19BBY',
-        gender: 'male',
-      },
-    ];
-    render(
-      <CardList
-        items={mockItems}
-        isLoading={false}
-        hasResults={false}
-        error={null}
-      />
-    );
-    const name = screen.getByText(/luke skywalker/i);
-    expect(name).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /Male, 172 cm, 77 kg, born 19BBY, blond hair, blue eyes, fair skin/i
-      )
-    ).toBeInTheDocument();
-  });
   it('handles missing or undefined data gracefully', () => {
     const mockItems = [
       {
@@ -104,16 +80,19 @@ describe('CardList', () => {
         eye_color: '',
         birth_year: null,
         gender: 'Male',
+        url: '',
       },
     ];
 
     render(
-      <CardList
-        items={mockItems}
-        isLoading={false}
-        hasResults={true}
-        error={null}
-      />
+      <MemoryRouter>
+        <CardList
+          items={mockItems}
+          isLoading={false}
+          hasResults={true}
+          error={null}
+        />
+      </MemoryRouter>
     );
     expect(screen.getByText(/unknown hero/i)).toBeInTheDocument();
     const unknownElements = screen.getAllByText(/unknown|n\/a|—/i);

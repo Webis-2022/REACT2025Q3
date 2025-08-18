@@ -1,92 +1,76 @@
-/* eslint-disable prettier/prettier */
-import { Component, createRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import type { CardProps } from './card.types';
+import type { Character } from '../card-list/card-list.types';
+import { makeApiQuery } from '../../api/api';
+import { DetailsWindow } from '../details-window/details-window';
+import { useSearchParams } from 'react-router-dom';
 
-export class Card extends Component<CardProps> {
-  nameRef = createRef<HTMLDivElement>();
+export function Card({ character, imgUrl, isSelected, onSelect }: CardProps) {
+  const nameRef = useRef<HTMLDivElement>(null);
+  const [data, setData] = useState<Character | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const firstPage = '1';
 
-  componentDidMount(): void {
-    if (this.nameRef.current) {
-      this.nameRef.current.style.borderRight = 'none';
+  const getCharacterId = (): string | undefined => {
+    const idMatch = character?.url?.match(/\/(\d+)\/$/);
+    if (!idMatch) return;
+    const characterId = idMatch[1];
+    return characterId;
+  };
+
+  const handleClick = (): void => {
+    if (onSelect) {
+      onSelect(character);
+      const characterId = getCharacterId();
+      const page = searchParams.get('page') ?? firstPage;
+      if (!page || !characterId) return;
+      setSearchParams({ page, details: characterId });
     }
-  }
-  render() {
-    const { character } = this.props;
-    if (character == null) {
-      return (
-        <li className="card">
-          <div
-            className={`name ${this.props.hasResults ? 'no-border' : ''}`}
-            ref={this.nameRef}
-          >
-            No Data
-          </div>
-          <div
-            className={`description ${this.props.hasResults ? 'no-border' : ''}`}
-          >
-            Unknown
-          </div>
-        </li>
-      );
-    } else {
-      if (character.gender) {
-        const gender =
-          character.gender.charAt(0).toUpperCase() + character.gender.slice(1);
+  };
 
-        return (
-          <li className="card">
-            <div
-              className={`name ${this.props.hasResults ? 'no-border' : ''}`}
-              ref={this.nameRef}
-            >
-              {character.name}
-            </div>
-            <div
-              className={`description ${this.props.hasResults ? 'no-border' : ''}`}
-            >
-              {`
-                ${gender},
-                ${character.height === undefined
-                  ? '-'
-                  : character.height === null
-                    ? 'Unknown'
-                    : character.height
-                } cm,
-                ${character.mass === undefined
-                  ? '-'
-                  : character.mass === null
-                    ? 'Unknown'
-                    : character.mass
-                } kg,
-          born ${character.birth_year === undefined
-                  ? '-'
-                  : character.birth_year === null
-                    ? 'Unknown'
-                    : character.birth_year
-                },
-                ${character.hair_color === undefined
-                  ? '-'
-                  : character.hair_color === null
-                    ? 'Unknown'
-                    : character.hair_color
-                } hair,
-                ${character.eye_color === undefined
-                  ? '-'
-                  : character.eye_color === null
-                    ? 'Unknown'
-                    : character.eye_color
-                } eyes,
-                ${character.skin_color === undefined
-                  ? '-'
-                  : character.skin_color === null
-                    ? 'Unknown'
-                    : character.skin_color
-                } skin
-              `}
-            </div>
-          </li>
-        );
-      }
-    }
+  useEffect(() => {
+    const fetchCharacterById = async () => {
+      const characterId = getCharacterId();
+      const url = `https://swapi.py4e.com/api/people/${characterId}/`;
+      const characterData = await makeApiQuery<Character>(url);
+      setData(characterData[0]);
+    };
+    fetchCharacterById();
+  }, [character]);
+
+  if (!character) {
+    return (
+      <li className="card">
+        <div className="name">No Data</div>
+        <div className="description">Unknown</div>
+      </li>
+    );
   }
+
+  return (
+    <li className="card">
+      <div
+        onClick={handleClick}
+        style={{
+          backgroundImage: `url(${imgUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '600px',
+        }}
+        className="name"
+        ref={nameRef}
+      >
+        {character.name}
+      </div>
+      {isSelected && (
+        <DetailsWindow
+          data={data}
+          onClose={() => {
+            onSelect?.(null);
+            setSearchParams({});
+          }}
+        />
+      )}
+    </li>
+  );
 }

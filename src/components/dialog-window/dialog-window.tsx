@@ -1,34 +1,37 @@
-import { Component, createRef } from 'react';
-import { type DialogWindowProps } from './dialog-window.types';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
+import {
+  type DialogWindowProps,
+  type DialogWindowHandle,
+} from './dialog-window.types';
+import { ERROR_CODES } from '../../constants/errorCodes';
 
-export class DialogWindow extends Component<DialogWindowProps> {
-  dialogRef = createRef<HTMLDialogElement>();
+export const DialogWindow = forwardRef<DialogWindowHandle, DialogWindowProps>(
+  ({ responseStatus }, ref) => {
+    const dialogRef = useRef<HTMLDialogElement>(null);
 
-  open = () => {
-    this.dialogRef.current?.showModal();
-  };
-  close = () => {
-    this.dialogRef.current?.close();
-  };
+    useImperativeHandle(ref, () => ({
+      open: () => dialogRef.current?.showModal(),
+      close: () => dialogRef.current?.close(),
+    }));
 
-  notFound = 404;
-  serverError = 500;
-
-  render() {
-    const { responseStatus } = this.props;
     return (
-      <dialog className="dialog-window" ref={this.dialogRef}>
-        {responseStatus === this.notFound ? (
+      <dialog className="dialog-window" ref={dialogRef}>
+        {responseStatus === ERROR_CODES.NOT_FOUND ? (
           <p>Data not found (Error 404)</p>
-        ) : responseStatus === this.serverError ? (
+        ) : responseStatus === ERROR_CODES.INTERNAL_SERVER ? (
           <p>Internal server error (Error 500)</p>
         ) : (
           <p>No Results</p>
         )}
-        <button className="close-btn" onClick={this.close}>
+        <button
+          className="close-btn"
+          type="button"
+          onClick={() => dialogRef.current?.close()}
+        >
           Close
         </button>
       </dialog>
     );
   }
-}
+);
+DialogWindow.displayName = 'DialogWindow';

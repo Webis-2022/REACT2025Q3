@@ -25,3 +25,15 @@ coverage/
 *.njsproj
 *.sln
 *.sw?
+
+# coverage / test artifacts
+coverage/
+.nyc_output/
+coverage-final.json
+lcov.info
+*.lcov
+htmlcov/
+.coverage*
+coverage*.xml
+junit.xml
+reports/coverage/

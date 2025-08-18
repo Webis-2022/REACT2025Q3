@@ -2,3 +2,9 @@
 @import './components/crash-button/crash-button.css';
 @import './components/search/search.css';
 @import './components/dialog-window/dialog-window.css';
+@import './pages/about/about.css';
+@import './components/card/card.css';
+@import './components/details-window/details-window.css';
+@import './components/pagination/pagination.css';
+@import './components/results/results.css';
+@import './pages/page404/page404.css';

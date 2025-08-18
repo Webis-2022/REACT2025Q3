@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
-import { App } from './App';
+import { Home } from '../home/home';
 
 type Character = { name: string };
 
@@ -18,12 +18,12 @@ describe('App', () => {
   });
   it('makes initial API call on component mount', () => {
     globalThis.fetch = mockFunction();
-    render(<App />);
+    render(<Home />);
     expect(fetch).toHaveBeenCalledWith('https://swapi.py4e.com/api/people');
   });
   it('handles search term from localStorage on initial load', () => {
     const getItemSpy = vi.spyOn(Storage.prototype, 'getItem');
-    render(<App />);
+    render(<Home />);
     expect(getItemSpy).toHaveBeenCalledTimes(2);
   });
   it('manages loading states during API calls', async () => {
@@ -37,7 +37,7 @@ describe('App', () => {
         }, 20);
       });
     });
-    render(<App />);
+    render(<Home />);
 
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: 'Luke' },
@@ -95,7 +95,7 @@ describe('App', () => {
   });
 
   it('should call base API URL on initial load', async () => {
-    render(<App />);
+    render(<Home />);
 
     await waitFor(() => {
       expect(globalThis.fetch).toHaveBeenCalledWith(
@@ -105,7 +105,7 @@ describe('App', () => {
   });
 
   it('calls API with search term', () => {
-    render(<App />);
+    render(<Home />);
     const searchTerm = 'Luke';
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: searchTerm },
@@ -116,7 +116,7 @@ describe('App', () => {
     );
   });
   it('calls API with no search term', () => {
-    render(<App />);
+    render(<Home />);
     const searchTerm = ' ';
     fireEvent.change(screen.getByRole('textbox'), {
       target: { value: searchTerm },

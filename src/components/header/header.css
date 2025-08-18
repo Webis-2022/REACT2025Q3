@@ -1,11 +1,33 @@
 header {
   background-color: #000;
-  height: 4.2rem;
-  display: flex;
-  justify-content: center;
+  height: 5.2rem;
   align-items: center;
 }
 
 h1.app-title {
   color: #fff;
+  text-align: center;
+  padding: 0.6rem;
+}
+
+.navigation-container {
+  display: flex;
+  justify-content: end;
+  margin-right: 0.8rem;
+}
+
+.navigation {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.navigation a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.navigation a.active {
+  color: #989797
 }
