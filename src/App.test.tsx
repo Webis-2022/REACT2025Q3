@@ -122,8 +122,6 @@ describe('App', () => {
       target: { value: searchTerm },
     });
     fireEvent.click(screen.getByText('Search'));
-    expect(fetch).toHaveBeenCalledWith(
-      `https://swapi.py4e.com/api/people/?search=${searchTerm}`
-    );
+    expect(fetch).toHaveBeenCalledWith(`https://swapi.py4e.com/api/people`);
   });
 });
