@@ -1,11 +1,11 @@
 import { type Character } from '../card-list/card-list.types';
 
 export type CardProps = {
-  character?: Character;
-  hasResults?: boolean;
+  character: Character | null;
   imgUrl?: string | undefined;
   isSelected?: boolean;
-  onSelect?: (data?: Character | null) => void;
+  onSelect?: (data: Character | null) => void;
+  index: number;
 };
 
 export const mockCharacter: Character = {

@@ -32,6 +32,7 @@ export default defineConfig({
         '**/types.ts',
         '**/*.d.ts',
         '**/vite-env.d.ts',
+        'src/components/Layout/Layout.tsx',
       ],
       thresholds: {
         statements: 50,

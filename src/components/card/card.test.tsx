@@ -6,6 +6,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { DetailsWindow } from '../details-window/details-window';
 import { useState } from 'react';
 import type { Character } from '../card-list/card-list.types';
+import { Provider } from 'react-redux';
+import { store } from '../../store';
 
 describe('Card', () => {
   it('opens DetailsWindow and displays character details', async () => {
@@ -14,31 +16,33 @@ describe('Card', () => {
         useState<Character | null>(null);
 
       return (
-        <MemoryRouter>
-          <Card
-            key={0}
-            character={{
-              name: 'Luke Skywalker',
-              height: '172',
-              mass: '77',
-              hair_color: 'blond',
-              skin_color: 'fair',
-              eye_color: 'blue',
-              birth_year: '19BBY',
-              gender: 'male',
-              url: '',
-            }}
-            hasResults={false}
-            imgUrl="http://localhost:5173/REACT2025Q3/images/1.jpg"
-            onSelect={setSelectedCharacter}
-          />
-          {selectedCharacter && (
-            <DetailsWindow
-              data={selectedCharacter}
-              onClose={() => setSelectedCharacter(null)}
+        <Provider store={store}>
+          <MemoryRouter>
+            <Card
+              key={0}
+              character={{
+                name: 'Luke Skywalker',
+                height: '172',
+                mass: '77',
+                hair_color: 'blond',
+                skin_color: 'fair',
+                eye_color: 'blue',
+                birth_year: '19BBY',
+                gender: 'male',
+                url: '',
+              }}
+              imgUrl="http://localhost:5173/REACT2025Q3/images/1.jpg"
+              onSelect={setSelectedCharacter}
+              index={0}
             />
-          )}
-        </MemoryRouter>
+            {selectedCharacter && (
+              <DetailsWindow
+                data={selectedCharacter}
+                onClose={() => setSelectedCharacter(null)}
+              />
+            )}
+          </MemoryRouter>
+        </Provider>
       );
     };
 

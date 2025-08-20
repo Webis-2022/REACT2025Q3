@@ -4,17 +4,16 @@ import { Card } from '../card/card';
 import { Loader } from '../loader/loader';
 import { DialogWindow } from '../dialog-window/dialog-window';
 import type { DialogWindowHandle } from '../dialog-window/dialog-window.types';
+import { useContext } from 'react';
+import { MyContext } from '../../pages/home/home';
 
-export function CardList({
-  items,
-  isLoading,
-  hasResults,
-  error,
-}: CardListProps) {
+export function CardList({ isLoading, error }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
+
+  const items = useContext(MyContext);
 
   if (isLoading) {
     return <Loader />;
@@ -31,20 +30,19 @@ export function CardList({
       ) : null}
 
       <ul className="card-list">
-        {items.map((character, index) => (
+        {items?.map((character, index) => (
           <Card
             key={index}
             character={character}
-            hasResults={hasResults}
             imgUrl={`${import.meta.env.BASE_URL}images/${character.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
             isSelected={selectedCharacter?.name === character.name}
-            onSelect={(char) => setSelectedCharacter(char ?? null)}
+            onSelect={(char) => setSelectedCharacter(char)}
+            index={index}
+            data-testid="card"
           ></Card>
         ))}
       </ul>
-      {!isLoading && items.length === 0 && !hasResults && (
-        <DialogWindow ref={dialogRef} />
-      )}
+      {!isLoading && items?.length === 0 && <DialogWindow ref={dialogRef} />}
     </>
   );
 }

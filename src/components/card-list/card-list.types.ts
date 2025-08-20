@@ -17,9 +17,7 @@ export type Character = {
 };
 
 export type CardListProps = {
-  items: Character[];
   isLoading: boolean;
-  hasResults?: boolean;
   error: string | null;
   dialogRef?: React.RefObject<DialogWindowHandle | null>;
   responseStatus?: number;

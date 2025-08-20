@@ -7,9 +7,7 @@ describe('Results', () => {
   it('shows appropriate error for different HTTP status codes (4xx, 5xx)', () => {
     render(
       <Results
-        items={[]}
         isLoading={false}
-        hasResults={false}
         error="Server error"
         dialogRef={createRef()}
         responseStatus={500}
