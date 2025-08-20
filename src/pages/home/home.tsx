@@ -106,6 +106,8 @@ export function Home() {
             setItems={setItems}
             setNext={setNext}
             setPrevious={setPrevious}
+            setIsLoading={setIsLoading}
+            setError={setError}
           />
         ) : null}
         <MyContext.Provider value={items}>

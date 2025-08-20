@@ -9,9 +9,9 @@ import { MyContext } from '../../pages/home/home';
 
 export function CardList({ isLoading, error }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
-  const [selectedCharacter, setSelectedCharacter] = useState<
-    Character | null | undefined
-  >(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
 
   const items = useContext(MyContext);
 
