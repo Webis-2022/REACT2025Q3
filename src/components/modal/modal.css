@@ -1,6 +1,4 @@
 .modal-wrapper {
-  width: 30%;
-  height: 70%;
   position: fixed;
   top: 0;
   left: 0;
@@ -13,6 +11,7 @@
 }
 
 .modal-window {
+  width: 50%;
   background: #fff;
   padding: 10px;
   border-radius: 8px;

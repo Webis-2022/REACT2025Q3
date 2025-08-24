@@ -15,7 +15,7 @@ export default function App() {
     'uncontrolled'
   );
   const addData = useStore((state) => state.addData);
-  const [id, setId] = useState(0);
+  const [id, setId] = useState(1);
   const validatedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
 
   const nameRef = useRef<HTMLInputElement>(null);

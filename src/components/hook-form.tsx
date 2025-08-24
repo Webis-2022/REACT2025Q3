@@ -76,12 +76,20 @@ export const HookForm = ({ onClose }: { onClose: () => void }) => {
         <p style={{ color: 'red' }}>{formState.errors.email.message}</p>
       )}{' '}
       <label htmlFor="first-password">Password</label>{' '}
-      <input type="text" id="first-password" {...register('firstPassword')} />{' '}
+      <input
+        type="password"
+        id="first-password"
+        {...register('firstPassword')}
+      />{' '}
       {formState.errors.firstPassword && (
         <p style={{ color: 'red' }}>{formState.errors.firstPassword.message}</p>
       )}{' '}
       <label htmlFor="second-password">Repeat Password</label>{' '}
-      <input type="text" id="second-password" {...register('secondPassword')} />{' '}
+      <input
+        type="password"
+        id="second-password"
+        {...register('secondPassword')}
+      />{' '}
       {formState.errors.secondPassword && (
         <p style={{ color: 'red' }}>
           {' '}
