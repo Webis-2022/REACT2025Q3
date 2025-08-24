@@ -57,7 +57,7 @@ export const HookForm = ({ onClose }: { onClose: () => void }) => {
   return (
     <form id="form" onSubmit={handleSubmit(submit)}>
       <label htmlFor="name">Name</label>
-      <input type="text" id="name" {...register('name')} />
+      <input type="text" id="name" autoFocus {...register('name')} />
       {formState.errors.name && (
         <p style={{ color: 'red' }}>{formState.errors.name.message}</p>
       )}

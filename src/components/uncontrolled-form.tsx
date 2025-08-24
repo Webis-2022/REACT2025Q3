@@ -32,7 +32,7 @@ export const UncontrolledForm = ({
   return (
     <form id="form" onSubmit={handleSubmit} noValidate>
       <label htmlFor="name">Name</label>
-      <input type="text" id="name" ref={refs.nameRef} />
+      <input type="text" id="name" autoFocus ref={refs.nameRef} />
       {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
 
       <label htmlFor="age">Age</label>

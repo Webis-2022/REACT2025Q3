@@ -17,6 +17,7 @@ export default function App() {
   const addData = useStore((state) => state.addData);
   const [id, setId] = useState(1);
   const validatedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+  const maxImageSize = 2 * 1024 * 1024;
 
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
@@ -66,6 +67,9 @@ export default function App() {
     if (!tc) newErrors.tc = 'You must accept T&C';
     if (image && !validatedTypes.includes(image.type))
       newErrors.image = 'Image extension should be jpg or png';
+    if (image && image.size > maxImageSize) {
+      newErrors.image = 'Image size must be less than 2 MB';
+    }
     if (!country) newErrors.country = 'Select your country';
 
     setErrors(newErrors);

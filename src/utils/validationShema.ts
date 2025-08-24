@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const maxImageSize = 2 * 1024 * 1024;
+
 export const schema = z
   .object({
     name: z
@@ -42,6 +44,10 @@ export const schema = z
       .refine(
         (file) => !file || ['image/png', 'image/jpeg'].includes(file.type),
         'Image should be jpg or png'
+      )
+      .refine(
+        (file) => !file || file.size <= maxImageSize,
+        'Image size must be less than 2 MB'
       ),
   })
   .refine((data) => data.firstPassword === data.secondPassword, {
