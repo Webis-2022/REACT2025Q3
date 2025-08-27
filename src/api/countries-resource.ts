@@ -3,6 +3,8 @@ type YearData = {
   population?: number;
   co2?: number;
   co2_per_capita?: number;
+  methane?: number;
+  methane_per_capita?: number;
 };
 
 type Country = {
