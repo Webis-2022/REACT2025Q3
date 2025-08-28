@@ -10,7 +10,7 @@ import { useState } from 'react';
 import type { Character } from '../card-list/card-list.types';
 
 vi.mock('../../services/api', async (importOriginal) => {
-  const actual: typeof import("../../services/api") = await importOriginal();
+  const actual: typeof import('../../services/api') = await importOriginal();
   return {
     ...actual,
     useGetCharactersQuery: vi.fn(() => ({

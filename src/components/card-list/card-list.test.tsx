@@ -8,11 +8,15 @@ import { store } from '../../store';
 import { MyContext } from '../../pages/home/home';
 import * as api from '../../services/api';
 
-vi.mock('../../services/api', async () => {
-  const originalModule = await vi.importActual('../../services/api');
+vi.mock('../../services/api', async (importOriginal) => {
+  const actual: typeof import('../../services/api') = await importOriginal();
   return {
-    ...originalModule,
-    useGetCharactersQuery: vi.fn(),
+    ...actual,
+    useGetCharactersQuery: vi.fn(() => ({
+      data: { results: [], next: null, previous: null },
+      error: null,
+      isLoading: false,
+    })),
   };
 });
 
