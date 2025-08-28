@@ -4,38 +4,25 @@ import { Results } from '../../components/results/results';
 import type { DialogWindowHandle } from '../../components/dialog-window/dialog-window.types';
 import type { Character } from '../../components/card-list/card-list.types';
 import { Pagination } from '../../components/pagination/pagination';
-import { makeApiQuery } from '../../api/api';
 import type { PaginationProps } from '../../components/pagination/pagination.types';
 import { useSelector } from 'react-redux';
 import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
 import type { RootState } from '../../store';
+import { useLazyGetCharactersQuery } from '../../services/api';
 
 export const MyContext = createContext<Character[] | null>(null);
 
 export function Home() {
+  const [page, setPage] = useState(1);
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
   const [items, setItems] = useState<Character[]>([]);
-  const [next, setNext] = useState<string | null>(
-    fullData ? fullData.next : null
-  );
-  const [previous, setPrevious] = useState<string | null>(
-    fullData ? fullData.previous : null
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [responseStatus, setResponseStatus] = useState<number | undefined>(
     undefined
   );
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
   );
-
-  useEffect(() => {
-    if (fullData) {
-      setNext(fullData.next);
-      setPrevious(fullData.previous);
-    }
-  }, [fullData]);
+  const [trigger, { isLoading }] = useLazyGetCharactersQuery();
 
   const dialogRef = useRef<DialogWindowHandle>(null);
 
@@ -54,33 +41,30 @@ export function Home() {
 
   const handleSearch = async (searchTerm: string) => {
     try {
-      setIsLoading(true);
-      setError(null);
+      const result = await trigger({ search: searchTerm }).unwrap();
 
-      const url =
-        searchTerm === ''
-          ? `https://swapi.py4e.com/api/people`
-          : `https://swapi.py4e.com/api/people/?search=${searchTerm}`;
+      setFullData(result);
+      setItems(result?.results);
 
-      const [data, response] = await makeApiQuery<PaginationProps>(url);
-      setFullData(data);
-      if (
-        (response.status === 404 && dialogRef.current) ||
-        (response.status === 500 && dialogRef.current) ||
-        (data.count === 0 && dialogRef.current)
-      ) {
+      if (result.count === 0 && dialogRef.current) {
         openDialog();
-        setItems([]);
-        setIsLoading(false);
-        setError(null);
-        return;
+        setResponseStatus(404);
+      } else {
+        setResponseStatus(200);
       }
-      setItems(data.results);
-      setIsLoading(false);
-      setResponseStatus(response.status);
-    } catch (error) {
-      setError((error as Error).message);
-      setIsLoading(false);
+    } catch (error: unknown) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'status' in error &&
+        typeof (error as { status: number }).status === 'number'
+      ) {
+        const status = (error as { status: number }).status;
+        if ((status === 404 || status === 500) && dialogRef.current) {
+          openDialog();
+          setResponseStatus(status);
+        }
+      }
     }
   };
 
@@ -88,26 +72,26 @@ export function Home() {
     <>
       <main>
         <Search onSearch={handleSearch} />
-        <MyContext.Provider value={items}>
-          <Results
-            // items={items}
-            isLoading={isLoading}
-            error={error}
-            dialogRef={dialogRef}
-            responseStatus={responseStatus}
-          />
-        </MyContext.Provider>
+        <button
+          className="refresh-cache-btn"
+          onClick={() =>
+            trigger({ search: '', page: page, cacheBuster: Date.now() })
+          }
+          disabled={isLoading}
+        >
+          Refresh
+        </button>
+        <Results
+          page={page}
+          dialogRef={dialogRef}
+          responseStatus={responseStatus}
+        />
         {fullData && fullData.count > 10 ? (
           <Pagination
+            currentPage={page}
+            onPageChange={setPage}
             count={fullData.count}
-            next={next}
-            previous={previous}
-            results={fullData.results}
-            setItems={setItems}
-            setNext={setNext}
-            setPrevious={setPrevious}
-            setIsLoading={setIsLoading}
-            setError={setError}
+            results={items}
           />
         ) : null}
         <MyContext.Provider value={items}>

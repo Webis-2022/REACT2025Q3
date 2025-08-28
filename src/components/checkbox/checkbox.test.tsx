@@ -15,7 +15,7 @@ describe('Checkbox', () => {
   it('checkbox exists on the page', () => {
     render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={['/']}>
+        <MemoryRouter>
           <Checkbox index={2} />
         </MemoryRouter>
       </Provider>

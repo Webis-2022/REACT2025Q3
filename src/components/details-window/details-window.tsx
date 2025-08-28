@@ -1,6 +1,7 @@
 import type { DetailsWindowProps } from './details-window.types';
 
 export function DetailsWindow({ data, onClose }: DetailsWindowProps) {
+  console.log('))))', data);
   return (
     <div className="description">
       <div className="close-button-container">

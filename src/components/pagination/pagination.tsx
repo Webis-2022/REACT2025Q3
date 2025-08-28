@@ -1,82 +1,66 @@
 import type { Direction, PaginationProps } from './pagination.types';
-import { makeApiQuery } from '../../api/api';
 import { useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useGetCharactersQuery } from '../../services/api';
+import { Loader } from '../loader/loader';
 
-export function Pagination({
-  next,
-  previous,
-  setItems,
-  setNext,
-  setPrevious,
-  setIsLoading,
-  setError,
-}: PaginationProps) {
-  const [, setSearchParams] = useSearchParams();
-  const [pageNum, setPageNum] = useState(1);
+export function Pagination({ currentPage, onPageChange }: PaginationProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
 
-  useEffect(() => {
-    setSearchParams({});
-  }, []);
+  const { data, error, isLoading } = useGetCharactersQuery({
+    page: currentPage,
+    search: searchQuery,
+  });
 
-  const handlePageChange = (newPage: number) => {
+  const updatePage = (delta: Direction) => {
+    const newPage = currentPage + delta;
+    if (newPage < 1) return;
+
     setSearchParams((prev: URLSearchParams) => {
       const params = new URLSearchParams(prev);
       params.set('page', String(newPage));
       return params;
     });
+
+    onPageChange?.(newPage);
   };
 
-  const updatePage = async (url: string | null, delta: Direction) => {
-    if (!url) return;
+  const handlePrevClick = () => updatePage(-1);
+  const handleNextClick = () => updatePage(1);
 
-    try {
-      setIsLoading(true);
+  const nextDisabled = !data?.next;
+  const prevDisabled = !data?.previous;
 
-      const [data] = await makeApiQuery<PaginationProps>(url);
-      const newPage = pageNum + delta;
+  if (isLoading) {
+    return <Loader />;
+  }
 
-      setItems(data.results);
-      setNext(data.next ?? null);
-      setPrevious(data.previous ?? null);
-      setPageNum(newPage);
-      setSearchParams({ page: String(newPage) });
+  if (error) {
+    const status = 'status' in error ? (error.status as number) : 'Unknown';
+    return <div>Error: {status}</div>;
+  }
 
-      handlePageChange?.(newPage);
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Failed to load page');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handlePrevClick = () => updatePage(previous, -1);
-  const handleNextClick = () => updatePage(next, 1);
-
-  const nextDisabled = next === null;
-  const prevDisabled = previous === null;
   return (
-    <>
-      <div className="pagination-container">
-        <button
-          className={`prev-btn ${prevDisabled ? 'prev-disabled' : ''}`}
-          onClick={handlePrevClick}
-          disabled={prevDisabled}
-        >
-          &larr;
-        </button>
-        <div className="page-number-container">
-          <div className="page-number">Page {pageNum}</div>
-        </div>
-        <button
-          className={`next-btn ${nextDisabled ? 'next-disabled' : ''}`}
-          onClick={handleNextClick}
-          disabled={nextDisabled}
-        >
-          &rarr;
-        </button>
+    <div className="pagination-container">
+      <button
+        className={`prev-btn ${prevDisabled ? 'prev-disabled' : ''}`}
+        onClick={handlePrevClick}
+        disabled={prevDisabled}
+      >
+        &larr;
+      </button>
+
+      <div className="page-number-container">
+        <div className="page-number">Page {currentPage}</div>
       </div>
-      ;
-    </>
+
+      <button
+        className={`next-btn ${nextDisabled ? 'next-disabled' : ''}`}
+        onClick={handleNextClick}
+        disabled={nextDisabled}
+      >
+        &rarr;
+      </button>
+    </div>
   );
 }

@@ -1,10 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
 import type { CardProps } from './card.types';
-import type { Character } from '../card-list/card-list.types';
-import { makeApiQuery } from '../../api/api';
 import { DetailsWindow } from '../details-window/details-window';
 import { useSearchParams } from 'react-router-dom';
 import { Checkbox } from '../checkbox/checkbox';
+import { useLazyGetCharacterByIdQuery } from '../../services/api';
+import type { Character } from '../card-list/card-list.types';
 
 export function Card({
   character,
@@ -16,6 +16,8 @@ export function Card({
   const nameRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<Character | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  // eslint-disable-next-line no-empty-pattern, prettier/prettier
+  const [trigger, { }] = useLazyGetCharacterByIdQuery();
   const firstPage = '1';
 
   const getCharacterId = (): string | undefined => {
@@ -38,9 +40,8 @@ export function Card({
   useEffect(() => {
     const fetchCharacterById = async () => {
       const characterId = getCharacterId();
-      const url = `https://swapi.py4e.com/api/people/${characterId}/`;
-      const characterData = await makeApiQuery<Character>(url);
-      setData(characterData[0]);
+      const characterData = await trigger(characterId).unwrap();
+      setData(characterData);
     };
     fetchCharacterById();
   }, [character]);

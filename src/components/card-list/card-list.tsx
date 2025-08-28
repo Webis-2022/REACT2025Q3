@@ -4,45 +4,51 @@ import { Card } from '../card/card';
 import { Loader } from '../loader/loader';
 import { DialogWindow } from '../dialog-window/dialog-window';
 import type { DialogWindowHandle } from '../dialog-window/dialog-window.types';
-import { useContext } from 'react';
-import { MyContext } from '../../pages/home/home';
+import { useGetCharactersQuery } from '../../services/api';
 
-export function CardList({ isLoading, error }: CardListProps) {
+export function CardList({ page }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
 
-  const items = useContext(MyContext);
+  const search = localStorage.getItem('inputValue');
+  const { data, isLoading, error } = useGetCharactersQuery({ search, page });
 
   if (isLoading) {
     return <Loader />;
   }
+
+  const result = data?.results ?? [];
+
   return (
     <>
-      {error ? (
-        <p
-          className="error-message"
-          style={{ textAlign: 'center', marginTop: '20px' }}
-        >
-          Error: {error}
-        </p>
-      ) : null}
+      {error && (
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <p>
+            Error:{' '}
+            {'status' in error
+              ? `Status ${error.status}`
+              : JSON.stringify(error)}
+          </p>
+        </div>
+      )}
 
       <ul className="card-list">
-        {items?.map((character, index) => (
+        {result?.map((character: Character | null, index: number) => (
           <Card
             key={index}
             character={character}
-            imgUrl={`${import.meta.env.BASE_URL}images/${character.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
-            isSelected={selectedCharacter?.name === character.name}
+            imgUrl={`${import.meta.env.BASE_URL}images/${character?.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
+            isSelected={selectedCharacter?.name === character?.name}
             onSelect={(char) => setSelectedCharacter(char)}
             index={index}
             data-testid="card"
-          ></Card>
+          />
         ))}
       </ul>
-      {!isLoading && items?.length === 0 && <DialogWindow ref={dialogRef} />}
+
+      {!isLoading && result?.length === 0 && <DialogWindow ref={dialogRef} />}
     </>
   );
 }
