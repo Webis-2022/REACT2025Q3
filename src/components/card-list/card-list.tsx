@@ -8,9 +8,9 @@ import { useGetCharactersQuery } from '../../services/api';
 
 export function CardList({ page }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
-  const [selectedCharacter, setSelectedCharacter] = useState<
-    Character | null | undefined
-  >(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
 
   const search = localStorage.getItem('inputValue');
   const { data, isLoading, error } = useGetCharactersQuery({ search, page });

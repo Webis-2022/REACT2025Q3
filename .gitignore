@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+.next/
+coverage/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -23,7 +26,6 @@ dist-ssr
 *.sln
 *.sw?
 
-
 # coverage / test artifacts
 coverage/
 .nyc_output/
@@ -34,4 +36,8 @@ htmlcov/
 .coverage*
 coverage*.xml
 junit.xml
+<<<<<<< HEAD
 reports/coverage/
+=======
+reports/coverage/
+>>>>>>> f9ea75913e5e7784dc4ea04d49db4cf6b05eef8d

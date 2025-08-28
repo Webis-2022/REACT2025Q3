@@ -1,5 +1,5 @@
 export type DialogWindowProps = {
-  responseStatus?: number | undefined;
+  responseStatus?: number;
 };
 
 export type DialogWindowHandle = {

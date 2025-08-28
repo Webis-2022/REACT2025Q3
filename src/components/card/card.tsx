@@ -18,6 +18,8 @@ export function Card({
   const [searchParams, setSearchParams] = useSearchParams();
   // eslint-disable-next-line no-empty-pattern, prettier/prettier
   const [trigger, { }] = useLazyGetCharacterByIdQuery();
+  const firstPage = '1';
+
   const getCharacterId = (): string | undefined => {
     const idMatch = character?.url?.match(/\/(\d+)\/$/);
     if (!idMatch) return;
@@ -29,9 +31,9 @@ export function Card({
     if (onSelect) {
       onSelect(character);
       const characterId = getCharacterId();
-      const page = searchParams.get('page') ?? '1';
+      const page = searchParams.get('page') ?? firstPage;
       if (!page || !characterId) return;
-      setSearchParams({ page: page, details: characterId });
+      setSearchParams({ page, details: characterId });
     }
   };
 

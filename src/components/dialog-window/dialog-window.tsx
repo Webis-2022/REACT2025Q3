@@ -3,6 +3,7 @@ import {
   type DialogWindowProps,
   type DialogWindowHandle,
 } from './dialog-window.types';
+import { ERROR_CODES } from '../../constants/errorCodes';
 
 export const DialogWindow = forwardRef<DialogWindowHandle, DialogWindowProps>(
   ({ responseStatus }, ref) => {
@@ -15,9 +16,9 @@ export const DialogWindow = forwardRef<DialogWindowHandle, DialogWindowProps>(
 
     return (
       <dialog className="dialog-window" ref={dialogRef}>
-        {responseStatus === 404 ? (
+        {responseStatus === ERROR_CODES.NOT_FOUND ? (
           <p>Data not found (Error 404)</p>
-        ) : responseStatus === 500 ? (
+        ) : responseStatus === ERROR_CODES.INTERNAL_SERVER ? (
           <p>Internal server error (Error 500)</p>
         ) : (
           <p>No Results</p>
