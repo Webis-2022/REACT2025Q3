@@ -6,6 +6,7 @@ import { Loader } from './components/loader/loader';
 import { ModalWidget } from './components/modal-widget/modal-widget';
 
 export default function App() {
+  const [selectedYear, setSelectedYear] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [methaneColumn, setMethaneColumn] = useState('');
@@ -19,9 +20,9 @@ export default function App() {
   return (
     <>
       <Suspense fallback={<Loader />}>
-        <Header selectedCountry={selectedCountry} onSelect={setSelectedCountry} onOpen={() => setIsOpen(true)} />
+        <Header selectedYear={selectedYear} onSelect={setSelectedYear} onChange={setSelectedCountry} onOpen={() => setIsOpen(true)} />
         {isOpen && <ModalWidget onClose={() => setIsOpen(false)} callbacks={callbacks} />}
-        <CountriesTable selectedCountry={selectedCountry} methaneColumn={methaneColumn} methanePerCapitaColumn={methanePerCapitaColumn} />
+        <CountriesTable selectedYear={selectedYear} selectedCountry={selectedCountry} methaneColumn={methaneColumn} methanePerCapitaColumn={methanePerCapitaColumn} />
       </Suspense>
     </>
   );

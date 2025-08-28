@@ -1,12 +1,13 @@
-import { useState } from "react";
 import { countriesResource } from "../../api/countries-resource";
 import './countries-table.css';
 
 export function CountriesTable({
+  selectedYear,
   selectedCountry,
   methaneColumn,
   methanePerCapitaColumn,
 }: {
+  selectedYear: string;
   selectedCountry: string;
   methaneColumn: string;
   methanePerCapitaColumn: string;
@@ -29,16 +30,22 @@ export function CountriesTable({
       <tbody>
         {Object.entries(countries)
           .filter(([name]) => !selectedCountry || name === selectedCountry)
-          .map(([name, info]) => (
-            <tr key={name}>
-              <td>{name}</td>
-              <td>{info.data[info.data.length - 1]?.population ?? 'N/A'}</td>
-              <td>{info.data[info.data.length - 1]?.co2 ?? 'N/A'}</td>
-              <td>{info.data[info.data.length - 1]?.co2_per_capita ?? 'N/A'}</td>
-              {methaneColumn && <td>{info.data[info.data.length - 1]?.methane ?? 'N/A'}</td>}
-              {methanePerCapitaColumn && <td>{info.data[info.data.length - 1]?.methane_per_capita ?? 'N/A'}</td>}
-            </tr>
-          ))}
+          .map(([name, info]) => {
+            const row =
+              info.data.find(r => r.year === Number(selectedYear)) ??
+              info.data[info.data.length - 1];
+
+            return (
+              <tr key={name}>
+                <td>{name}</td>
+                <td>{row.population ?? 'N/A'}</td>
+                <td>{row.co2 ?? 'N/A'}</td>
+                <td>{row.co2_per_capita ?? 'N/A'}</td>
+                {methaneColumn && <td>{row.methane ?? 'N/A'}</td>}
+                {methanePerCapitaColumn && <td>{row.methane_per_capita ?? 'N/A'}</td>}
+              </tr>
+            );
+          })}
       </tbody>
     </table>
   );

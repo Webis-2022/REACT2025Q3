@@ -1,21 +1,30 @@
-import { CountriesSelector } from "../countries-selector";
+import { YearSelector } from "../year-selector";
 import './header.css';
 
 export function Header({
-  selectedCountry,
+  selectedYear,
   onSelect,
+  // selectedCountry,
+  onChange,
   onOpen
 }: {
-  selectedCountry: string;
+  selectedYear: string;
   onSelect: (value: string) => void;
+  // selectedCountry: string,
+  onChange: (value: string) => void;
   onOpen: () => void;
 }) {
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  }
   return (
     <header>
-      <CountriesSelector
-        selectedCountry={selectedCountry}
+      <YearSelector
+        selectedYear={selectedYear}
         onSelect={onSelect}
       />
+      <input type="text" className="country" onChange={handleChange} />
       <button className="add-columns" onClick={onOpen}>Add Columns</button>
     </header>
   )
