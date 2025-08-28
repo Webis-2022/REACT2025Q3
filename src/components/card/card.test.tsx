@@ -10,11 +10,28 @@ import { useState } from 'react';
 import type { Character } from '../card-list/card-list.types';
 
 vi.mock('../../services/api', async (importOriginal) => {
-  const actual: typeof import('../../services/api') = await importOriginal();
+  const actual =
+    (await importOriginal()) as typeof import('../../services/api');
   return {
     ...actual,
     useGetCharactersQuery: vi.fn(() => ({
-      data: { results: [], next: null, previous: null },
+      data: {
+        results: [
+          {
+            name: 'Luke Skywalker',
+            height: '172',
+            mass: '77',
+            hair_color: 'blond',
+            skin_color: 'fair',
+            eye_color: 'blue',
+            birth_year: '19BBY',
+            gender: 'male',
+            url: '',
+          },
+        ],
+        next: null,
+        previous: null,
+      },
       error: null,
       isLoading: false,
     })),
