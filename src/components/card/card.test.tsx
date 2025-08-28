@@ -1,13 +1,25 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { Card } from './card';
-import { userEvent } from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import { Card } from './card';
 import { DetailsWindow } from '../details-window/details-window';
+import { store } from '../../store';
+import { describe, expect, it, vi } from 'vitest';
 import { useState } from 'react';
 import type { Character } from '../card-list/card-list.types';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
+
+vi.mock('../../services/api', async (importOriginal) => {
+  const actual: typeof import("../../services/api") = await importOriginal();
+  return {
+    ...actual,
+    useGetCharactersQuery: vi.fn(() => ({
+      data: { results: [], next: null, previous: null },
+      error: null,
+      isLoading: false,
+    })),
+  };
+});
 
 describe('Card', () => {
   it('opens DetailsWindow and displays character details', async () => {
@@ -31,7 +43,7 @@ describe('Card', () => {
                 gender: 'male',
                 url: '',
               }}
-              imgUrl="http://localhost:5173/REACT2025Q3/images/1.jpg"
+              imgUrl="test-image.jpg"
               onSelect={setSelectedCharacter}
               index={0}
             />
