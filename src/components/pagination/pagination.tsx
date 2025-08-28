@@ -1,6 +1,7 @@
 import type { Direction, PaginationProps } from './pagination.types';
 import { useSearchParams } from 'react-router-dom';
 import { useGetCharactersQuery } from '../../services/api';
+import { Loader } from '../loader/loader';
 
 export function Pagination({ currentPage, onPageChange }: PaginationProps) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,7 +32,7 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
   const prevDisabled = !data?.previous;
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
