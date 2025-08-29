@@ -1,5 +1,5 @@
-import { useState, Suspense } from 'react'
-import './App.css'
+import { useState, Suspense } from 'react';
+import './App.css';
 import { CountriesTable } from './components/countries-table/countries-table';
 import { Header } from './components/header/header';
 import { Loader } from './components/loader/loader';
@@ -20,13 +20,22 @@ export default function App() {
   return (
     <>
       <Suspense fallback={<Loader />}>
-        <Header selectedYear={selectedYear} onSelect={setSelectedYear} onChange={setSelectedCountry} onOpen={() => setIsOpen(true)} />
-        {isOpen && <ModalWidget onClose={() => setIsOpen(false)} callbacks={callbacks} />}
-        <CountriesTable selectedYear={selectedYear} selectedCountry={selectedCountry} methaneColumn={methaneColumn} methanePerCapitaColumn={methanePerCapitaColumn} />
+        <Header
+          selectedYear={selectedYear}
+          onSelect={setSelectedYear}
+          onChange={setSelectedCountry}
+          onOpen={() => setIsOpen(true)}
+        />
+        {isOpen && (
+          <ModalWidget onClose={() => setIsOpen(false)} callbacks={callbacks} />
+        )}
+        <CountriesTable
+          selectedYear={selectedYear}
+          selectedCountry={selectedCountry}
+          methaneColumn={methaneColumn}
+          methanePerCapitaColumn={methanePerCapitaColumn}
+        />
       </Suspense>
     </>
   );
 }
-
-
-

@@ -6,3 +6,22 @@ th,
 td {
   border: 1px solid #000;
 }
+
+.table-head {
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  padding-right: 20px;
+}
+
+.sort-order {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 10px;
+  cursor: pointer;
+}
