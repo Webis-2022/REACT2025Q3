@@ -1,4 +1,4 @@
-type YearData = {
+export type YearData = {
   year: number;
   population?: number;
   co2?: number;
@@ -7,7 +7,7 @@ type YearData = {
   methane_per_capita?: number;
 };
 
-type Country = {
+export type Country = {
   iso_code: string;
   data: YearData[];
 };

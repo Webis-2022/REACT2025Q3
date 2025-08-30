@@ -1,20 +1,32 @@
 import { countriesResource } from '../../api/countries-resource';
 import { useState } from 'react';
 import './countries-table.css';
+import countriesByRegion from '../../utils/countries-by-region';
+import type { Country, YearData } from '../../api/countries-resource';
+
+export type RegionKey = keyof typeof countriesByRegion;
 
 export function CountriesTable({
   selectedYear,
   selectedCountry,
+  selectedRegion,
   methaneColumn,
   methanePerCapitaColumn,
 }: {
   selectedYear: string;
   selectedCountry: string;
+  selectedRegion: RegionKey | undefined;
   methaneColumn: string;
   methanePerCapitaColumn: string;
 }) {
   const countries = countriesResource.read();
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  const formatNumber = (num: number | undefined) => {
+    return num !== undefined
+      ? num.toLocaleString(undefined, { maximumFractionDigits: 2 })
+      : 'NA';
+  }
 
   return (
     <table>
@@ -56,20 +68,27 @@ export function CountriesTable({
               sortOrder === 'asc'
                 ? [...info.data].sort((a, b) => a.year - b.year)
                 : [...info.data].sort((a, b) => b.year - a.year);
+            console.log(name);
 
-            const row =
-              sortedData.find((r) => r.year === Number(selectedYear)) ??
-              sortedData[info.data.length - 1];
+            const latestData = selectedYear
+              ? (sortedData.find((r) => r.year === Number(selectedYear)) ??
+                sortedData[sortedData.length - 1])
+              : sortedData[sortedData.length - 1];
+
+            if (selectedRegion) {
+              const countryArray = countriesByRegion[selectedRegion];
+              if (!countryArray.includes(name)) return null;
+            }
 
             return (
               <tr key={name}>
                 <td>{name}</td>
-                <td>{row.population ?? 'N/A'}</td>
-                <td>{row.co2 ?? 'N/A'}</td>
-                <td>{row.co2_per_capita ?? 'N/A'}</td>
-                {methaneColumn && <td>{row.methane ?? 'N/A'}</td>}
+                <td>{latestData?.population?.toLocaleString() ?? 'N/A'}</td>
+                <td>{formatNumber(latestData?.co2)}</td>
+                <td>{formatNumber(latestData?.co2_per_capita)}</td>
+                {methaneColumn && <td>{formatNumber(latestData?.methane)}</td>}
                 {methanePerCapitaColumn && (
-                  <td>{row.methane_per_capita ?? 'N/A'}</td>
+                  <td>{formatNumber(latestData?.methane_per_capita)}</td>
                 )}
               </tr>
             );

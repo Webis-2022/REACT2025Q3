@@ -4,4 +4,5 @@ header {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  min-width: 600px;
 }
