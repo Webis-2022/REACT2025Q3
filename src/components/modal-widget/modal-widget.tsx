@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from 'react';
 import './modal-widget.css';
 
 type Callbacks = {
@@ -10,22 +11,26 @@ type ModalWidgetProps = {
   callbacks: Callbacks;
 };
 
-export function ModalWidget({ onClose, callbacks }: ModalWidgetProps) {
-  const additionalColumns = {
-    methane: 'setMethaneColumn',
-    methane_per_capita: 'setMethanePerCapitaColumn',
-    // 'oil_co2',
-    // 'oil_co2_per_capita'
-  };
+export function ModalWidgetComponent({ onClose, callbacks }: ModalWidgetProps) {
+  const additionalColumns = useMemo(
+    () => ({
+      methane: 'setMethaneColumn',
+      methane_per_capita: 'setMethanePerCapitaColumn',
+    }),
+    []
+  );
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const columnKey = e.target.value as keyof typeof additionalColumns;
-    const setterName = additionalColumns[columnKey];
-    const setter = callbacks[setterName as keyof typeof callbacks];
-    if (setter) {
-      setter(columnKey);
-    }
-  };
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const columnKey = e.target.value as keyof typeof additionalColumns;
+      const setterName = additionalColumns[columnKey];
+      const setter = callbacks[setterName as keyof typeof callbacks];
+      if (setter) {
+        setter(columnKey);
+      }
+    },
+    [callbacks, additionalColumns]
+  );
   return (
     <div className="modal-wrapper" onClick={onClose}>
       <div className="modal-window" onClick={(e) => e.stopPropagation()}>
@@ -41,3 +46,5 @@ export function ModalWidget({ onClose, callbacks }: ModalWidgetProps) {
     </div>
   );
 }
+
+export const ModalWidget = React.memo(ModalWidgetComponent);

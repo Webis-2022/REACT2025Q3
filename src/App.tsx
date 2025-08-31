@@ -1,4 +1,4 @@
-import { useState, Suspense, useMemo } from 'react';
+import { useState, Suspense, useMemo, useCallback } from 'react';
 import './App.css';
 import { CountriesTable } from './components/countries-table/countries-table';
 import { Header } from './components/header/header';
@@ -31,6 +31,9 @@ export default function App() {
     [setSelectedYear, setSelectedCountry, setSelectedRegion]
   );
 
+  const onOpen = useCallback(() => setIsOpen(true), []);
+  const onClose = useCallback(() => setIsOpen(false), []);
+
   return (
     <>
       <Suspense fallback={<Loader />}>
@@ -38,13 +41,10 @@ export default function App() {
           selectedYear={selectedYear}
           selectedRegion={selectedRegion}
           callbacks={headerCallbacks}
-          onOpen={() => setIsOpen(true)}
+          onOpen={onOpen}
         />
         {isOpen && (
-          <ModalWidget
-            onClose={() => setIsOpen(false)}
-            callbacks={modalWidgetCallbacks}
-          />
+          <ModalWidget onClose={onClose} callbacks={modalWidgetCallbacks} />
         )}
         <CountriesTable
           selectedYear={selectedYear}

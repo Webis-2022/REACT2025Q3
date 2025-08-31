@@ -1,12 +1,6 @@
 import React, { useMemo } from 'react';
 import type { Country } from '../api/countries-resource';
 
-const formatNumber = (num: number | undefined) => {
-  return num !== undefined
-    ? num.toLocaleString(undefined, { maximumFractionDigits: 2 })
-    : 'NA';
-};
-
 type RowProps = {
   name: string;
   info: Country;
@@ -14,6 +8,12 @@ type RowProps = {
   sortOrder: 'asc' | 'desc';
   methaneColumn: string;
   methanePerCapitaColumn: string;
+};
+
+const formatNumber = (num: number | undefined) => {
+  return num !== undefined
+    ? num.toLocaleString(undefined, { maximumFractionDigits: 2 })
+    : 'NA';
 };
 
 const RowComponent = ({
@@ -44,6 +44,7 @@ const RowComponent = ({
     <tr key={name}>
       <td>{name}</td>
       <td>{latestData?.population?.toLocaleString() ?? 'N/A'}</td>
+      <td>{info?.iso_code ?? 'N/A'}</td>
       <td>{formatNumber(latestData?.co2)}</td>
       <td>{formatNumber(latestData?.co2_per_capita)}</td>
       {methaneColumn && <td>{formatNumber(latestData?.methane)}</td>}

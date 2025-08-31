@@ -3,10 +3,11 @@ import { useMemo, useState } from 'react';
 import './countries-table.css';
 import countriesByRegion from '../../utils/countries-by-region';
 import { Row } from '../../components/row';
+import React from 'react';
 
 export type RegionKey = keyof typeof countriesByRegion;
 
-export function CountriesTable({
+export function CountriesTableComponent({
   selectedYear,
   selectedCountry,
   selectedRegion,
@@ -55,11 +56,12 @@ export function CountriesTable({
             </div>
           </th>
           <th>Population</th>
+          <th>ISO Code</th>
           <th>
             CO<sub>2</sub>
           </th>
           <th>
-            CO<sub>2</sub>_per_capita
+            CO<sub>2</sub>Per Capita
           </th>
           {methaneColumn && <th>Methane</th>}
           {methanePerCapitaColumn && <th>Methane Per Capita</th>}
@@ -77,45 +79,9 @@ export function CountriesTable({
             methanePerCapitaColumn={methanePerCapitaColumn}
           />
         ))}
-        {/* {Object.entries(countries)
-          .filter(([name]) => !selectedCountry || name === selectedCountry)
-          .sort(([nameA], [nameB]) => {
-            if (sortOrder === 'asc') {
-              return nameA.localeCompare(nameB);
-            }
-            return nameB.localeCompare(nameA);
-          })
-          .map(([name, info]) => {
-            const sortedData =
-              sortOrder === 'asc'
-                ? [...info.data].sort((a, b) => a.year - b.year)
-                : [...info.data].sort((a, b) => b.year - a.year);
-            console.log(name);
-
-            const latestData = selectedYear
-              ? (sortedData.find((r) => r.year === Number(selectedYear)) ??
-                sortedData[sortedData.length - 1])
-              : sortedData[sortedData.length - 1];
-
-            if (selectedRegion) {
-              const countryArray = countriesByRegion[selectedRegion];
-              if (!countryArray.includes(name)) return null;
-            }
-
-            return (
-              <tr key={name}>
-                <td>{name}</td>
-                <td>{latestData?.population?.toLocaleString() ?? 'N/A'}</td>
-                <td>{formatNumber(latestData?.co2)}</td>
-                <td>{formatNumber(latestData?.co2_per_capita)}</td>
-                {methaneColumn && <td>{formatNumber(latestData?.methane)}</td>}
-                {methanePerCapitaColumn && (
-                  <td>{formatNumber(latestData?.methane_per_capita)}</td>
-                )}
-              </tr>
-            );
-          })} */}
       </tbody>
     </table>
   );
 }
+
+export const CountriesTable = React.memo(CountriesTableComponent);

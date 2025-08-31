@@ -1,6 +1,7 @@
 export type YearData = {
   year: number;
   population?: number;
+  iso_code?: string;
   co2?: number;
   co2_per_capita?: number;
   methane?: number;
