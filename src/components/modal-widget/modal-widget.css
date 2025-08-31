@@ -11,8 +11,17 @@
 }
 
 .modal-window {
-  width: 50%;
+  width: 30%;
+  height: 30%;
   background: #fff;
   padding: 10px;
   border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#columns {
+  padding: 0.6rem;
+  border-radius: 20px;
 }

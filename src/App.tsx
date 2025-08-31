@@ -1,10 +1,10 @@
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useMemo } from 'react';
 import './App.css';
 import { CountriesTable } from './components/countries-table/countries-table';
 import { Header } from './components/header/header';
 import { Loader } from './components/loader/loader';
 import { ModalWidget } from './components/modal-widget/modal-widget';
-import type { RegionKey } from './components/countries-table/countries-table'
+import type { RegionKey } from './components/countries-table/countries-table';
 
 export default function App() {
   const [selectedYear, setSelectedYear] = useState('');
@@ -14,16 +14,22 @@ export default function App() {
   const [methaneColumn, setMethaneColumn] = useState('');
   const [methanePerCapitaColumn, setMethanePerCapitaColumn] = useState('');
 
-  const modalWidgetCallbacks = {
-    setMethaneColumn,
-    setMethanePerCapitaColumn,
-  };
+  const modalWidgetCallbacks = useMemo(
+    () => ({
+      setMethaneColumn,
+      setMethanePerCapitaColumn,
+    }),
+    [setMethaneColumn, setMethanePerCapitaColumn]
+  );
 
-  const headerCallbacks = {
-    setSelectedYear,
-    setSelectedCountry,
-    setSelectedRegion
-  }
+  const headerCallbacks = useMemo(
+    () => ({
+      setSelectedYear,
+      setSelectedCountry,
+      setSelectedRegion,
+    }),
+    [setSelectedYear, setSelectedCountry, setSelectedRegion]
+  );
 
   return (
     <>
@@ -31,13 +37,14 @@ export default function App() {
         <Header
           selectedYear={selectedYear}
           selectedRegion={selectedRegion}
-          // onSelect={setSelectedYear}
-          // onChange={setSelectedCountry}
           callbacks={headerCallbacks}
           onOpen={() => setIsOpen(true)}
         />
         {isOpen && (
-          <ModalWidget onClose={() => setIsOpen(false)} callbacks={modalWidgetCallbacks} />
+          <ModalWidget
+            onClose={() => setIsOpen(false)}
+            callbacks={modalWidgetCallbacks}
+          />
         )}
         <CountriesTable
           selectedYear={selectedYear}

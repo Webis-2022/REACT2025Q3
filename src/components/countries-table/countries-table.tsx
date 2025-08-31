@@ -1,8 +1,8 @@
 import { countriesResource } from '../../api/countries-resource';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import './countries-table.css';
 import countriesByRegion from '../../utils/countries-by-region';
-import type { Country, YearData } from '../../api/countries-resource';
+import { Row } from '../../components/row';
 
 export type RegionKey = keyof typeof countriesByRegion;
 
@@ -20,13 +20,24 @@ export function CountriesTable({
   methanePerCapitaColumn: string;
 }) {
   const countries = countriesResource.read();
+  console.log(countries);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-  const formatNumber = (num: number | undefined) => {
-    return num !== undefined
-      ? num.toLocaleString(undefined, { maximumFractionDigits: 2 })
-      : 'NA';
-  }
+  const countryEntries = useMemo(() => {
+    return Object.entries(countries)
+      .filter(([name]) => !selectedCountry || name === selectedCountry)
+      .filter(([name]) => {
+        if (!selectedRegion) return true;
+        const countryArray = countriesByRegion[selectedRegion];
+        return countryArray.includes(name);
+      })
+      .sort(([nameA], [nameB]) => {
+        if (sortOrder === 'asc') {
+          return nameA.localeCompare(nameB);
+        }
+        return nameB.localeCompare(nameA);
+      });
+  }, [countries, selectedCountry, selectedRegion, sortOrder]);
 
   return (
     <table>
@@ -55,7 +66,18 @@ export function CountriesTable({
         </tr>
       </thead>
       <tbody>
-        {Object.entries(countries)
+        {countryEntries.map(([name, info]) => (
+          <Row
+            key={name}
+            name={name}
+            info={info}
+            selectedYear={selectedYear}
+            sortOrder={sortOrder}
+            methaneColumn={methaneColumn}
+            methanePerCapitaColumn={methanePerCapitaColumn}
+          />
+        ))}
+        {/* {Object.entries(countries)
           .filter(([name]) => !selectedCountry || name === selectedCountry)
           .sort(([nameA], [nameB]) => {
             if (sortOrder === 'asc') {
@@ -92,7 +114,7 @@ export function CountriesTable({
                 )}
               </tr>
             );
-          })}
+          })} */}
       </tbody>
     </table>
   );

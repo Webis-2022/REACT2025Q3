@@ -6,3 +6,10 @@ header {
   align-items: center;
   min-width: 600px;
 }
+
+.country {
+  padding: 0.6rem;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}

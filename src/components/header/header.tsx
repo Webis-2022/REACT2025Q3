@@ -1,6 +1,6 @@
 import type { RegionKey } from '../countries-table/countries-table';
-import { RegionSelector } from '../region-selector';
-import { YearSelector } from '../year-selector';
+import { RegionSelector } from '../year&region-selectors/region-selector';
+import { YearSelector } from '../year&region-selectors/year-selector';
 import './header.css';
 
 type HeaderCallbacks = {

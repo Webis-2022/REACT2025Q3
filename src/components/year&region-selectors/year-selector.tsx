@@ -1,3 +1,5 @@
+import './year&region-selectors.css';
+
 export function YearSelector({
   selectedYear,
   onSelect,
