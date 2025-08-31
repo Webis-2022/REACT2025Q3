@@ -1,5 +1,5 @@
 import { countriesResource } from '../../api/countries-resource';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import './countries-table.css';
 import countriesByRegion from '../../utils/countries-by-region';
 import { Row } from '../../components/row';
@@ -21,8 +21,10 @@ export function CountriesTableComponent({
   methanePerCapitaColumn: string;
 }) {
   const countries = countriesResource.read();
-  console.log(countries);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  const handleSortAsc = useCallback(() => setSortOrder('asc'), []);
+  const handleSortDesc = useCallback(() => setSortOrder('desc'), []);
 
   const countryEntries = useMemo(() => {
     return Object.entries(countries)
@@ -47,10 +49,10 @@ export function CountriesTableComponent({
           <th className="table-head">
             Country
             <div className="sort-order">
-              <span className="asc-order" onClick={() => setSortOrder('asc')}>
+              <span className="asc-order" onClick={handleSortAsc}>
                 ▲
               </span>
-              <span className="desc-order" onClick={() => setSortOrder('desc')}>
+              <span className="desc-order" onClick={handleSortDesc}>
                 ▼
               </span>
             </div>

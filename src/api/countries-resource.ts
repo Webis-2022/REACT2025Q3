@@ -42,7 +42,6 @@ export const countriesResource = createResource<Record<string, Country>>(
       'https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.json'
     );
     const data = response.json();
-    console.log(await data);
     return data;
   }
 );
