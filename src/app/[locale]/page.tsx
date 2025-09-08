@@ -15,6 +15,9 @@ import { useTranslations } from 'next-intl';
 import { MyContext } from '../../utils/CharacterContext';
 
 export default function Home() {
+  const heroesCount = 10;
+  const notFoundStatus = 404;
+  const serverErrorStatus = 500;
   const [page, setPage] = useState(1);
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
   const [items, setItems] = useState<Character[]>([]);
@@ -66,7 +69,10 @@ export default function Home() {
         typeof (error as { status: number }).status === 'number'
       ) {
         const status = (error as { status: number }).status;
-        if ((status === 404 || status === 500) && dialogRef.current) {
+        if (
+          (status === notFoundStatus || status === serverErrorStatus) &&
+          dialogRef.current
+        ) {
           openDialog();
           setResponseStatus(status);
         }
@@ -93,7 +99,7 @@ export default function Home() {
           dialogRef={dialogRef}
           responseStatus={responseStatus}
         />
-        {fullData && fullData.count > 10 ? (
+        {fullData && fullData.count > heroesCount ? (
           <Pagination
             currentPage={page}
             onPageChange={setPage}

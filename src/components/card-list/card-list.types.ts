@@ -13,7 +13,7 @@ export type Character = {
 };
 
 export type CardListProps = {
-  search: string;
+  search?: string;
   page: number;
   dialogRef?: React.RefObject<DialogWindowHandle | null>;
   responseStatus?: number | undefined;

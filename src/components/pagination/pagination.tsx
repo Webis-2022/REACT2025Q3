@@ -10,9 +10,9 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const t = useTranslations('Pagination');
 
   const searchQuery = searchParams.get('search') || '';
-  const t = useTranslations('Pagination');
 
   const { data, error } = useGetCharactersQuery({
     page: currentPage,
@@ -26,31 +26,28 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
     router.replace(`${pathname}?${params.toString()}`);
   }, []);
 
-  const handlePrev = () => {
-    if (data?.previous) {
-      const params = new URLSearchParams(searchParams);
-      params.set('page', String(currentPage - 1));
-      router.push(`${pathname}?${params.toString()}`);
-      onPageChange(currentPage - 1);
-    }
+  const updatePage = (shouldDecrease = false) => {
+    const newPage = shouldDecrease ? currentPage - 1 : currentPage + 1;
+    if (newPage < 1) return;
+
+    const params = new URLSearchParams(searchParams);
+    params.set('page', String(newPage));
+    router.push(`${pathname}?${params.toString()}`);
+
+    onPageChange?.(newPage);
   };
 
-  const handleNext = () => {
-    if (data?.next) {
-      const params = new URLSearchParams(searchParams);
-      params.set('page', String(currentPage + 1));
-      router.push(`${pathname}?${params.toString()}`);
-      onPageChange(currentPage + 1);
-    }
-  };
+  const handlePrev = () => updatePage(true);
+  const handleNext = () => updatePage(false);
 
-  const nextDisabled = data?.next === null;
   const prevDisabled = data?.previous === null;
+  const nextDisabled = data?.next === null;
 
   if (!data) {
     if (error && 'status' in error) {
       return <div>Error: {error.status}</div>;
     }
+    return null;
   }
 
   return (
@@ -62,11 +59,13 @@ export function Pagination({ currentPage, onPageChange }: PaginationProps) {
       >
         &larr;
       </button>
+
       <div className="page-number-container">
         <div className="page-number">
           {t('page')} {currentPage}
         </div>
       </div>
+
       <button
         className={`next-btn ${nextDisabled ? 'next-disabled' : ''}`}
         onClick={handleNext}

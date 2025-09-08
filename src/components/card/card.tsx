@@ -22,8 +22,7 @@ export function Card({
   const params = new URLSearchParams(searchParams.toString());
   const pathName = usePathname();
   const { replace } = useRouter();
-  // eslint-disable-next-line no-empty-pattern, prettier/prettier
-  const [trigger, { }] = useLazyGetCharacterByIdQuery();
+  const [trigger] = useLazyGetCharacterByIdQuery();
   const getCharacterId = (): string | undefined => {
     const idMatch = character?.url?.match(/\/(\d+)\/$/);
     if (!idMatch) return;

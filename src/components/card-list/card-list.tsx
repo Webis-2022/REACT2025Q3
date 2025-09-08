@@ -36,17 +36,23 @@ export function CardList({ search, page }: CardListProps) {
       )}
 
       <ul className="card-list">
-        {result?.map((character: Character | null, index: number) => (
-          <Card
-            key={index}
-            character={character}
-            imgUrl={`images/${character?.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
-            isSelected={selectedCharacter?.name === character?.name}
-            onSelect={(char) => setSelectedCharacter(char)}
-            index={index}
-            data-testid="card"
-          />
-        ))}
+        {result?.map((character: Character | null, index: number) => {
+          const idMatch = character?.url?.match(/\d+(?=\/?$)/);
+          const id = idMatch ? idMatch[0] : '';
+          const imgUrl = `${import.meta.env.BASE_URL}images/${id}.jpg`;
+
+          return (
+            <Card
+              key={index}
+              character={character}
+              imgUrl={imgUrl}
+              isSelected={selectedCharacter?.name === character?.name}
+              onSelect={(char) => setSelectedCharacter(char)}
+              index={index}
+              data-testid="card"
+            />
+          );
+        })}
       </ul>
 
       {!isLoading && result?.length === 0 && <DialogWindow ref={dialogRef} />}

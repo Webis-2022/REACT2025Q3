@@ -19,8 +19,7 @@ export function SelectedItemsPanel({ itemArrLength }: SelectedItemsPanelProps) {
     <div className="panel-container" data-testid="panel-container">
       <div className="panel-container-content">
         <p className="panel-container-text">
-          {itemArrLength}{' '}
-          {itemArrLength === 1 ? 'item is selected' : 'items are selected'}
+          {itemArrLength} item${itemArrLength === 1 ? '' : 's'} selected
         </p>
         <div className="button-set">
           <button
