@@ -6,3 +6,5 @@ export type PaginationProps = {
   count: number;
   results: Character[];
 };
+
+export type Direction = -1 | 1;

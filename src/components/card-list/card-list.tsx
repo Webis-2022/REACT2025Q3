@@ -10,9 +10,9 @@ import { useGetCharactersQuery } from '../../services/api';
 
 export function CardList({ search, page }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
-  const [selectedCharacter, setSelectedCharacter] = useState<
-    Character | null | undefined
-  >(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
 
   const { data, isLoading, error } = useGetCharactersQuery({ search, page });
 

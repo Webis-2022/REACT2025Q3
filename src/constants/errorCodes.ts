@@ -1,0 +1,4 @@
+export const ERROR_CODES = {
+  NOT_FOUND: 404,
+  INTERNAL_SERVER: 500,
+};

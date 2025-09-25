@@ -17,6 +17,7 @@ export function Card({
   index,
 }: CardProps) {
   const nameRef = useRef<HTMLDivElement>(null);
+  const firstPage = '1';
   const [data, setData] = useState<Character | null>(null);
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
@@ -31,7 +32,7 @@ export function Card({
     if (onSelect) {
       onSelect(character);
       const characterId = getCharacterId();
-      const page = searchParams.get('page') ?? '1';
+      const page = searchParams.get('page') ?? firstPage;
       if (!page || !characterId) return;
       params.set('page', page.toString());
       params.set('details', characterId.toString());
