@@ -1,3 +1,5 @@
+'use client';
+
 import { configureStore } from '@reduxjs/toolkit';
 import characterReducer from './characterSlice';
 import { api } from '../services/api';
@@ -9,7 +11,8 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
-  devTools: true,
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

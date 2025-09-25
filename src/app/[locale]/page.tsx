@@ -1,5 +1,7 @@
+'use client';
+
 import { Search } from '../../components/search/search';
-import { createContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Results } from '../../components/results/results';
 import type { DialogWindowHandle } from '../../components/dialog-window/dialog-window.types';
 import type { Character } from '../../components/card-list/card-list.types';
@@ -9,39 +11,40 @@ import { useSelector } from 'react-redux';
 import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
 import type { RootState } from '../../store';
 import { useLazyGetCharactersQuery } from '../../services/api';
+import { useTranslations } from 'next-intl';
+import { MyContext } from '../../utils/CharacterContext';
 
-export const MyContext = createContext<Character[] | null>(null);
-
-export function Home() {
+export default function Home() {
+  const heroesCount = 10;
+  const notFoundStatus = 404;
+  const serverErrorStatus = 500;
   const [page, setPage] = useState(1);
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
   const [items, setItems] = useState<Character[]>([]);
-  const [responseStatus, setResponseStatus] = useState<number | undefined>(
-    undefined
-  );
+  const [responseStatus, setResponseStatus] = useState<number | null>(null);
+  const [search, setSearch] = useState('');
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
   );
   const [trigger, { isLoading }] = useLazyGetCharactersQuery();
 
   const dialogRef = useRef<DialogWindowHandle>(null);
+  const t = useTranslations('Main');
 
   const openDialog = () => {
     dialogRef.current?.open();
   };
 
   useEffect(() => {
-    const savedInputValue = localStorage.getItem('inputValue');
-    if (savedInputValue) {
-      handleSearch(savedInputValue);
-    } else {
-      handleSearch('');
-    }
+    const savedInputValue = localStorage.getItem('inputValue') || '';
+    handleSearch(savedInputValue ?? '');
   }, []);
 
   const handleSearch = async (searchTerm: string) => {
     try {
       const result = await trigger({ search: searchTerm }).unwrap();
+      const savedSearch = localStorage.getItem('inputValue') || '';
+      setSearch(savedSearch);
 
       setFullData(result);
       setItems(result?.results);
@@ -60,7 +63,10 @@ export function Home() {
         typeof (error as { status: number }).status === 'number'
       ) {
         const status = (error as { status: number }).status;
-        if ((status === 404 || status === 500) && dialogRef.current) {
+        if (
+          (status === notFoundStatus || status === serverErrorStatus) &&
+          dialogRef.current
+        ) {
           openDialog();
           setResponseStatus(status);
         }
@@ -73,20 +79,19 @@ export function Home() {
       <main>
         <Search onSearch={handleSearch} />
         <button
-          className="refresh-cache-btn"
-          onClick={() =>
-            trigger({ search: '', page: page, cacheBuster: Date.now() })
-          }
+          className="refresh"
+          onClick={() => trigger({ search: '', page, cacheBuster: Date.now() })}
           disabled={isLoading}
         >
-          Refresh
+          {t('button')}
         </button>
         <Results
+          search={search}
           page={page}
           dialogRef={dialogRef}
           responseStatus={responseStatus}
         />
-        {fullData && fullData.count > 10 ? (
+        {fullData && fullData.count > heroesCount ? (
           <Pagination
             currentPage={page}
             onPageChange={setPage}

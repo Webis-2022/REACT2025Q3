@@ -1,62 +1,74 @@
-import type { Direction, PaginationProps } from './pagination.types';
-import { useSearchParams } from 'react-router-dom';
+'use client';
+
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useGetCharactersQuery } from '../../services/api';
-import { Loader } from '../loader/loader';
+import { PaginationProps } from './pagination.types';
+import { useTranslations } from 'next-intl';
 
 export function Pagination({ currentPage, onPageChange }: PaginationProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const t = useTranslations('Pagination');
+
   const searchQuery = searchParams.get('search') || '';
 
-  const { data, error, isLoading } = useGetCharactersQuery({
+  const { data, error } = useGetCharactersQuery({
     page: currentPage,
     search: searchQuery,
   });
 
-  const updatePage = (delta: Direction) => {
-    const newPage = currentPage + delta;
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    params.delete('page');
+    params.delete('details');
+    router.replace(`${pathname}?${params.toString()}`);
+  }, []);
+
+  const updatePage = (shouldDecrease = false) => {
+    const newPage = shouldDecrease ? currentPage - 1 : currentPage + 1;
     if (newPage < 1) return;
 
-    setSearchParams((prev: URLSearchParams) => {
-      const params = new URLSearchParams(prev);
-      params.set('page', String(newPage));
-      return params;
-    });
+    const params = new URLSearchParams(searchParams);
+    params.set('page', String(newPage));
+    router.push(`${pathname}?${params.toString()}`);
 
     onPageChange?.(newPage);
   };
 
-  const handlePrevClick = () => updatePage(-1);
-  const handleNextClick = () => updatePage(1);
+  const handlePrev = () => updatePage(true);
+  const handleNext = () => updatePage(false);
 
-  const nextDisabled = !data?.next;
-  const prevDisabled = !data?.previous;
+  const prevDisabled = data?.previous === null;
+  const nextDisabled = data?.next === null;
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    const status = 'status' in error ? (error.status as number) : 'Unknown';
-    return <div>Error: {status}</div>;
+  if (!data) {
+    if (error && 'status' in error) {
+      return <div>Error: {error.status}</div>;
+    }
+    return null;
   }
 
   return (
     <div className="pagination-container">
       <button
         className={`prev-btn ${prevDisabled ? 'prev-disabled' : ''}`}
-        onClick={handlePrevClick}
+        onClick={handlePrev}
         disabled={prevDisabled}
       >
         &larr;
       </button>
 
       <div className="page-number-container">
-        <div className="page-number">Page {currentPage}</div>
+        <div className="page-number">
+          {t('page')} {currentPage}
+        </div>
       </div>
 
       <button
         className={`next-btn ${nextDisabled ? 'next-disabled' : ''}`}
-        onClick={handleNextClick}
+        onClick={handleNext}
         disabled={nextDisabled}
       >
         &rarr;

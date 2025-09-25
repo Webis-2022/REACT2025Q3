@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useState } from 'react';
 import type { CardListProps, Character } from './card-list.types';
 import { Card } from '../card/card';
@@ -6,13 +8,12 @@ import { DialogWindow } from '../dialog-window/dialog-window';
 import type { DialogWindowHandle } from '../dialog-window/dialog-window.types';
 import { useGetCharactersQuery } from '../../services/api';
 
-export function CardList({ page }: CardListProps) {
+export function CardList({ search, page }: CardListProps) {
   const dialogRef = useRef<DialogWindowHandle>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
 
-  const search = localStorage.getItem('inputValue');
   const { data, isLoading, error } = useGetCharactersQuery({ search, page });
 
   if (isLoading) {
@@ -35,17 +36,23 @@ export function CardList({ page }: CardListProps) {
       )}
 
       <ul className="card-list">
-        {result?.map((character: Character | null, index: number) => (
-          <Card
-            key={index}
-            character={character}
-            imgUrl={`${import.meta.env.BASE_URL}images/${character?.url?.match(/\d+(?=\/?$)/)?.[0]}.jpg`}
-            isSelected={selectedCharacter?.name === character?.name}
-            onSelect={(char) => setSelectedCharacter(char)}
-            index={index}
-            data-testid="card"
-          />
-        ))}
+        {result?.map((character: Character | null, index: number) => {
+          const idMatch = character?.url?.match(/\d+(?=\/?$)/);
+          const id = idMatch ? idMatch[0] : '';
+          const imgUrl = `/images/${id}.jpg`;
+
+          return (
+            <Card
+              key={index}
+              character={character}
+              imgUrl={imgUrl}
+              isSelected={selectedCharacter?.name === character?.name}
+              onSelect={(char) => setSelectedCharacter(char)}
+              index={index}
+              data-testid="card"
+            />
+          );
+        })}
       </ul>
 
       {!isLoading && result?.length === 0 && <DialogWindow ref={dialogRef} />}

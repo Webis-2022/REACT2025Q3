@@ -1,3 +1,5 @@
+'use client';
+
 import React, { Component } from 'react';
 import { type Props, type State } from './error-boundary.types';
 
