@@ -39,7 +39,7 @@ export function CardList({ search, page }: CardListProps) {
         {result?.map((character: Character | null, index: number) => {
           const idMatch = character?.url?.match(/\d+(?=\/?$)/);
           const id = idMatch ? idMatch[0] : '';
-          const imgUrl = `${import.meta.env.BASE_URL}images/${id}.jpg`;
+          const imgUrl = `/images/${id}.jpg`;
 
           return (
             <Card

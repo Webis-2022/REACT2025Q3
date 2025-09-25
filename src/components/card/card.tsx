@@ -24,10 +24,7 @@ export function Card({
   const { replace } = useRouter();
   const [trigger] = useLazyGetCharacterByIdQuery();
   const getCharacterId = (): string | undefined => {
-    const idMatch = character?.url?.match(/\/(\d+)\/$/);
-    if (!idMatch) return;
-    const characterId = idMatch[1];
-    return characterId;
+    return character?.url?.match(/\/(\d+)\/$/)?.[1];
   };
 
   const handleClick = (): void => {
@@ -64,14 +61,9 @@ export function Card({
     <li className="card" data-testid="card">
       <Checkbox index={index} />
       <div
-        onClick={handleClick}
-        style={{
-          backgroundImage: `url(${imgUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          height: '600px',
-        }}
         className="name"
+        onClick={handleClick}
+        style={{ backgroundImage: `url(${imgUrl})` }}
         ref={nameRef}
       >
         {character.name}

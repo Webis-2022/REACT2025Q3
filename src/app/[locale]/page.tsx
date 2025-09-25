@@ -21,9 +21,7 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [fullData, setFullData] = useState<PaginationProps | null>(null);
   const [items, setItems] = useState<Character[]>([]);
-  const [responseStatus, setResponseStatus] = useState<number | undefined>(
-    undefined
-  );
+  const [responseStatus, setResponseStatus] = useState<number | null>(null);
   const [search, setSearch] = useState('');
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
@@ -39,11 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     const savedInputValue = localStorage.getItem('inputValue') || '';
-    if (savedInputValue) {
-      handleSearch(savedInputValue);
-    } else {
-      handleSearch('');
-    }
+    handleSearch(savedInputValue ?? '');
   }, []);
 
   const handleSearch = async (searchTerm: string) => {
@@ -85,10 +79,8 @@ export default function Home() {
       <main>
         <Search onSearch={handleSearch} />
         <button
-          className="refresh-cache-btn"
-          onClick={() =>
-            trigger({ search: '', page: page, cacheBuster: Date.now() })
-          }
+          className="refresh"
+          onClick={() => trigger({ search: '', page, cacheBuster: Date.now() })}
           disabled={isLoading}
         >
           {t('button')}

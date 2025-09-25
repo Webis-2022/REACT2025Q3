@@ -16,5 +16,5 @@ export type CardListProps = {
   search?: string;
   page: number;
   dialogRef?: React.RefObject<DialogWindowHandle | null>;
-  responseStatus?: number | undefined;
+  responseStatus?: number | null;
 };
