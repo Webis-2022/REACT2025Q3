@@ -20,9 +20,5 @@ export type CardListProps = {
   search?: string;
   page: number;
   dialogRef?: React.RefObject<DialogWindowHandle | null>;
-<<<<<<< HEAD
   responseStatus?: number | null;
-=======
-  responseStatus?: number;
->>>>>>> origin/main
 };
