@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 import { SelectedItemsPanel } from '../../components/selected-items-panel/selected-items-panel';
 import type { RootState } from '../../store';
 import { useLazyGetCharactersQuery } from '../../services/api';
-import { useTranslations } from 'next-intl';
 import { MyContext } from '../../utils/CharacterContext';
 
 export default function Home() {
@@ -26,10 +25,9 @@ export default function Home() {
   const itemArrLength: number = useSelector(
     (state: RootState) => state.characters.selectedIds.length
   );
-  const [trigger, { isLoading }] = useLazyGetCharactersQuery();
+  const [trigger] = useLazyGetCharactersQuery();
 
   const dialogRef = useRef<DialogWindowHandle>(null);
-  const t = useTranslations('Main');
 
   const openDialog = () => {
     dialogRef.current?.open();
@@ -45,7 +43,6 @@ export default function Home() {
       const result = await trigger({ search: searchTerm }).unwrap();
       const savedSearch = localStorage.getItem('inputValue') || '';
       setSearch(savedSearch);
-
       setFullData(result);
       setItems(result?.results);
 
