@@ -1,4 +1,5 @@
 import js from '@eslint/js';
+import nextVitals from 'eslint-config-next/core-web-vitals';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -9,6 +10,7 @@ import reactCompiler from 'eslint-plugin-react-compiler';
 
 export default tseslint.config(
   { ignores: ['dist', '.next/**'] },
+  ...nextVitals,
   {
     extends: [
       js.configs.recommended,
