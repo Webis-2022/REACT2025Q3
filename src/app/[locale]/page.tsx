@@ -78,13 +78,6 @@ export default function Home() {
     <>
       <main>
         <Search onSearch={handleSearch} />
-        <button
-          className="refresh"
-          onClick={() => trigger({ search: '', page, cacheBuster: Date.now() })}
-          disabled={isLoading}
-        >
-          {t('button')}
-        </button>
         <Results
           search={search}
           page={page}
